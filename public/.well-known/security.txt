@@ -1,0 +1,3 @@
+Contact: mailto:jefersonbronze@gmail.com
+Preferred-Languages: en, fr, pt
+Canonical: https://data-joule.com/.well-known/security.txt
