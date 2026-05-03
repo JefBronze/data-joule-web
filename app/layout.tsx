@@ -1,21 +1,32 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Chakra_Petch, DM_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ReactPlugin } from "@21st-extension/react";
 import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Chakra_Petch({
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-display",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const body = DM_Sans({
   subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
 });
 
 const toolbarConfig = {
   plugins: [ReactPlugin],
+};
+
+export const viewport: Viewport = {
+  themeColor: "#09090f",
 };
 
 export const metadata: Metadata = {
@@ -39,10 +50,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
-      <body className="min-h-full bg-[#09090f] text-neutral-100 antialiased">
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
+    >
+      <body className="min-h-full bg-[#09090f] text-neutral-100 antialiased font-[family-name:var(--font-body)]">
         {children}
-        <TwentyFirstToolbar config={toolbarConfig} />
+        {process.env.NODE_ENV === "development" && (
+          <TwentyFirstToolbar config={toolbarConfig} />
+        )}
       </body>
     </html>
   );

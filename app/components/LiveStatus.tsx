@@ -77,12 +77,12 @@ export function LiveStatusHero() {
   return (
     <div
       style={{ borderColor: 'rgba(255,255,255,0.08)' }}
-      className="rounded-lg border bg-neutral-900 p-5 w-full max-w-xs font-mono"
+      className="rounded-lg border bg-neutral-900 p-5 w-full font-mono"
     >
       <div className="flex items-center justify-between mb-4">
-        <span className="text-xs text-neutral-500 uppercase tracking-widest">Live Node</span>
+        <span className="text-xs text-neutral-400 uppercase tracking-widest">Live Node</span>
         <span
-          className="text-xs px-2 py-0.5 rounded-full border"
+          className={`text-xs px-2 py-0.5 rounded-full border${tier > 0 ? ' animate-pulse-ring' : ''}`}
           style={{ color: tierColor, borderColor: tierColor + '44', backgroundColor: tierColor + '18' }}
         >
           {tierLabel}
@@ -104,7 +104,7 @@ export function LiveStatusHero() {
 
       <div className="flex flex-col gap-1.5 text-xs">
         <div className="flex items-center justify-between">
-          <span className="text-neutral-500">LLM</span>
+          <span className="text-neutral-400">LLM</span>
           <span className={
             data?.llm_status === 'active' ? 'text-green-400' :
             data?.llm_status === 'degraded' ? 'text-yellow-400' : 'text-red-400'
@@ -113,7 +113,7 @@ export function LiveStatusHero() {
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-neutral-500">VEN</span>
+          <span className="text-neutral-400">VEN</span>
           <span className={data?.openadr_status === 'ready' ? 'text-cyan-400' : 'text-neutral-500'}>
             ● {(data?.openadr_status ?? 'offline').toUpperCase()}
           </span>
