@@ -14,6 +14,13 @@ const ratelimit = new Ratelimit({
   prefix: 'rl:ingest',
 })
 
+const ratelimitGlobal = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(120, '1 m'),
+  analytics: false,
+  prefix: 'rl:ingest:global',
+})
+
 const MAX_HISTORY = 360
 const MAX_BODY_BYTES = 1024
 
@@ -27,10 +34,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
-  // 2. Rate limit — 30 req/min per IP (Pi pushes every 5s = 12/min; 2.5x headroom)
+  // 2. Rate limit — per-IP (30/min) + global ceiling (120/min across all IPs)
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown'
-  const { success } = await ratelimit.limit(ip)
-  if (!success) {
+  const [perIp, global] = await Promise.all([
+    ratelimit.limit(ip),
+    ratelimitGlobal.limit('global'),
+  ])
+  if (!perIp.success || !global.success) {
     return NextResponse.json({ error: 'rate limit exceeded' }, { status: 429 })
   }
 

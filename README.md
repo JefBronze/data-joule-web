@@ -92,7 +92,7 @@ Receives telemetry from pi-compute. Requires `Authorization: Bearer <INGEST_API_
 | `openadr_status` | string | `ready`, `offline`, `error`, `pending` |
 | `timestamp` | integer | Unix seconds, within ±5 min of server time |
 
-Rate limited to **30 requests/minute per IP** (sliding window). Returns `429` if exceeded, `413` if body > 1 KB, `422` on validation failure.
+Rate limited to **30 requests/minute per IP** + **120 requests/minute global** (dual sliding window). Returns `429` if either limit is exceeded, `413` if body > 1 KB, `422` on validation failure.
 
 Stores `telemetry:latest` and appends to `telemetry:history` (max 360 entries) in Redis via pipeline.
 
