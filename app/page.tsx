@@ -193,7 +193,7 @@ export default function HomePage() {
               <div key={item.label} className="px-4 flex flex-col items-center gap-2">
                 {item.icon}
                 <div>
-                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-widest mb-1">
+                  <div className="text-xs text-neutral-400 font-mono uppercase tracking-widest mb-1">
                     {item.label}
                   </div>
                   <div className="text-sm font-semibold text-neutral-200">{item.value}</div>
@@ -544,15 +544,15 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <span className="font-[family-name:var(--font-display)] text-sm text-amber-400 font-bold">Data Joule</span>
-            <p className="text-xs text-neutral-600 font-mono">
+            <p className="text-xs text-neutral-400 font-mono">
               Live telemetry from a Raspberry Pi compute node in Montréal, QC. Updated every 5 seconds.
             </p>
-            <div className="flex gap-4 text-xs text-neutral-500">
-              <a href="https://github.com/JefBronze/data-joule" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-300 transition-colors">
+            <div className="flex gap-4 text-xs text-neutral-400">
+              <a href="https://github.com/JefBronze/data-joule" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-200 transition-colors">
                 GitHub
               </a>
-              <Link href="/method" className="hover:text-neutral-300 transition-colors">Method</Link>
-              <Link href="/demo" className="hover:text-neutral-300 transition-colors">Demo</Link>
+              <Link href="/method" className="hover:text-neutral-200 transition-colors">Method</Link>
+              <Link href="/demo" className="hover:text-neutral-200 transition-colors">Demo</Link>
             </div>
           </div>
         </div>

@@ -121,7 +121,7 @@ export function LiveStatusHero() {
       </div>
 
       {data && (
-        <div className="mt-4 text-xs text-neutral-600 border-t border-neutral-800 pt-2">
+        <div className="mt-4 text-xs text-neutral-400 border-t border-neutral-800 pt-2">
           Updated {secondsAgo(data.timestamp, now)}
         </div>
       )}
