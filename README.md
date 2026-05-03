@@ -5,16 +5,19 @@ The public website and live telemetry dashboard for [data-joule.com](https://dat
 [![Live](https://img.shields.io/badge/Live-data--joule.com-orange?style=flat-square)](https://data-joule.com)
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![Lighthouse](https://img.shields.io/badge/Lighthouse-100%2F100%2F100-brightgreen?style=flat-square)](https://data-joule.com)
 
 ---
 
 ## What It Is
 
-This Next.js app serves two things:
+This Next.js app serves three things:
 
 1. **Marketing site (`/`)** — explains the FlexCompute Edge project: the problem (AI loads and grid constraints), the mechanism (OpenADR 3.0 signal chain), the response ladder (4 curtailment tiers), and the live system status.
 
-2. **Live dashboard (`/demo`)** — polls real telemetry from a Raspberry Pi 5 in Montréal every 5 seconds. Shows current wattage, DR tier, LLM inference status, and a 30-minute wattage sparkline.
+2. **Live dashboard (`/demo`)** — polls real telemetry from a Raspberry Pi 5 in Montréal every 5 seconds. Shows current wattage, DR tier, LLM inference status, connection health, and a 5-minute wattage sparkline.
+
+3. **Technical deep-dive (`/method`)** — end-to-end walkthrough of the signal chain: architecture SVG, 6-step signal flow with code callouts, telemetry chain, response ladder deep-dive, and full stack table.
 
 The dashboard data is real. The wattage you see is measured by a Zigbee smart plug on the Pi's USB-C power feed.
 
@@ -24,7 +27,7 @@ The dashboard data is real. The wattage you see is measured by a Zigbee smart pl
 
 ```
 pi-compute (telemetry_pusher.py)
-  └── HTTPS POST every 5s → /api/ingest (Bearer auth)
+  └── HTTPS POST every 5s → /api/ingest (Bearer auth + rate limit + validation)
         └── Upstash Redis
               ├── telemetry:latest     (current state)
               └── telemetry:history    (rolling 360 entries = 30 min)
@@ -80,7 +83,18 @@ Receives telemetry from pi-compute. Requires `Authorization: Bearer <INGEST_API_
 { "dr_tier": 0, "wattage_w": 3.3, "llm_status": "active", "openadr_status": "ready", "timestamp": 1746230400 }
 ```
 
-Stores `telemetry:latest` and appends to `telemetry:history` (max 360 entries) in Redis.
+**Field constraints:**
+| Field | Type | Valid values |
+|-------|------|-------------|
+| `dr_tier` | integer | 0–4 |
+| `wattage_w` | float | 0–100 |
+| `llm_status` | string | `active`, `degraded`, `offline`, `paused` |
+| `openadr_status` | string | `ready`, `offline`, `error`, `pending` |
+| `timestamp` | integer | Unix seconds, within ±5 min of server time |
+
+Rate limited to **30 requests/minute per IP** (sliding window). Returns `429` if exceeded, `413` if body > 1 KB, `422` on validation failure.
+
+Stores `telemetry:latest` and appends to `telemetry:history` (max 360 entries) in Redis via pipeline.
 
 ### `GET /api/state`
 
@@ -90,7 +104,7 @@ Public. Returns current state + last 60 history entries. `Cache-Control: no-stor
 
 ## Deployment
 
-Push to `main` → Vercel deploys automatically. No manual steps required.
+Push to `master` → Vercel deploys automatically. No manual steps required.
 
 ---
 
@@ -100,9 +114,11 @@ Push to `main` → Vercel deploys automatically. No manual steps required.
 |-------|--------|
 | Framework | Next.js 16.2.4 (App Router, TypeScript) |
 | Styling | Tailwind CSS v4 |
-| Data store | Upstash Redis (serverless) |
-| Deployment | Vercel |
 | Fonts | Chakra Petch (display), DM Sans (body), IBM Plex Mono (data) |
+| Data store | Upstash Redis (serverless) |
+| Rate limiting | `@upstash/ratelimit` — sliding window, reuses Redis connection |
+| Deployment | Vercel |
+| Security headers | CSP, HSTS, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy |
 
 ---
 
