@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Chakra_Petch, DM_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ReactPlugin } from "@21st-extension/react";
 import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const display = Chakra_Petch({
@@ -59,6 +61,8 @@ export default function RootLayout({
         {process.env.NODE_ENV === "development" && (
           <TwentyFirstToolbar config={toolbarConfig} />
         )}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
