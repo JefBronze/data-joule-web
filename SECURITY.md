@@ -30,10 +30,21 @@ Include: description, impact, steps to reproduce, affected endpoint, and your su
 - Upstash Redis infrastructure
 - Social engineering attacks
 
+## Security Controls
+
+| Control | Status |
+|---------|--------|
+| Bearer auth on `/api/ingest` | ✅ Implemented |
+| Rate limiting on `/api/ingest` | ✅ 30 req/min sliding window per IP (`@upstash/ratelimit`) |
+| Payload validation on `/api/ingest` | ✅ Field ranges, enum allowlists, 1 KB size cap, ±5 min timestamp drift |
+| Content Security Policy | ✅ `default-src 'self'`, no external script/font/connect sources |
+| HSTS | ✅ 2-year max-age with preload |
+| X-Frame-Options | ✅ DENY |
+
 ## Known Limitations
 
-- **No rate limiting on `/api/ingest`** — an attacker with the `INGEST_API_KEY` could flood the endpoint and exhaust the Upstash free tier. Rate limiting is on the Week 4.2 roadmap.
-- **No CSP header** — Content Security Policy is deferred to Week 4.2. The site currently relies on `X-Frame-Options`, `X-Content-Type-Options`, and `HSTS`.
+- **`unsafe-inline` in CSP** — Next.js requires `'unsafe-inline'` for script and style without a per-request nonce infrastructure. External script injection from third-party domains is still blocked.
+- **Control agent (:8081) has no auth** — protected only by the home LAN. Tier 4.2 roadmap item.
 
 ## `security.txt`
 
