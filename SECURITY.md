@@ -36,6 +36,7 @@ Include: description, impact, steps to reproduce, affected endpoint, and your su
 |---------|--------|
 | Bearer auth on `/api/ingest` | ✅ Implemented |
 | Rate limiting on `/api/ingest` | ✅ 30 req/min per IP + 120 req/min global ceiling (`@upstash/ratelimit`, dual sliding window) |
+| Rate limiting on `/api/state` | ✅ 60 req/min per IP + 300 req/min global ceiling (`@upstash/ratelimit`, dual sliding window) |
 | Payload validation on `/api/ingest` | ✅ Field ranges, enum allowlists, 1 KB size cap, ±5 min timestamp drift |
 | Content Security Policy | ✅ `default-src 'self'`, no external script/font/connect sources |
 | HSTS | ✅ 2-year max-age with preload |
