@@ -107,7 +107,7 @@ export default function DemoPage() {
         <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest shrink-0">Live Demo</span>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-10">
+      <main className="max-w-7xl mx-auto px-6 py-10">
         <div className="mb-8">
           <h1 className="text-2xl font-bold tracking-tight text-neutral-100">FlexCompute Edge</h1>
           <p className="text-neutral-500 text-sm mt-1 font-mono">

@@ -3,7 +3,7 @@ import Link from 'next/link'
 export function SiteFooter() {
   return (
     <footer className="border-t border-amber-500/10 py-8">
-      <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <Link href="/" className="font-[family-name:var(--font-display)] text-sm text-amber-400 font-bold">
           Data Joule
         </Link>

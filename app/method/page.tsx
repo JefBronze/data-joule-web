@@ -159,7 +159,7 @@ export default function MethodPage() {
 
       <main>
       {/* Section 1 — Header */}
-      <section className="max-w-5xl mx-auto px-6 pt-20 pb-12">
+      <section className="max-w-7xl mx-auto px-6 pt-20 pb-12">
         <ScrollReveal>
           <div className="inline-block mb-4">
             <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
@@ -179,7 +179,7 @@ export default function MethodPage() {
 
       {/* Section 2 — Architecture Diagram */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">System Architecture</h2>
             <p className="text-neutral-500 text-sm font-mono mb-8">
@@ -278,7 +278,7 @@ export default function MethodPage() {
 
       {/* Section 3 — Signal Flow Walkthrough */}
       <section className="border-t border-neutral-800 py-20">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">Signal Flow Walkthrough</h2>
             <p className="text-neutral-500 text-sm font-mono mb-10">
@@ -313,7 +313,7 @@ export default function MethodPage() {
 
       {/* Section 4 — Telemetry Chain */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">Telemetry Chain</h2>
             <p className="text-neutral-500 text-sm font-mono mb-8">
@@ -353,7 +353,7 @@ export default function MethodPage() {
 
       {/* Section 5 — Response Ladder Deep-Dive */}
       <section className="border-t border-neutral-800 py-20">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">Response Ladder — Mechanisms</h2>
             <p className="text-neutral-500 text-sm font-mono mb-10">
@@ -405,7 +405,7 @@ export default function MethodPage() {
 
       {/* Section 6 — Stack */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">Stack</h2>
             <p className="text-neutral-500 text-sm font-mono mb-8">

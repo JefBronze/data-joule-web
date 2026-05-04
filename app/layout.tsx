@@ -56,7 +56,7 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
-      <body className="min-h-full bg-(--background) text-neutral-100 antialiased font-[family-name:var(--font-body)]">
+      <body suppressHydrationWarning className="min-h-full bg-(--background) text-neutral-100 antialiased font-[family-name:var(--font-body)]">
         {children}
         {process.env.NODE_ENV === "development" && (
           <TwentyFirstToolbar config={toolbarConfig} />
