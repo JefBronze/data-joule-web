@@ -1,28 +1,7 @@
 'use client'
 
 import { useFlexState } from '@/app/hooks/useFlexState'
-
-const TIER_LABEL: Record<number, string> = {
-  0: 'NORMAL',
-  1: 'THROTTLED',
-  2: 'POWER-SAVE',
-  3: 'SUSPENDED',
-  4: 'OFFLINE',
-}
-
-const TIER_COLOR: Record<number, string> = {
-  0: '#4ade80',
-  1: '#facc15',
-  2: '#fb923c',
-  3: '#f87171',
-  4: '#991b1b',
-}
-
-function secondsAgo(ts: number, now: number) {
-  const diff = Math.floor(now / 1000) - ts
-  if (diff < 60) return `${diff}s ago`
-  return `${Math.floor(diff / 60)}m ago`
-}
+import { TIER_LABEL, TIER_COLOR, secondsAgo } from '@/app/lib/telemetry'
 
 export function LiveStatusHero() {
   const { data, loading, now } = useFlexState()

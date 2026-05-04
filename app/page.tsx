@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { LiveStatusHero } from './components/LiveStatus'
 import ScrollReveal from './components/ScrollReveal'
+import { SiteNav } from './components/SiteNav'
+import { SiteFooter } from './components/SiteFooter'
 
 const RESPONSE_LADDER = [
   {
@@ -105,28 +107,9 @@ const PROOF_ITEMS = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#09090f] text-neutral-100 font-sans">
+    <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
 
-      {/* ── Nav ── */}
-      <header className="sticky top-0 z-50 border-b border-neutral-800 bg-[#09090f]/90 backdrop-blur-sm px-6 py-4">
-        <nav className="max-w-5xl mx-auto flex items-center justify-between">
-          <span className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
-            Data Joule
-          </span>
-          <div className="flex items-center gap-6 text-sm text-neutral-400">
-            <Link href="/method" className="hover:text-neutral-100 transition-colors">Method</Link>
-            <Link href="/demo" className="hover:text-neutral-100 transition-colors">Demo</Link>
-            <a
-              href="https://github.com/JefBronze/data-joule"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-neutral-100 transition-colors"
-            >
-              GitHub
-            </a>
-          </div>
-        </nav>
-      </header>
+      <SiteNav />
 
       <main>
       {/* ── Hero ── */}
@@ -539,24 +522,7 @@ export default function HomePage() {
 
       </main>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-amber-500/10 py-8">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <span className="font-[family-name:var(--font-display)] text-sm text-amber-400 font-bold">Data Joule</span>
-            <p className="text-xs text-neutral-400 font-mono">
-              Live telemetry from a Raspberry Pi compute node in Montréal, QC. Updated every 5 seconds.
-            </p>
-            <div className="flex gap-4 text-xs text-neutral-400">
-              <a href="https://github.com/JefBronze/data-joule" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-200 transition-colors">
-                GitHub
-              </a>
-              <Link href="/method" className="hover:text-neutral-200 transition-colors">Method</Link>
-              <Link href="/demo" className="hover:text-neutral-200 transition-colors">Demo</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }

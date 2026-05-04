@@ -2,20 +2,7 @@
 
 import Link from 'next/link'
 import { useFlexState } from '@/app/hooks/useFlexState'
-
-const TIER_CONFIG: Record<number, { label: string; desc: string; color: string; bg: string }> = {
-  0: { label: 'TIER 0', desc: 'BASELINE', color: '#4ade80', bg: 'rgba(74,222,128,0.08)' },
-  1: { label: 'TIER 1', desc: 'THROTTLED', color: '#facc15', bg: 'rgba(250,204,21,0.08)' },
-  2: { label: 'TIER 2', desc: 'POWER-SAVE', color: '#fb923c', bg: 'rgba(251,146,60,0.08)' },
-  3: { label: 'TIER 3', desc: 'SUSPENDED', color: '#f87171', bg: 'rgba(248,113,113,0.08)' },
-  4: { label: 'TIER 4', desc: 'HALT', color: '#991b1b', bg: 'rgba(153,27,27,0.12)' },
-}
-
-function secondsAgo(ts: number, now: number) {
-  const diff = Math.floor(now / 1000) - ts
-  if (diff < 60) return `${diff}s ago`
-  return `${Math.floor(diff / 60)}m ago`
-}
+import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
 
 const BASELINE_W = 3
 
@@ -90,7 +77,7 @@ export default function DemoPage() {
     : '—'
 
   return (
-    <div className="min-h-screen bg-[#09090f] text-neutral-100 font-sans">
+    <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
       {/* Header */}
       <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between gap-4">
         <Link href="/" className="font-mono text-sm text-neutral-400 hover:text-neutral-200 transition-colors shrink-0">

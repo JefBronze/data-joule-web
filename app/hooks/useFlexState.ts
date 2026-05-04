@@ -1,14 +1,9 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import type { TelemetryEntry } from '@/app/lib/telemetry'
 
-export type TelemetryEntry = {
-  dr_tier: number
-  wattage_w: number
-  llm_status: string
-  openadr_status: string
-  timestamp: number
-}
+export type { TelemetryEntry } from '@/app/lib/telemetry'
 
 type ApiResponse = {
   latest: TelemetryEntry | null

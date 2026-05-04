@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import ScrollReveal from '../components/ScrollReveal'
+import { SiteNav } from '../components/SiteNav'
+import { SiteFooter } from '../components/SiteFooter'
 
 const RESPONSE_LADDER = [
   {
@@ -151,28 +153,9 @@ requests.post(VTN_REPORTS_URL,
 
 export default function MethodPage() {
   return (
-    <div className="min-h-screen bg-[#09090f] text-neutral-100 font-sans">
+    <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
 
-      {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-neutral-800 bg-[#09090f]/90 backdrop-blur-sm px-6 py-4">
-        <nav className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
-            Data Joule
-          </Link>
-          <div className="flex items-center gap-6 text-sm text-neutral-400">
-            <Link href="/method" className="text-neutral-100">Method</Link>
-            <Link href="/demo" className="hover:text-neutral-100 transition-colors">Demo</Link>
-            <a
-              href="https://github.com/JefBronze/data-joule"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-neutral-100 transition-colors"
-            >
-              GitHub
-            </a>
-          </div>
-        </nav>
-      </header>
+      <SiteNav />
 
       <main>
       {/* Section 1 — Header */}
@@ -475,22 +458,7 @@ export default function MethodPage() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-amber-500/10 py-8">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <Link href="/" className="font-[family-name:var(--font-display)] text-sm text-amber-400 font-bold">
-            Data Joule
-          </Link>
-          <p className="text-xs text-neutral-600 font-mono">
-            Live telemetry from a Raspberry Pi compute node in Montréal, QC.
-          </p>
-          <div className="flex gap-4 text-xs text-neutral-500">
-            <a href="https://github.com/JefBronze/data-joule" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-300 transition-colors">GitHub</a>
-            <Link href="/method" className="hover:text-neutral-300 transition-colors">Method</Link>
-            <Link href="/demo" className="hover:text-neutral-300 transition-colors">Demo</Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   )
 }
