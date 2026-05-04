@@ -1,19 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-
-type TelemetryEntry = {
-  dr_tier: number
-  wattage_w: number
-  llm_status: string
-  openadr_status: string
-  timestamp: number
-}
-
-type ApiResponse = {
-  latest: TelemetryEntry | null
-  history: TelemetryEntry[]
-}
+import { useFlexState } from '@/app/hooks/useFlexState'
 
 const TIER_LABEL: Record<number, string> = {
   0: 'NORMAL',
@@ -38,38 +25,7 @@ function secondsAgo(ts: number, now: number) {
 }
 
 export function LiveStatusHero() {
-  const [data, setData] = useState<TelemetryEntry | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [now, setNow] = useState(() => Date.now())
-
-  const fetchData = useCallback(async () => {
-    try {
-      const res = await fetch('/api/state', { cache: 'no-store' })
-      if (!res.ok) return
-      const json: ApiResponse = await res.json()
-      setData(json.latest)
-    } catch {
-      // silently fail — stale data is fine
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    const initialLoad = setTimeout(() => {
-      fetchData()
-    }, 0)
-    const poll = setInterval(() => {
-      fetchData()
-    }, 5000)
-    const tickTimer = setInterval(() => setNow(Date.now()), 1000)
-    return () => {
-      clearTimeout(initialLoad)
-      clearInterval(poll)
-      clearInterval(tickTimer)
-    }
-  }, [fetchData])
-
+  const { data, loading, now } = useFlexState()
   const tier = data?.dr_tier ?? 0
   const tierColor = TIER_COLOR[tier] ?? TIER_COLOR[0]
   const tierLabel = TIER_LABEL[tier] ?? 'UNKNOWN'
