@@ -73,7 +73,7 @@ function SparkChart({ data }: { data: number[] }) {
         d={linePath}
         fill="none"
         stroke="#f59e0b"
-        strokeWidth="1.5"
+        strokeWidth="0.8"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
