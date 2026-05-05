@@ -273,7 +273,8 @@ export default function HomePage() {
                 {/* VEN */}
                 <rect x="316" y="12" width="120" height="56" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1"/>
                 <text x="376" y="37" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">VEN</text>
-                <text x="376" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01 · Raspberry Pi</text>
+                <text x="376" y="49" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01</text>
+                <text x="376" y="60" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Raspberry Pi</text>
 
                 {/* Arrow 3 */}
                 <path d="M436,40 L468,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.4s"}}/>
