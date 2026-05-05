@@ -282,7 +282,7 @@ export default function HomePage() {
                 {/* Control Agent */}
                 <rect x="474" y="12" width="120" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
                 <text x="534" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Control Agent</text>
-                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">pi-compute:8081</text>
+                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-edge-01:8081</text>
 
                 {/* Arrow 4 */}
                 <path d="M594,40 L626,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.6s"}}/>
@@ -300,7 +300,7 @@ export default function HomePage() {
                 { label: 'Grid Operator', sub: 'Issues DR event', color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
                 { label: 'VTN', sub: 'vtn.data-joule.com', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
                 { label: 'VEN', sub: 'mtl-ven-01 · Raspberry Pi', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'Control Agent', sub: 'pi-compute:8081', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: 'Control Agent', sub: 'mtl-edge-01:8081', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
                 { label: 'Smart Plug', sub: 'Zigbee · measures W', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
               ].map((node, i) => (
                 <div key={i}>
@@ -425,7 +425,7 @@ export default function HomePage() {
                   The node is running right now.
                 </h2>
                 <p className="text-neutral-400 text-sm leading-relaxed">
-                  Live telemetry from pi-compute in Montréal. Wattage, tier, and LLM status
+                  Live telemetry from mtl-edge-01 in Montréal. Wattage, tier, and LLM status
                   updated every 5 seconds. Watch a DR event arrive and the load drop in real time.
                 </p>
               </div>
