@@ -39,7 +39,7 @@ const RESPONSE_LADDER = [
   {
     tier: 4,
     name: 'Halt',
-    mechanism: 'Control agent calls `systemctl halt` on pi-compute. After OS shutdown, the VEN issues a Zigbee off command to Plug #1, cutting USB-C power. On event clear, the VEN issues Zigbee on — Pi 5 cold-boots in ~55 seconds via its autostart systemd units.',
+    mechanism: 'Control agent calls `systemctl halt` on mtl-edge-01. After OS shutdown, the VEN issues a Zigbee off command to Plug #1, cutting USB-C power. On event clear, the VEN issues Zigbee on — Pi 5 cold-boots in ~55 seconds via its autostart systemd units.',
     power: '~2 W',
     reduction: '−86%',
     color: '#991b1b',
@@ -50,7 +50,7 @@ const STACK = [
   { layer: 'VEN daemon', tech: 'Python 3.13', detail: 'openleadr3 library, stdlib-only constraints, systemd service' },
   { layer: 'VTN (server)', tech: 'OpenADR 3.0 RI', detail: 'Docker on Hetzner VPS, Caddy reverse proxy + Let\'s Encrypt' },
   { layer: 'Control agent', tech: 'Python 3.13 http.server', detail: 'Minimal HTTP on :8081, no external dependencies' },
-  { layer: 'Zigbee stack', tech: 'Zigbee2MQTT + Mosquitto', detail: 'ConBee II coordinator on pi-ven, MQTT pub/sub for plug control' },
+  { layer: 'Zigbee stack', tech: 'Zigbee2MQTT + Mosquitto', detail: 'ConBee II coordinator on mtl-ven-01, MQTT pub/sub for plug control' },
   { layer: 'Telemetry pusher', tech: 'Python 3.13 urllib', detail: 'HTTPS POST every 5s with exponential backoff, Bearer auth' },
   { layer: 'Data store', tech: 'Upstash Redis (serverless)', detail: 'lpush + ltrim rolling 360-entry list, REST API' },
   { layer: 'Web / API', tech: 'Next.js 16.2.4', detail: 'App Router, TypeScript, Vercel serverless functions' },
@@ -116,8 +116,8 @@ def run_event(event: dict) -> None:
   },
   {
     n: 5,
-    title: 'Control agent executes on pi-compute',
-    detail: 'For tiers 1–2, the VEN SSHes to pi-compute and calls cpupower (governor change). For tier 3, it POSTs to pi-compute\'s control_agent.py (:8081) which sends SIGSTOP/SIGCONT to llama-server. For tier 4, it calls systemctl halt, then issues a Zigbee plug-off command via MQTT.',
+    title: 'Control agent executes on mtl-edge-01',
+    detail: 'For tiers 1–2, the VEN SSHes to mtl-edge-01 and calls cpupower (governor change). For tier 3, it POSTs to mtl-edge-01\'s control_agent.py (:8081) which sends SIGSTOP/SIGCONT to llama-server. For tier 4, it calls systemctl halt, then issues a Zigbee plug-off command via MQTT.',
     code: `# control_agent.py — tier 3
 @app.route("/pause", methods=["POST"])
 def pause():
@@ -143,7 +143,7 @@ requests.post(VTN_REPORTS_URL,
     json={
         "programID": "1",
         "eventID": event["id"],
-        "resources": [{"resourceName": "pi-compute",
+        "resources": [{"resourceName": "mtl-edge-01",
                        "intervals": [{"id": 0,
                          "payloads": [{"type":"SIMPLE",
                                        "values":[tier]}]}]}]
@@ -220,18 +220,18 @@ export default function MethodPage() {
                 <rect x="20" y="130" width="680" height="158" rx="8" fill="none" stroke="#1e1e2e" strokeWidth="1.5" strokeDasharray="6 4"/>
                 <text x="36" y="148" fill="#374151" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">HOME LAB — Montréal, QC  [egress-only]</text>
 
-                {/* pi-ven box */}
+                {/* mtl-ven-01 box */}
                 <rect x="40" y="158" width="200" height="116" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1.2"/>
-                <text x="140" y="178" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">pi-ven</text>
+                <text x="140" y="178" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">mtl-ven-01</text>
                 <text x="140" y="193" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">192.168.2.175</text>
                 <text x="58" y="212" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">• VEN daemon (ven.py)</text>
                 <text x="58" y="226" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">• Zigbee2MQTT + Mosquitto</text>
                 <text x="58" y="240" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">• Workload orchestrator</text>
                 <text x="58" y="254" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">• ConBee II (Zigbee coord.)</text>
 
-                {/* pi-compute box */}
+                {/* mtl-edge-01 box */}
                 <rect x="280" y="158" width="200" height="116" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1.2"/>
-                <text x="380" y="178" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">pi-compute</text>
+                <text x="380" y="178" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">mtl-edge-01</text>
                 <text x="380" y="193" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">192.168.2.174</text>
                 <text x="298" y="212" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">• llama.cpp (Llama 3.2-3B)</text>
                 <text x="298" y="226" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">• Control agent (:8081)</text>
@@ -242,32 +242,32 @@ export default function MethodPage() {
                 <rect x="520" y="178" width="160" height="76" rx="6" fill="#1a0e00" stroke="#78350f" strokeWidth="1" strokeDasharray="0"/>
                 <text x="600" y="200" textAnchor="middle" fill="#f59e0b" fontSize="9.5" fontFamily="var(--font-mono)" fontWeight="600">Zigbee Plug #1</text>
                 <text x="600" y="216" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">ThirdReality smart plug</text>
-                <text x="600" y="232" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">meters pi-compute USB-C</text>
+                <text x="600" y="232" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">meters mtl-edge-01 USB-C</text>
                 <text x="600" y="244" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">Tier 4: cuts power</text>
 
-                {/* VTN ↔ pi-ven: control plane */}
+                {/* VTN ↔ mtl-ven-01: control plane */}
                 <line x1="100" y1="94" x2="100" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="100" y1="116" x2="140" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="140" y1="116" x2="140" y2="158" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <text x="68" y="110" fill="#164e63" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS + OAuth2</text>
 
-                {/* pi-compute → Vercel: telemetry */}
+                {/* mtl-edge-01 → Vercel: telemetry */}
                 <line x1="380" y1="158" x2="380" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="380" y1="116" x2="360" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="360" y1="116" x2="360" y2="94" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <text x="385" y="110" fill="#78350f" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS POST 5s</text>
 
-                {/* pi-ven → pi-compute: control */}
+                {/* mtl-ven-01 → mtl-edge-01: control */}
                 <line x1="240" y1="216" x2="280" y2="216" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <polygon points="280,213 286,216 280,219" fill="#374151"/>
                 <text x="248" y="210" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">HTTP</text>
 
-                {/* pi-ven → Zigbee plug */}
+                {/* mtl-ven-01 → Zigbee plug */}
                 <line x1="240" y1="232" x2="518" y2="216" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <polygon points="518,213 524,216 518,219" fill="#374151"/>
                 <text x="360" y="248" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)" textAnchor="middle">Zigbee 3.0</text>
 
-                {/* Zigbee plug → pi-compute: powers */}
+                {/* Zigbee plug → mtl-edge-01: powers */}
                 <line x1="520" y1="220" x2="482" y2="220" stroke="#f59e0b" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.4"/>
                 <text x="495" y="235" fill="#78350f" fontSize="7" fontFamily="var(--font-mono)">USB-C power</text>
               </svg>
@@ -326,7 +326,7 @@ export default function MethodPage() {
               <div className="flex flex-col gap-3">
                 {[
                   { node: 'Zigbee Plug #1', detail: 'Measures USB-C draw every second, publishes to MQTT topic zigbee2mqtt/plug_1', color: '#f59e0b' },
-                  { node: 'Mosquitto (MQTT broker)', detail: 'Brokers messages between Zigbee2MQTT and subscribers on pi-ven', color: '#9ca3af' },
+                  { node: 'Mosquitto (MQTT broker)', detail: 'Brokers messages between Zigbee2MQTT and subscribers on mtl-ven-01', color: '#9ca3af' },
                   { node: 'oled_status_writer.py', detail: 'Subscribes to plug MQTT topic + polls llama.cpp /health endpoint. Writes /tmp/flexcompute_state.json atomically (os.replace)', color: '#22d3ee' },
                   { node: 'telemetry_pusher.py', detail: 'Reads state file every 5s. HTTPS POST to /api/ingest with Bearer auth. Exponential backoff on failure.', color: '#22d3ee' },
                   { node: '/api/ingest', detail: 'Vercel serverless function. Validates Bearer token. Redis pipeline: SET telemetry:latest + LPUSH telemetry:history + LTRIM to 360 entries.', color: '#9ca3af' },
@@ -383,7 +383,7 @@ export default function MethodPage() {
 
           <ScrollReveal delay={300}>
             <div className="mt-6 rounded-lg border border-neutral-800 bg-neutral-950 p-5">
-              <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-3">Baseline Measurements — pi-compute (2026-04-28)</div>
+              <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-3">Baseline Measurements — mtl-edge-01 (2026-04-28)</div>
               <div className="grid sm:grid-cols-3 gap-4 text-xs font-mono">
                 <div>
                   <div className="text-neutral-600 mb-1">OS idle (llama.cpp loaded)</div>
