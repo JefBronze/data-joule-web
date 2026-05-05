@@ -238,7 +238,7 @@ export default function HomePage() {
             {/* Desktop SVG signal flow */}
             <div className="hidden sm:block mb-6">
               <svg
-                viewBox="0 0 730 80"
+                viewBox="0 0 790 80"
                 className="w-full"
                 aria-label="Signal flow diagram: Grid Operator to VTN to VEN to Control Agent to Smart Plug"
               >
@@ -273,7 +273,7 @@ export default function HomePage() {
                 {/* VEN */}
                 <rect x="316" y="12" width="120" height="56" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1"/>
                 <text x="376" y="37" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">VEN</text>
-                <text x="376" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">pi-ven · Raspberry Pi</text>
+                <text x="376" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01 · Raspberry Pi</text>
 
                 {/* Arrow 3 */}
                 <path d="M436,40 L468,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.4s"}}/>
@@ -287,9 +287,9 @@ export default function HomePage() {
                 <path d="M594,40 L626,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.6s"}}/>
 
                 {/* Smart Plug */}
-                <rect x="632" y="12" width="98" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
-                <text x="681" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Smart Plug</text>
-                <text x="681" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Zigbee · measures W</text>
+                <rect x="632" y="12" width="158" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
+                <text x="711" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Smart Plug</text>
+                <text x="711" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Zigbee · measures W</text>
               </svg>
             </div>
 
@@ -298,7 +298,7 @@ export default function HomePage() {
               {[
                 { label: 'Grid Operator', sub: 'Issues DR event', color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
                 { label: 'VTN', sub: 'vtn.data-joule.com', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'VEN', sub: 'pi-ven · Raspberry Pi', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
+                { label: 'VEN', sub: 'mtl-ven-01 · Raspberry Pi', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
                 { label: 'Control Agent', sub: 'pi-compute:8081', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
                 { label: 'Smart Plug', sub: 'Zigbee · measures W', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
               ].map((node, i) => (
