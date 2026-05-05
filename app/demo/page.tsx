@@ -29,7 +29,7 @@ function EventBanner({ event, now }: { event: DemoEvent; now: number }) {
           </span>
           <span className="text-xs text-neutral-500 mx-2">·</span>
           <span className="text-xs font-semibold" style={{ color: cfg.color }}>
-            Tier {event.tier} — {cfg.label}
+            {cfg.label}
           </span>
           <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
         </div>
