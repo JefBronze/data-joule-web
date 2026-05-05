@@ -2,9 +2,47 @@
 
 import Link from 'next/link'
 import { useFlexState } from '@/app/hooks/useFlexState'
+import type { DemoEvent } from '@/app/hooks/useFlexState'
 import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
 
 const BASELINE_W = 4.8
+
+function fmtCountdown(secs: number): string {
+  const s = Math.max(0, Math.floor(secs))
+  return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
+}
+
+function EventBanner({ event, now }: { event: DemoEvent; now: number }) {
+  const nowSec = Math.floor(now / 1000)
+  const secsLeft = event.end_ts - nowSec
+  if (secsLeft <= 0) return null
+  const cfg = TIER_CONFIG[event.tier] ?? TIER_CONFIG[0]
+  return (
+    <div
+      className="rounded-lg border p-4 mb-6 font-mono"
+      style={{ borderColor: cfg.color + '55', background: cfg.bg }}
+    >
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <span className="text-xs uppercase tracking-widest" style={{ color: cfg.color }}>
+            ● Auto DR Event Active
+          </span>
+          <span className="text-xs text-neutral-500 mx-2">·</span>
+          <span className="text-xs font-semibold" style={{ color: cfg.color }}>
+            Tier {event.tier} — {cfg.label}
+          </span>
+          <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-xs text-neutral-500 uppercase tracking-widest">Ends in</div>
+          <div className="text-2xl font-bold tabular-nums" style={{ color: cfg.color }}>
+            {fmtCountdown(secsLeft)}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function SparkChart({ data }: { data: number[] }) {
   if (data.length < 2) {
@@ -82,7 +120,7 @@ function SparkChart({ data }: { data: number[] }) {
 }
 
 export default function DemoPage() {
-  const { data, history, hourly, loading, now, connectionStatus } = useFlexState()
+  const { data, history, hourly, demoEvent, nextEventTs, loading, now, connectionStatus } = useFlexState()
 
   const tier = data?.dr_tier ?? 0
   const tierCfg = TIER_CONFIG[tier] ?? TIER_CONFIG[0]
@@ -235,6 +273,11 @@ export default function DemoPage() {
           </div>
         )}
 
+        {/* Active DR event banner */}
+        {demoEvent && demoEvent.end_ts > Math.floor(now / 1000) && (
+          <EventBanner event={demoEvent} now={now} />
+        )}
+
         {/* Wattage chart */}
         <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -316,6 +359,13 @@ export default function DemoPage() {
 
         <div className="mt-6 text-center text-xs text-neutral-700 font-mono">
           Polling every 5 seconds · Hardware in Montréal, QC · OpenADR 3.0
+          {(!demoEvent || demoEvent.end_ts <= Math.floor(now / 1000)) && (
+            <span className="block mt-1">
+              {nextEventTs && nextEventTs > Math.floor(now / 1000)
+                ? `Next demo event in  ${fmtCountdown(nextEventTs - Math.floor(now / 1000))}`
+                : 'Demo events run every ~20 minutes'}
+            </span>
+          )}
         </div>
       </main>
     </div>

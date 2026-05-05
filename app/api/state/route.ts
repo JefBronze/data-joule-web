@@ -20,10 +20,12 @@ const redis = new Redis({
 export async function GET() {
   const fiveDaysAgo = Math.floor(Date.now() / 1000) - 5 * 24 * 3600
 
-  const [latest, history, hourlyRaw] = await Promise.all([
+  const [latest, history, hourlyRaw, demoEvent, nextEventTs] = await Promise.all([
     redis.get<TelemetryEntry>('telemetry:latest'),
     redis.lrange<TelemetryEntry>('telemetry:history', 0, 359),
     redis.hgetall('telemetry:hourly') as Promise<Record<string, string> | null>,
+    redis.get<{ tier: number; end_ts: number; event_name: string }>('demo:event'),
+    redis.get<number>('demo:next_event_ts'),
   ])
 
   const hourly = Object.entries(hourlyRaw ?? {})
@@ -32,7 +34,7 @@ export async function GET() {
     .sort((a, b) => a.timestamp - b.timestamp)
 
   return NextResponse.json(
-    { latest: latest ?? null, history: [...history].reverse(), hourly },
+    { latest: latest ?? null, history: [...history].reverse(), hourly, demoEvent: demoEvent ?? null, nextEventTs: nextEventTs ?? null },
     { headers: { 'Cache-Control': 's-maxage=10, stale-while-revalidate=20' } }
   )
 }
