@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -15,11 +16,13 @@ export function SiteNav() {
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-(--background)/90 backdrop-blur-sm px-6 py-4">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
         {pathname === '/' ? (
-          <span className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
+          <span className="flex items-center gap-2 font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
+            <Image src="/logo.png" alt="Data Joule" width={32} height={32} className="rounded-full brightness-0 invert" />
             Data Joule
           </span>
         ) : (
-          <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
+          <Link href="/" className="flex items-center gap-2 font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
+            <Image src="/logo.png" alt="Data Joule" width={32} height={32} className="rounded-full brightness-0 invert" />
             Data Joule
           </Link>
         )}
