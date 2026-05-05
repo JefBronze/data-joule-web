@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useFlexState } from '@/app/hooks/useFlexState'
 import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
 
-const BASELINE_W = 3
+const BASELINE_W = 4.8
 
 function SparkChart({ data }: { data: number[] }) {
   if (data.length < 2) {
@@ -23,9 +23,25 @@ function SparkChart({ data }: { data: number[] }) {
   const toY = (v: number) => H - ((v - min) / range) * (H - pad * 2) - pad
   const xs = data.map((_, i) => (i / (data.length - 1)) * W)
   const ys = data.map(v => toY(v))
-  const linePts = xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ')
-  const areaPts = `0,${H} ${linePts} ${W},${H}`
 
+  function smoothPath(): string {
+    let d = `M ${xs[0].toFixed(1)},${ys[0].toFixed(1)}`
+    for (let i = 1; i < xs.length; i++) {
+      const x1 = xs[i - 1], y1 = ys[i - 1]
+      const x2 = xs[i], y2 = ys[i]
+      const xPrev = xs[Math.max(0, i - 2)], yPrev = ys[Math.max(0, i - 2)]
+      const xNext = xs[Math.min(xs.length - 1, i + 1)], yNext = ys[Math.min(ys.length - 1, i + 1)]
+      const cp1x = x1 + (x2 - xPrev) / 6
+      const cp1y = y1 + (y2 - yPrev) / 6
+      const cp2x = x2 - (xNext - x1) / 6
+      const cp2y = y2 - (yNext - y1) / 6
+      d += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`
+    }
+    return d
+  }
+
+  const linePath = smoothPath()
+  const areaPath = `${linePath} L ${W},${H} L 0,${H} Z`
   const baselineY = toY(BASELINE_W)
   const showBaseline = BASELINE_W >= min && BASELINE_W <= max
 
@@ -52,9 +68,9 @@ function SparkChart({ data }: { data: number[] }) {
           strokeDasharray="4 3"
         />
       )}
-      <polygon points={areaPts} fill="url(#watt-grad)" />
-      <polyline
-        points={linePts}
+      <path d={areaPath} fill="url(#watt-grad)" />
+      <path
+        d={linePath}
         fill="none"
         stroke="#f59e0b"
         strokeWidth="1.5"
@@ -77,6 +93,12 @@ export default function DemoPage() {
     ? (wattages.reduce((a, b) => a + b, 0) / wattages.length).toFixed(1)
     : '—'
 
+  const chartTimeLabel = hourly.length >= 2
+    ? `Wattage · Last 5 Days (${hourly.length}h)`
+    : history.length >= 2
+      ? `Wattage · Last ${Math.round((history[history.length - 1].timestamp - history[0].timestamp) / 60)}m`
+      : 'Wattage · Live'
+
   const xLabels = hourly.length >= 2
     ? (() => {
         const first = hourly[0].timestamp
@@ -87,7 +109,19 @@ export default function DemoPage() {
           return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
         })
       })()
-    : ['–5m', '–4m', '–3m', '–2m', '–1m', 'now']
+    : history.length >= 2
+      ? (() => {
+          const first = history[0].timestamp
+          const last = history[history.length - 1].timestamp
+          const range = last - first || 1
+          return [0, 0.2, 0.4, 0.6, 0.8, 1].map(p => {
+            const secsFromEnd = last - (first + p * range)
+            if (secsFromEnd < 30) return 'now'
+            const mins = Math.round(secsFromEnd / 60)
+            return `–${mins}m`
+          })
+        })()
+      : ['–5m', '–4m', '–3m', '–2m', '–1m', 'now']
 
   return (
     <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
@@ -205,7 +239,7 @@ export default function DemoPage() {
         <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
             <span className="text-xs text-neutral-500 uppercase tracking-widest font-mono">
-              {hourly.length >= 2 ? `Wattage · Last 5 Days (${hourly.length}h)` : 'Wattage · Last 5 min'}
+              {chartTimeLabel}
             </span>
             <div className="flex gap-4 text-xs font-mono">
               <span className="text-neutral-500">

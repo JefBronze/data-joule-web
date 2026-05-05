@@ -22,7 +22,7 @@ export async function GET() {
 
   const [latest, history, hourlyRaw] = await Promise.all([
     redis.get<TelemetryEntry>('telemetry:latest'),
-    redis.lrange<TelemetryEntry>('telemetry:history', 0, 59),
+    redis.lrange<TelemetryEntry>('telemetry:history', 0, 359),
     redis.hgetall('telemetry:hourly') as Promise<Record<string, string> | null>,
   ])
 
