@@ -83,11 +83,13 @@ export async function POST(request: NextRequest) {
   }
 
   const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp }
+  const hourTs = Math.floor(timestamp / 3600) * 3600
 
   const pipe = redis.pipeline()
   pipe.set('telemetry:latest', entry)
   pipe.lpush('telemetry:history', entry)
   pipe.ltrim('telemetry:history', 0, MAX_HISTORY - 1)
+  pipe.hset('telemetry:hourly', { [String(hourTs)]: String(wattage_w) })
   await pipe.exec()
 
   return NextResponse.json({ ok: true })

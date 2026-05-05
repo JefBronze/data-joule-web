@@ -41,15 +41,24 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'rate limit exceeded' }, { status: 429 })
   }
 
-  const [latest, history] = await Promise.all([
+  const fiveDaysAgo = Math.floor(Date.now() / 1000) - 5 * 24 * 3600
+
+  const [latest, history, hourlyRaw] = await Promise.all([
     redis.get<TelemetryEntry>('telemetry:latest'),
     redis.lrange<TelemetryEntry>('telemetry:history', 0, 59),
+    redis.hgetall('telemetry:hourly') as Promise<Record<string, string> | null>,
   ])
+
+  const hourly = Object.entries(hourlyRaw ?? {})
+    .map(([ts, w]) => ({ timestamp: Number(ts), wattage_w: Number(w) }))
+    .filter(e => e.timestamp >= fiveDaysAgo)
+    .sort((a, b) => a.timestamp - b.timestamp)
 
   return NextResponse.json(
     {
       latest: latest ?? null,
       history: [...history].reverse(),
+      hourly,
     },
     { headers: { 'Cache-Control': 'no-store' } }
   )

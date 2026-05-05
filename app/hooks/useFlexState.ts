@@ -5,10 +5,15 @@ import type { TelemetryEntry } from '@/app/lib/telemetry'
 
 export type { TelemetryEntry } from '@/app/lib/telemetry'
 
+type HourlyEntry = { timestamp: number; wattage_w: number }
+
 type ApiResponse = {
   latest: TelemetryEntry | null
   history: TelemetryEntry[]
+  hourly: HourlyEntry[]
 }
+
+export type { HourlyEntry }
 
 export type ConnectionStatus = 'ok' | 'stale' | 'error'
 
@@ -19,6 +24,7 @@ const ERROR_THRESHOLD = 3
 export function useFlexState() {
   const [data, setData] = useState<TelemetryEntry | null>(null)
   const [history, setHistory] = useState<TelemetryEntry[]>([])
+  const [hourly, setHourly] = useState<HourlyEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [now, setNow] = useState(() => Date.now())
   const [lastSuccessTime, setLastSuccessTime] = useState<number | null>(null)
@@ -31,6 +37,7 @@ export function useFlexState() {
       const json: ApiResponse = await res.json()
       setData(json.latest)
       setHistory(json.history)
+      setHourly(json.hourly ?? [])
       setLastSuccessTime(Date.now())
       setConsecutiveErrors(0)
     } catch {
@@ -56,5 +63,5 @@ export function useFlexState() {
     lastSuccessTime !== null && now - lastSuccessTime > STALE_THRESHOLD ? 'stale' :
     'ok'
 
-  return { data, history, loading, now, connectionStatus }
+  return { data, history, hourly, loading, now, connectionStatus }
 }

@@ -66,15 +66,28 @@ function SparkChart({ data }: { data: number[] }) {
 }
 
 export default function DemoPage() {
-  const { data, history, loading, now, connectionStatus } = useFlexState()
+  const { data, history, hourly, loading, now, connectionStatus } = useFlexState()
 
   const tier = data?.dr_tier ?? 0
   const tierCfg = TIER_CONFIG[tier] ?? TIER_CONFIG[0]
-  const wattages = history.map(h => h.wattage_w)
+  const chartData = hourly.length >= 2 ? hourly : history
+  const wattages = chartData.map(h => h.wattage_w)
   const maxW = wattages.length ? Math.max(...wattages).toFixed(1) : '—'
   const avgW = wattages.length
     ? (wattages.reduce((a, b) => a + b, 0) / wattages.length).toFixed(1)
     : '—'
+
+  const xLabels = hourly.length >= 2
+    ? (() => {
+        const first = hourly[0].timestamp
+        const last = hourly[hourly.length - 1].timestamp
+        const range = last - first || 1
+        return [0, 0.2, 0.4, 0.6, 0.8, 1].map(p => {
+          const d = new Date((first + p * range) * 1000)
+          return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        })
+      })()
+    : ['–5m', '–4m', '–3m', '–2m', '–1m', 'now']
 
   return (
     <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
@@ -111,7 +124,7 @@ export default function DemoPage() {
         <div className="mb-8">
           <h1 className="text-2xl font-bold tracking-tight text-neutral-100">FlexCompute Edge</h1>
           <p className="text-neutral-500 text-sm mt-1 font-mono">
-            pi-compute · Montréal, QC · OpenADR 3.0 VEN
+            mtl-edge-01 · Montréal, QC · OpenADR 3.0 VEN
           </p>
         </div>
 
@@ -188,11 +201,11 @@ export default function DemoPage() {
           </div>
         )}
 
-        {/* 5-minute wattage chart */}
+        {/* Wattage chart */}
         <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
             <span className="text-xs text-neutral-500 uppercase tracking-widest font-mono">
-              Wattage · Last 5 min
+              {hourly.length >= 2 ? `Wattage · Last 5 Days (${hourly.length}h)` : 'Wattage · Last 5 min'}
             </span>
             <div className="flex gap-4 text-xs font-mono">
               <span className="text-neutral-500">
@@ -205,12 +218,7 @@ export default function DemoPage() {
           </div>
           <SparkChart data={wattages} />
           <div className="flex justify-between text-xs text-neutral-700 font-mono mt-2">
-            <span>–5m</span>
-            <span>–4m</span>
-            <span>–3m</span>
-            <span>–2m</span>
-            <span>–1m</span>
-            <span>now</span>
+            {xLabels.map((label, i) => <span key={i}>{label}</span>)}
           </div>
         </div>
 
