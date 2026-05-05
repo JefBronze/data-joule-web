@@ -17,12 +17,12 @@ export function SiteNav() {
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
         {pathname === '/' ? (
           <span className="flex items-center gap-2 font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
-            <Image src="/logo.png" alt="Data Joule" width={32} height={32} className="rounded-full brightness-0 invert" />
+            <Image src="/logo.png" alt="Data Joule" width={32} height={32} className="rounded-full" style={{ filter: 'brightness(0) invert(1)' }} />
             Data Joule
           </span>
         ) : (
           <Link href="/" className="flex items-center gap-2 font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
-            <Image src="/logo.png" alt="Data Joule" width={32} height={32} className="rounded-full brightness-0 invert" />
+            <Image src="/logo.png" alt="Data Joule" width={32} height={32} className="rounded-full" style={{ filter: 'brightness(0) invert(1)' }} />
             Data Joule
           </Link>
         )}
