@@ -12,7 +12,7 @@ export function SiteFooter() {
         </p>
         <div className="flex gap-4 text-xs text-neutral-400">
           <a
-            href="https://github.com/JefBronze/flexcompute-edge"
+            href="https://github.com/JefBronze/data-joule-web"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-neutral-200 transition-colors"
