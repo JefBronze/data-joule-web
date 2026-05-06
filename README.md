@@ -80,25 +80,43 @@ Receives telemetry from pi-compute. Requires `Authorization: Bearer <INGEST_API_
 
 **Body:**
 ```json
-{ "dr_tier": 0, "wattage_w": 3.3, "llm_status": "active", "openadr_status": "ready", "timestamp": 1746230400 }
+{
+  "dr_tier": 0,
+  "wattage_w": 10.3,
+  "llm_status": "active",
+  "openadr_status": "ready",
+  "timestamp": 1746230400,
+  "inference_tok_s": 3.5,
+  "inference_status": "active"
+}
 ```
 
 **Field constraints:**
-| Field | Type | Valid values |
-|-------|------|-------------|
-| `dr_tier` | integer | 0–4 |
-| `wattage_w` | float | 0–100 |
-| `llm_status` | string | `active`, `degraded`, `offline`, `paused` |
-| `openadr_status` | string | `ready`, `offline`, `error`, `pending` |
-| `timestamp` | integer | Unix seconds, within ±5 min of server time |
+| Field | Type | Required | Valid values |
+|-------|------|----------|-------------|
+| `dr_tier` | integer | ✓ | 0–4 |
+| `wattage_w` | float | ✓ | 0–100 |
+| `llm_status` | string | ✓ | `active`, `degraded`, `offline`, `paused` |
+| `openadr_status` | string | ✓ | `ready`, `offline`, `error`, `pending` |
+| `timestamp` | integer | ✓ | Unix seconds, within ±5 min of server time |
+| `inference_tok_s` | float | — | Tokens/sec from llama-server (`timings.predicted_per_second`) |
+| `inference_status` | string | — | `active`, `suspended`, `error`, `stale`, `unknown` |
 
 Rate limited to **30 requests/minute per IP** + **120 requests/minute global** (dual sliding window). Returns `429` if either limit is exceeded, `413` if body > 1 KB, `422` on validation failure.
 
 Stores `telemetry:latest` and appends to `telemetry:history` (max 360 entries) in Redis via pipeline.
 
+### `POST /api/demo/notify`
+
+Called by the VPS demo scheduler after creating a VTN event. Requires `Authorization: Bearer <INGEST_API_KEY>`.
+
+**Body:** `{ "tier": 2, "duration_seconds": 180, "event_name": "demo-tier2-...", "start_ts": 1746230400 }`
+
+Writes two Redis keys: `demo:event` (tier, end_ts, event_name — TTL: duration + 120s) and `demo:next_event_ts` (TTL: 3600s). The demo page uses these to show an active-event banner with countdown and an idle countdown to the next event.
+
 ### `GET /api/state`
 
-Public. Returns current state + last 60 history entries. `Cache-Control: no-store`.
+Public. Returns current state, last 60 history entries, hourly averages (5-day window), and demo event metadata. CDN-cached for 10 seconds (`s-maxage=10, stale-while-revalidate=20`).
 
 ---
 
