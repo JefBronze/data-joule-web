@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useLocale, type Locale } from '@/app/lib/i18n'
 
 function QuebecFlag() {
