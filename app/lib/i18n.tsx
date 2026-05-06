@@ -25,7 +25,9 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('dj-locale') as Locale | null
-    if (saved && saved in translations) setLocaleState(saved)
+    if (saved && saved in translations) {
+      queueMicrotask(() => setLocaleState(saved))
+    }
   }, [])
 
   function setLocale(l: Locale) {

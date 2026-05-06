@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useLocale, type Locale } from '@/app/lib/i18n'
 
 function QuebecFlag() {
@@ -165,7 +165,7 @@ export function SiteNav() {
             </Link>
           ))}
           <a
-            href="https://github.com/JefBronze/data-joule"
+            href="https://github.com/JefBronze/data-joule-web"
             target="_blank"
             rel="noopener noreferrer"
             className="text-neutral-400 hover:text-neutral-100 transition-colors"
