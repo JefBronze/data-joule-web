@@ -82,7 +82,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'invalid timestamp' }, { status: 422 })
   }
 
-  const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp }
+  const inference_tok_s = payload.inference_tok_s != null ? Number(payload.inference_tok_s) : undefined
+  const inference_status = payload.inference_status != null ? String(payload.inference_status) : undefined
+
+  const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp,
+    ...(inference_tok_s != null && isFinite(inference_tok_s) ? { inference_tok_s } : {}),
+    ...(inference_status ? { inference_status } : {}),
+  }
   const hourTs = Math.floor(timestamp / 3600) * 3600
 
   const pipe = redis.pipeline()

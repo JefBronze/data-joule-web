@@ -250,29 +250,32 @@ export default function DemoPage() {
             </div>
 
             {/* Inference */}
-            <div className="rounded-lg border border-neutral-800 p-5 bg-neutral-900">
-              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.inference}</div>
-              <div className="mb-3">
-                <span
-                  className="text-lg font-mono font-bold"
-                  style={{
-                    color:
-                      data?.llm_status === 'active' ? '#4ade80' :
-                      data?.llm_status === 'degraded' ? '#facc15' : '#f87171'
-                  }}
+            {(() => {
+              const inferenceStatus = data?.inference_status ?? (data?.llm_status === 'active' ? 'active' : 'unknown')
+              const tokS = data?.inference_tok_s ?? null
+              const inferenceColor =
+                inferenceStatus === 'active'    ? '#4ade80' :
+                inferenceStatus === 'suspended' ? '#f87171' :
+                inferenceStatus === 'error'     ? '#fb923c' : '#6b7280'
+              return (
+                <div
+                  className="rounded-lg border p-5"
+                  style={{ borderColor: inferenceColor + '44', background: inferenceColor === '#4ade80' ? 'rgba(74,222,128,0.05)' : 'rgba(0,0,0,0)' }}
                 >
-                  ● {(data?.llm_status ?? 'offline').toUpperCase()}
-                </span>
-              </div>
-              <div className="text-xs text-neutral-500 font-mono">
-                VEN: <span className={data?.openadr_status === 'ready' ? 'text-cyan-400' : 'text-neutral-500'}>
-                  {(data?.openadr_status ?? 'offline').toUpperCase()}
-                </span>
-              </div>
-              <div className="text-xs text-neutral-500 font-mono mt-1">
-                Model: Llama-3.2-3B Q4_K_M
-              </div>
-            </div>
+                  <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.inference}</div>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-5xl font-bold font-mono" style={{ color: inferenceColor }}>
+                      {tokS !== null ? tokS.toFixed(1) : '—'}
+                    </span>
+                    <span className="text-xl font-mono" style={{ color: inferenceColor + 'aa' }}>tok/s</span>
+                  </div>
+                  <div className="text-xs font-mono font-semibold" style={{ color: inferenceColor }}>
+                    ● {inferenceStatus.toUpperCase()}
+                  </div>
+                  <div className="text-xs text-neutral-600 font-mono mt-1">Llama-3.2-3B Q4_K_M</div>
+                </div>
+              )
+            })()}
           </div>
         )}
 

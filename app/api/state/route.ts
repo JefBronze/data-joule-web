@@ -10,6 +10,8 @@ type TelemetryEntry = {
   llm_status: string
   openadr_status: string
   timestamp: number
+  inference_tok_s?: number
+  inference_status?: string
 }
 
 const redis = new Redis({
