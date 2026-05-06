@@ -57,8 +57,12 @@ function SparkChart({ data }: { data: number[] }) {
   const max = Math.max(...data)
   const min = Math.min(...data)
   const range = max - min || 1
-  const pad = 6
-  const toY = (v: number) => H - ((v - min) / range) * (H - pad * 2) - pad
+  const domainPad = Math.max(range * 0.12, 0.4)
+  const chartMin = Math.max(0, min - domainPad)
+  const chartMax = max + domainPad
+  const chartRange = chartMax - chartMin || 1
+  const pad = 14
+  const toY = (v: number) => H - ((v - chartMin) / chartRange) * (H - pad * 2) - pad
   const xs = data.map((_, i) => (i / (data.length - 1)) * W)
   const ys = data.map(v => toY(v))
 
@@ -81,7 +85,7 @@ function SparkChart({ data }: { data: number[] }) {
   const linePath = smoothPath()
   const areaPath = `${linePath} L ${W},${H} L 0,${H} Z`
   const baselineY = toY(BASELINE_W)
-  const showBaseline = BASELINE_W >= min && BASELINE_W <= max
+  const showBaseline = BASELINE_W >= chartMin && BASELINE_W <= chartMax
 
   return (
     <svg
