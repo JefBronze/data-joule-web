@@ -65,6 +65,7 @@ function SparkChart({ data }: { data: number[] }) {
   const toY = (v: number) => H - ((v - chartMin) / chartRange) * (H - pad * 2) - pad
   const xs = data.map((_, i) => (i / (data.length - 1)) * W)
   const ys = data.map(v => toY(v))
+  const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
   function smoothPath(): string {
     let d = `M ${xs[0].toFixed(1)},${ys[0].toFixed(1)}`
@@ -74,9 +75,11 @@ function SparkChart({ data }: { data: number[] }) {
       const xPrev = xs[Math.max(0, i - 2)], yPrev = ys[Math.max(0, i - 2)]
       const xNext = xs[Math.min(xs.length - 1, i + 1)], yNext = ys[Math.min(ys.length - 1, i + 1)]
       const cp1x = x1 + (x2 - xPrev) / 6
-      const cp1y = y1 + (y2 - yPrev) / 6
       const cp2x = x2 - (xNext - x1) / 6
-      const cp2y = y2 - (yNext - y1) / 6
+      const minY = Math.min(y1, y2)
+      const maxY = Math.max(y1, y2)
+      const cp1y = clamp(y1 + (y2 - yPrev) / 6, minY, maxY)
+      const cp2y = clamp(y2 - (yNext - y1) / 6, minY, maxY)
       d += ` C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${x2.toFixed(1)},${y2.toFixed(1)}`
     }
     return d
