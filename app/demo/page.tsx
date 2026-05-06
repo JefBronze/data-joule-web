@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useFlexState } from '@/app/hooks/useFlexState'
 import type { DemoEvent } from '@/app/hooks/useFlexState'
 import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
+import { useLocale } from '@/app/lib/i18n'
 
 const BASELINE_W = 4.8
 
@@ -12,7 +13,7 @@ function fmtCountdown(secs: number): string {
   return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
 }
 
-function EventBanner({ event, now }: { event: DemoEvent; now: number }) {
+function EventBanner({ event, now, d }: { event: DemoEvent; now: number; d: ReturnType<typeof useLocale>['t']['demo'] }) {
   const nowSec = Math.floor(now / 1000)
   const secsLeft = event.end_ts - nowSec
   if (secsLeft <= 0) return null
@@ -25,7 +26,7 @@ function EventBanner({ event, now }: { event: DemoEvent; now: number }) {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <span className="text-xs uppercase tracking-widest" style={{ color: cfg.color }}>
-            ● Auto DR Event Active
+            ● {d.event_active}
           </span>
           <span className="text-xs text-neutral-500 mx-2">·</span>
           <span className="text-xs font-semibold" style={{ color: cfg.color }}>
@@ -34,7 +35,7 @@ function EventBanner({ event, now }: { event: DemoEvent; now: number }) {
           <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
         </div>
         <div className="text-right">
-          <div className="text-xs text-neutral-500 uppercase tracking-widest">Ends in</div>
+          <div className="text-xs text-neutral-500 uppercase tracking-widest">{d.ends_in}</div>
           <div className="text-2xl font-bold tabular-nums" style={{ color: cfg.color }}>
             {fmtCountdown(secsLeft)}
           </div>
@@ -44,11 +45,11 @@ function EventBanner({ event, now }: { event: DemoEvent; now: number }) {
   )
 }
 
-function SparkChart({ data }: { data: number[] }) {
+function SparkChart({ data, collectingLabel }: { data: number[]; collectingLabel: string }) {
   if (data.length < 2) {
     return (
       <div className="h-28 md:h-40 flex items-center justify-center text-neutral-600 text-sm font-mono">
-        Collecting data…
+        {collectingLabel}
       </div>
     )
   }
@@ -120,6 +121,8 @@ function SparkChart({ data }: { data: number[] }) {
 }
 
 export default function DemoPage() {
+  const { t } = useLocale()
+  const d = t.demo
   const { data, history, hourly, demoEvent, nextEventTs, loading, now, connectionStatus } = useFlexState()
 
   const tier = data?.dr_tier ?? 0
@@ -166,17 +169,17 @@ export default function DemoPage() {
       {/* Header */}
       <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between gap-4">
         <Link href="/" className="font-mono text-sm text-neutral-400 hover:text-neutral-200 transition-colors shrink-0">
-          ← data-joule.com
+          {d.back}
         </Link>
         <div className="flex items-center gap-3">
           {connectionStatus === 'stale' && (
             <span className="text-xs font-mono text-yellow-400 border border-yellow-900 bg-yellow-950/30 px-2 py-0.5 rounded-full">
-              Data may be stale
+              {d.stale}
             </span>
           )}
           {connectionStatus === 'error' && (
             <span className="text-xs font-mono text-red-400 border border-red-900 bg-red-950/30 px-2 py-0.5 rounded-full">
-              Connection lost
+              {d.connection_lost}
             </span>
           )}
           <div className="flex items-center gap-2">
@@ -185,18 +188,18 @@ export default function DemoPage() {
               style={{ backgroundColor: connectionStatus === 'error' ? '#f87171' : data ? '#4ade80' : '#6b7280' }}
             />
             <span className="text-xs text-neutral-500 font-mono hidden sm:inline">
-              {data ? `LIVE · ${secondsAgo(data.timestamp, now)}` : 'WAITING'}
+              {data ? `${d.live} · ${secondsAgo(data.timestamp, now)}` : d.waiting}
             </span>
           </div>
         </div>
-        <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest shrink-0">Live Demo</span>
+        <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest shrink-0">{d.page_title}</span>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-10">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold tracking-tight text-neutral-100">FlexCompute Edge</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-neutral-100">{d.heading}</h1>
           <p className="text-neutral-500 text-sm mt-1 font-mono">
-            mtl-edge-01 · Montréal, QC · OpenADR 3.0 VEN
+            {d.node_info}
           </p>
         </div>
 
@@ -218,7 +221,7 @@ export default function DemoPage() {
               className="rounded-lg border p-5"
               style={{ borderColor: 'rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.05)' }}
             >
-              <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-mono">Current Load</div>
+              <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-mono">{d.current_load}</div>
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl font-bold font-mono text-amber-400">
                   {data ? data.wattage_w.toFixed(1) : '—'}
@@ -232,7 +235,7 @@ export default function DemoPage() {
               className="rounded-lg border p-5"
               style={{ borderColor: tierCfg.color + '44', background: tierCfg.bg }}
             >
-              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">DR Tier</div>
+              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.dr_tier}</div>
               <div className="flex items-baseline gap-3">
                 <span className="text-5xl font-bold font-mono" style={{ color: tierCfg.color }}>
                   {tier}
@@ -248,7 +251,7 @@ export default function DemoPage() {
 
             {/* Inference */}
             <div className="rounded-lg border border-neutral-800 p-5 bg-neutral-900">
-              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">Inference</div>
+              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.inference}</div>
               <div className="mb-3">
                 <span
                   className="text-lg font-mono font-bold"
@@ -275,7 +278,7 @@ export default function DemoPage() {
 
         {/* Active DR event banner */}
         {demoEvent && demoEvent.end_ts > Math.floor(now / 1000) && (
-          <EventBanner event={demoEvent} now={now} />
+          <EventBanner event={demoEvent} now={now} d={d} />
         )}
 
         {/* Wattage chart */}
@@ -293,7 +296,7 @@ export default function DemoPage() {
               </span>
             </div>
           </div>
-          <SparkChart data={wattages} />
+          <SparkChart data={wattages} collectingLabel={d.collecting} />
           <div className="flex justify-between text-xs text-neutral-700 font-mono mt-2">
             {xLabels.map((label, i) => <span key={i}>{label}</span>)}
           </div>
@@ -302,20 +305,20 @@ export default function DemoPage() {
         {/* Recent readings */}
         <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5">
           <div className="text-xs text-neutral-500 uppercase tracking-widest font-mono mb-4">
-            Recent Readings
+            {d.recent_readings}
           </div>
           {history.length === 0 ? (
-            <div className="text-neutral-600 text-sm font-mono">No history yet.</div>
+            <div className="text-neutral-600 text-sm font-mono">{d.no_history}</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
                   <tr className="text-neutral-600 border-b border-neutral-800">
-                    <th className="text-left py-2 pr-4 sticky left-0 bg-neutral-900">Time</th>
-                    <th className="text-right py-2 pr-4">Wattage</th>
-                    <th className="text-right py-2 pr-4">Tier</th>
-                    <th className="text-right py-2 pr-4">LLM</th>
-                    <th className="text-right py-2 hidden md:table-cell">VEN</th>
+                    <th className="text-left py-2 pr-4 sticky left-0 bg-neutral-900">{d.th_time}</th>
+                    <th className="text-right py-2 pr-4">{d.th_wattage}</th>
+                    <th className="text-right py-2 pr-4">{d.th_tier}</th>
+                    <th className="text-right py-2 pr-4">{d.th_llm}</th>
+                    <th className="text-right py-2 hidden md:table-cell">{d.th_ven}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -358,12 +361,12 @@ export default function DemoPage() {
         </div>
 
         <div className="mt-6 text-center text-xs text-neutral-700 font-mono">
-          Polling every 5 seconds · Hardware in Montréal, QC · OpenADR 3.0
+          {d.footer}
           {(!demoEvent || demoEvent.end_ts <= Math.floor(now / 1000)) && (
             <span className="block mt-1">
               {nextEventTs && nextEventTs > Math.floor(now / 1000)
-                ? `Next demo event in  ${fmtCountdown(nextEventTs - Math.floor(now / 1000))}`
-                : 'Demo events run every ~20 minutes'}
+                ? `${d.next_event}  ${fmtCountdown(nextEventTs - Math.floor(now / 1000))}`
+                : d.events_schedule}
             </span>
           )}
         </div>

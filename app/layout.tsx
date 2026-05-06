@@ -4,6 +4,7 @@ import { ReactPlugin } from "@21st-extension/react";
 import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import { LocaleProvider } from "./lib/i18n";
 import "./globals.css";
 
 const display = Chakra_Petch({
@@ -57,7 +58,7 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
       <body suppressHydrationWarning className="min-h-full bg-(--background) text-neutral-100 antialiased font-[family-name:var(--font-body)]">
-        {children}
+        <LocaleProvider>{children}</LocaleProvider>
         {process.env.NODE_ENV === "development" && (
           <TwentyFirstToolbar config={toolbarConfig} />
         )}
