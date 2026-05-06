@@ -125,6 +125,14 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
+                <div className="flex items-center gap-4 mb-6">
+                  <img src="/data-joule.svg" alt="Data Joule" width={52} height={52} />
+                  <span className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-5xl mt-2">
+                    Data Joule
+                  </span>
+                </div>
+              </ScrollReveal>
+              <ScrollReveal>
                 <div className="inline-block mb-6">
                   <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                     OpenADR 3.0 · Live Hardware · Montréal, QC
@@ -133,9 +141,8 @@ export default function HomePage() {
               </ScrollReveal>
               <ScrollReveal delay={150}>
                 <h1 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-6">
-                  Grid-Interactive<br />
-                  AI Compute,<br />
-                  <span className="text-amber-400">Proven on Real Hardware</span>
+                  Every Watt,<br />
+                  <span className="text-amber-400">On Cue.</span>
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={300}>
