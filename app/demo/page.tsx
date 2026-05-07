@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { LocaleSwitcher } from '@/app/components/SiteNav'
 import { useFlexState } from '@/app/hooks/useFlexState'
 import type { DemoEvent, GridSignal, GridSource } from '@/app/hooks/useFlexState'
 import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
@@ -408,8 +409,8 @@ export default function DemoPage() {
     <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
       {/* Header */}
       <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between gap-4">
-        <Link href="/" className="font-mono text-sm text-neutral-400 hover:text-neutral-200 transition-colors shrink-0">
-          {d.back}
+        <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg shrink-0">
+          Data Joule
         </Link>
         <div className="flex items-center gap-3">
           {connectionStatus === 'stale' && (
@@ -438,7 +439,10 @@ export default function DemoPage() {
             </div>
           )}
         </div>
-        <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest shrink-0">{d.page_title}</span>
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest hidden sm:inline">{d.page_title}</span>
+          <LocaleSwitcher />
+        </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-10">
