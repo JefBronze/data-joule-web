@@ -6,7 +6,7 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN!,
 })
 
-const CADENCE_SECONDS = 1200  // 20 min between events
+const CADENCE_SECONDS = 300  // 5-min cron cadence
 
 export async function POST(request: NextRequest) {
   const auth = request.headers.get('authorization') ?? ''
@@ -21,22 +21,35 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'bad json' }, { status: 400 })
   }
 
-  const tier = Number(body.tier)
-  const duration_seconds = Number(body.duration_seconds)
-  const event_name = String(body.event_name ?? '')
-  const start_ts = Number(body.start_ts)
+  const tier        = Number(body.tier)
+  const duration_s  = Number(body.duration_seconds ?? 0)
+  const event_name  = String(body.event_name ?? '')
+  const start_ts    = Number(body.start_ts)
+  const grid_signal = body.grid_signal ?? null
 
-  if (![1, 2, 3, 4].includes(tier) || duration_seconds < 30 || duration_seconds > 3600 || !start_ts) {
-    return NextResponse.json({ error: 'invalid payload' }, { status: 422 })
+  if (!Number.isInteger(tier) || tier < 0 || tier > 4) {
+    return NextResponse.json({ error: 'invalid tier' }, { status: 422 })
+  }
+  if (!start_ts) {
+    return NextResponse.json({ error: 'missing start_ts' }, { status: 422 })
   }
 
-  const end_ts = start_ts + duration_seconds
-  const next_event_ts = start_ts + CADENCE_SECONDS
+  const pipeline = redis.pipeline()
 
-  await redis.pipeline()
-    .set('demo:event', { tier, end_ts, event_name }, { ex: duration_seconds + 120 })
-    .set('demo:next_event_ts', next_event_ts, { ex: 3600 })
-    .exec()
+  // Always update grid signal display and next-check timestamp
+  if (grid_signal !== null) {
+    pipeline.set('demo:grid_signal', grid_signal, { ex: tier > 0 ? 1800 : 600 })
+  }
+  pipeline.set('demo:next_event_ts', start_ts + CADENCE_SECONDS, { ex: 600 })
 
-  return NextResponse.json({ ok: true })
+  if (tier >= 1) {
+    if (duration_s < 30 || duration_s > 3600 || !event_name) {
+      return NextResponse.json({ error: 'invalid event payload' }, { status: 422 })
+    }
+    pipeline.set('demo:event', { tier, end_ts: start_ts + duration_s, event_name }, { ex: duration_s + 120 })
+  }
+
+  await pipeline.exec()
+
+  return NextResponse.json({ ok: true, event: tier >= 1 })
 }
