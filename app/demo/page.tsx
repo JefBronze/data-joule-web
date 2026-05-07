@@ -205,9 +205,12 @@ export default function DemoPage() {
             </span>
           </div>
           {nextEventLabel && (
-            <span className="hidden md:inline text-xs text-neutral-600 font-mono">
-              {nextEventLabel}
-            </span>
+            <div className="hidden md:flex items-center gap-3">
+              <span className="h-3 w-px bg-neutral-700" aria-hidden="true" />
+              <span className="text-xs text-amber-400 font-mono">
+                {nextEventLabel}
+              </span>
+            </div>
           )}
         </div>
         <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest shrink-0">{d.page_title}</span>
