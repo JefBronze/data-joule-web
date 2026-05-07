@@ -104,6 +104,7 @@ export const pt = {
     events_schedule: 'Rede monitorada a cada 5 minutos',
     event_active: 'Evento DR Automático Ativo',
     ends_in: 'Encerra em',
+    ends_in_sub: 'nosso sistema verifica após',
   },
   grid: {
     panel_title: 'Condições da Rede',

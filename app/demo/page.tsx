@@ -279,6 +279,7 @@ function EventBanner({
           <div className="text-2xl font-bold tabular-nums" style={{ color: cfg.color }}>
             {fmtCountdown(secsLeft)}
           </div>
+          <div className="text-xs text-neutral-600 mt-1">{d.ends_in_sub}</div>
         </div>
       </div>
     </div>
@@ -467,8 +468,8 @@ export default function DemoPage() {
             {/* Wattage */}
             <div className="rounded-lg border p-5"
               style={{ borderColor: 'rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.05)' }}>
-              <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-mono">{d.current_load}</div>
-              <div className="flex items-baseline gap-2">
+              <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-mono text-center sm:text-left">{d.current_load}</div>
+              <div className="flex items-baseline gap-2 justify-center sm:justify-start">
                 <span className="text-5xl font-bold font-mono text-amber-400">
                   {data ? data.wattage_w.toFixed(1) : '—'}
                 </span>
@@ -479,8 +480,8 @@ export default function DemoPage() {
             {/* DR Tier */}
             <div className="rounded-lg border p-5"
               style={{ borderColor: tierCfg.color + '44', background: tierCfg.bg }}>
-              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.dr_tier}</div>
-              <div className="flex items-baseline gap-3">
+              <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono text-center sm:text-left">{d.dr_tier}</div>
+              <div className="flex items-baseline gap-3 justify-center sm:justify-start">
                 <span className="text-5xl font-bold font-mono" style={{ color: tierCfg.color }}>{tier}</span>
                 <div>
                   <div className="text-sm font-mono font-semibold" style={{ color: tierCfg.color }}>{tierCfg.label}</div>
@@ -500,17 +501,17 @@ export default function DemoPage() {
               return (
                 <div className="rounded-lg border p-5"
                   style={{ borderColor: inferenceColor + '44', background: inferenceColor === '#4ade80' ? 'rgba(74,222,128,0.05)' : 'transparent' }}>
-                  <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.inference}</div>
-                  <div className="flex items-baseline gap-2 mb-2">
+                  <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono text-center sm:text-left">{d.inference}</div>
+                  <div className="flex items-baseline gap-2 mb-2 justify-center sm:justify-start">
                     <span className="text-5xl font-bold font-mono" style={{ color: inferenceColor }}>
                       {tokS !== null ? tokS.toFixed(1) : '—'}
                     </span>
                     <span className="text-xl font-mono" style={{ color: inferenceColor + 'aa' }}>tok/s</span>
                   </div>
-                  <div className="text-xs font-mono font-semibold" style={{ color: inferenceColor }}>
+                  <div className="text-xs font-mono font-semibold text-center sm:text-left" style={{ color: inferenceColor }}>
                     ● {inferenceStatus.toUpperCase()}
                   </div>
-                  <div className="text-xs text-neutral-600 font-mono mt-1">Llama-3.2-3B Q4_K_M</div>
+                  <div className="text-xs text-neutral-600 font-mono mt-1 text-center sm:text-left">Llama-3.2-3B Q4_K_M</div>
                 </div>
               )
             })()}

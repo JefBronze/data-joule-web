@@ -104,6 +104,7 @@ export const en = {
     events_schedule: 'Grid monitored every 5 minutes',
     event_active: 'Auto DR Event Active',
     ends_in: 'Ends in',
+    ends_in_sub: 'then our system rechecks',
   },
   grid: {
     panel_title: 'Grid Conditions',

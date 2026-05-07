@@ -104,6 +104,7 @@ export const fr = {
     events_schedule: "Réseau surveillé toutes les 5 minutes",
     event_active: "Événement DR Auto Actif",
     ends_in: "Fin dans",
+    ends_in_sub: "puis notre système revérifie",
   },
   grid: {
     panel_title: "État du réseau",
