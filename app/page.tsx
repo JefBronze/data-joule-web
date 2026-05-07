@@ -441,7 +441,7 @@ export default function HomePage() {
                   GitHub
                 </a>
                 <a
-                  href="mailto:jefersonbronze@gmail.com"
+                  href="mailto:contact@data-joule.com"
                   className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
                 >
                   Contact
