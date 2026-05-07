@@ -15,7 +15,7 @@ This Next.js app serves three things:
 
 1. **Marketing site (`/`)** — explains the FlexCompute Edge project: the problem (AI loads and grid constraints), the mechanism (OpenADR 3.0 signal chain), the response ladder (4 curtailment tiers), and the live system status.
 
-2. **Live dashboard (`/demo`)** — polls real telemetry from a Raspberry Pi 5 in Montréal every 5 seconds. Shows current wattage, DR tier, LLM inference status, connection health, and a 5-minute wattage sparkline.
+2. **Live dashboard (`/demo`)** — polls real telemetry from a Raspberry Pi 5 in Montréal every 5 seconds. Shows current wattage, DR tier, LLM inference status (tok/s), connection health, a locale-aware Grid Conditions panel (live demand from Hydro-Québec / CAISO / NYISO / ISNE / ONS), and a wattage chart. Locale switcher (EN/FR/PT) on every page.
 
 3. **Technical deep-dive (`/method`)** — end-to-end walkthrough of the signal chain: architecture SVG, 6-step signal flow with code callouts, telemetry chain, response ladder deep-dive, and full stack table.
 
@@ -108,15 +108,27 @@ Stores `telemetry:latest` and appends to `telemetry:history` (max 360 entries) i
 
 ### `POST /api/demo/notify`
 
-Called by the VPS demo scheduler after creating a VTN event. Requires `Authorization: Bearer <INGEST_API_KEY>`.
+Called by the VPS demo scheduler every 5 minutes. Requires `Authorization: Bearer <INGEST_API_KEY>`.
 
-**Body:** `{ "tier": 2, "duration_seconds": 180, "event_name": "demo-tier2-...", "start_ts": 1746230400 }`
+**Body:**
+```json
+{
+  "tier": 1,
+  "duration_seconds": 240,
+  "event_name": "grid-tier1-...",
+  "start_ts": 1746230400,
+  "grid_signal": { "tier": 1, "triggered_by_locale": "en", "triggered_by_source": "caiso", "is_synthetic": false, "fetched_at": 1746230400, "fr": {...}, "en": {...}, "pt": {...} }
+}
+```
 
-Writes two Redis keys: `demo:event` (tier, end_ts, event_name — TTL: duration + 120s) and `demo:next_event_ts` (TTL: 3600s). The demo page uses these to show an active-event banner with countdown and an idle countdown to the next event.
+- `tier` 0–4. Tier 0 = signal-only update (no VTN event was created); still updates `demo:grid_signal`.
+- `grid_signal` — full locale-grouped JSON from `grid_signal.py` (optional but always sent by the scheduler).
+
+Writes Redis keys: `demo:event` (TTL: duration+120s), `demo:next_event_ts` (TTL: 3600s), `demo:grid_signal` (TTL: 600s idle / 1800s active).
 
 ### `GET /api/state`
 
-Public. Returns current state, last 60 history entries, hourly averages (5-day window), and demo event metadata. CDN-cached for 10 seconds (`s-maxage=10, stale-while-revalidate=20`).
+Public. Returns current telemetry, last 360 history entries, hourly averages (5-day window), demo event metadata, and `gridSignal` (locale-grouped live grid data). CDN-cached for 10 seconds (`s-maxage=10, stale-while-revalidate=20`).
 
 ---
 
