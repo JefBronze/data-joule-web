@@ -1,6 +1,11 @@
+'use client'
+
 import Link from 'next/link'
+import { useLocale } from '@/app/lib/i18n'
 
 export function SiteFooter() {
+  const { t } = useLocale()
+
   return (
     <footer className="border-t border-amber-500/10 py-8">
       <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -8,7 +13,7 @@ export function SiteFooter() {
           Data Joule
         </Link>
         <p className="text-xs text-neutral-400 font-mono">
-          Live telemetry from a Raspberry Pi compute node in Montréal, QC. Updated every 5s.
+          {t.footer.tagline}
         </p>
         <div className="flex gap-4 text-xs text-neutral-400">
           <a
@@ -19,8 +24,8 @@ export function SiteFooter() {
           >
             GitHub
           </a>
-          <Link href="/method" className="hover:text-neutral-200 transition-colors">Method</Link>
-          <Link href="/demo"   className="hover:text-neutral-200 transition-colors">Demo</Link>
+          <Link href="/method" className="hover:text-neutral-200 transition-colors">{t.nav.method}</Link>
+          <Link href="/demo"   className="hover:text-neutral-200 transition-colors">{t.nav.demo}</Link>
         </div>
       </div>
     </footer>

@@ -90,14 +90,6 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
-                <div className="flex items-center gap-4 mb-6">
-                  <img src="/data-joule.svg" alt="Data Joule" width={52} height={52} />
-                  <span className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-5xl mt-2">
-                    Data Joule
-                  </span>
-                </div>
-              </ScrollReveal>
-              <ScrollReveal>
                 <div className="inline-block mb-6">
                   <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                     {t.home.hero_badge}
@@ -181,6 +173,22 @@ export default function HomePage() {
                     <p className="text-sm text-neutral-400 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
+                <div className="text-xs text-neutral-600 font-mono leading-relaxed">
+                  <span className="uppercase tracking-widest">{t.home.sources_label}: </span>
+                  {t.home.sources.map((source, i) => (
+                    <span key={source.href}>
+                      <a
+                        href={source.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-neutral-500 hover:text-neutral-300 underline underline-offset-4"
+                      >
+                        {source.label}
+                      </a>
+                      {i < t.home.sources.length - 1 ? ' · ' : ''}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </ScrollReveal>
@@ -231,14 +239,13 @@ export default function HomePage() {
 
                 <rect x="316" y="12" width="120" height="56" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1"/>
                 <text x="376" y="37" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">VEN</text>
-                <text x="376" y="49" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01</text>
-                <text x="376" y="60" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Raspberry Pi</text>
+                <text x="376" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01</text>
 
                 <path d="M436,40 L468,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.4s"}}/>
 
                 <rect x="474" y="12" width="120" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
                 <text x="534" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Control Agent</text>
-                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-edge-01:8081</text>
+                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">private LAN control</text>
 
                 <path d="M594,40 L626,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.6s"}}/>
 
@@ -253,8 +260,8 @@ export default function HomePage() {
               {[
                 { label: 'Grid Operator', sub: 'Issues DR event', color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
                 { label: 'VTN', sub: 'vtn.data-joule.com', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'VEN', sub: 'mtl-ven-01 · Raspberry Pi', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'Control Agent', sub: 'mtl-edge-01:8081', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: 'VEN', sub: 'mtl-ven-01', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
+                { label: 'Control Agent', sub: 'private LAN control', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
                 { label: 'Smart Plug', sub: 'Zigbee · measures W', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
               ].map((node, i) => (
                 <div key={i}>
@@ -432,14 +439,6 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
                 >
                   GitHub
-                </a>
-                <a
-                  href="https://linkedin.com/in/jefersonbronze"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
-                >
-                  LinkedIn
                 </a>
                 <a
                   href="mailto:jefersonbronze@gmail.com"

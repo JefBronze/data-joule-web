@@ -3,30 +3,38 @@ export const en = {
     method: 'Method',
     demo: 'Demo',
   },
+  footer: {
+    tagline: 'Live telemetry from an AI compute node in Montréal, QC. Updated every 5s.',
+  },
   home: {
     hero_badge: 'OpenADR 3.0 · Live Hardware · Montréal, QC',
-    headline1: 'Every Watt,',
-    headline2: 'On Cue.',
+    headline1: 'AI compute,',
+    headline2: 'dispatchable by the grid.',
     description:
-      'A Raspberry Pi edge node that receives OpenADR 3.0 demand-response signals and reduces its LLM inference load in real time. Watch the wattage drop live.',
+      'Data Joule is a live OpenADR demo that turns demand-response events into measured inference curtailment on an edge node. It shows how flexible AI load can reduce peak stress, use existing grid capacity better, and remain auditable through open telemetry.',
     cta_demo: 'Watch Live Demo →',
     cta_method: 'How It Works',
     proof_hardware: 'Hardware',
     proof_protocol: 'Protocol',
     proof_signal: 'Signal source',
     proof_tiers: 'Response tiers',
-    problem_heading: 'AI loads are growing.\nGrids are not.',
+    problem_heading: 'AI load is becoming grid load.\nIt needs to become flexible.',
     problem_p1:
-      'Data center electricity demand is projected to double by 2030, driven largely by inference workloads. Grid operators need flexible loads that can respond to capacity constraints in real time.',
+      'Data centers and inference workloads are becoming material grid demand. Adding generation and wires takes years; demand flexibility can make today\'s capacity work harder during constrained hours.',
     problem_p2:
-      "Most AI compute treats power like a constant. It doesn't have to. Inference workloads have natural SLA flexibility — a slightly slower response is often acceptable, especially during grid stress events.",
+      "Most AI compute treats power like a constant. It doesn't have to. Inference workloads can expose graded response: slow down, suspend, or recover based on a grid signal while preserving a measurable service trade-off.",
     stats: [
       { stat: '2×', desc: 'Projected data center power demand growth by 2030' },
-      { stat: '~15%', desc: 'Of US peak demand already attributable to data centers' },
+      { stat: '4% → 9%', desc: 'U.S. electricity load share from data centers: 2023 actual to 2030 high estimate' },
       { stat: '0', desc: 'OpenADR-compliant AI edge nodes publicly demonstrated before this project' },
     ],
+    sources_label: 'Sources',
+    sources: [
+      { label: 'IEA Energy and AI, 2025', href: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai' },
+      { label: 'U.S. DOE / EPRI data center demand estimate', href: 'https://www.energy.gov/oe/clean-energy-resources-meet-data-center-electricity-demand' },
+    ],
     mechanism_heading: 'How it works',
-    mechanism_sub: 'Signal chain from grid operator to live dashboard',
+    mechanism_sub: 'Signal → control action → measured watts → public dashboard',
     telemetry_mid: '→ MQTT → state writer →',
     telemetry_end: '→ Live Dashboard (5s)',
     ladder_heading: 'Response ladder',
@@ -39,7 +47,7 @@ export const en = {
       { name: 'Throttle', action: 'conservative CPU governor, inference continues', sla: '~10% slower' },
       { name: 'Power-save', action: 'powersave CPU governor, inference continues', sla: '~40% slower' },
       { name: 'Suspend', action: 'SIGSTOP sent to llama-server process', sla: 'Offline' },
-      { name: 'Halt', action: 'systemctl halt — node goes offline', sla: 'Node offline' },
+      { name: 'Halt', action: 'controlled shutdown path — node goes offline', sla: 'Node offline' },
     ],
     cta_badge: 'Live System',
     cta_heading: 'The node is running right now.',
@@ -50,15 +58,15 @@ export const en = {
     why_cards: [
       {
         audience: 'Utilities',
-        point: 'Demonstrates that AI edge loads can be controllable, dispatchable resources — not just passive consumers.',
+        point: 'Demonstrates that AI loads can become controllable grid resources, with visible response and measurement rather than promises.',
       },
       {
         audience: 'Hyperscalers',
-        point: 'Quantifies the SLA cost of power flexibility at each tier, enabling real trade-off decisions.',
+        point: 'Connects power flexibility to SLA impact, making curtailment a measured operating mode instead of a vague sustainability claim.',
       },
       {
         audience: 'Researchers',
-        point: 'Open-source testbed for grid-interactive compute. Reproducible on commodity hardware.',
+        point: 'Open-source testbed for grid-interactive compute, reproducible on commodity hardware and inspectable end to end.',
       },
       {
         audience: 'Hiring teams',
@@ -67,9 +75,9 @@ export const en = {
     ],
     about_heading: 'About this project',
     about_p1:
-      'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility markets. The full stack — from VTN deployment on a VPS to the Zigbee smart plug measuring wattage — was designed, deployed, and tested over four weeks.',
+      'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility. The full stack — from VTN deployment on a VPS to the Zigbee smart plug measuring wattage — was designed, deployed, and tested as a working proof point.',
     about_p2:
-      'The hardware runs 24/7. The telemetry is real. The OpenADR signals come from a production-grade VTN reference implementation. Nothing here is simulated.',
+      'The hardware runs 24/7. The telemetry is real. The OpenADR signals come from a production-grade VTN reference implementation. Nothing here is simulated; the public dashboard shows the control loop as it happens.',
   },
   demo: {
     back: '← data-joule.com',
@@ -96,5 +104,97 @@ export const en = {
     events_schedule: 'Demo events run every ~20 minutes',
     event_active: 'Auto DR Event Active',
     ends_in: 'Ends in',
+  },
+  method: {
+    badge: 'Technical Deep-Dive',
+    heading: 'How It Works',
+    intro:
+      'End-to-end walkthrough of the Data Joule control loop: an OpenADR 3.0 event arrives, the edge node changes inference behavior, watts are measured at the plug, and the result is published to the live dashboard.',
+    architecture_heading: 'System Architecture',
+    architecture_sub: 'Two-Pi home lab + VPS control plane + Vercel data plane',
+    public_internet: 'PUBLIC INTERNET',
+    browser_poll: 'Polls /api/state every 5s',
+    browser_dashboard: 'Live dashboard',
+    home_lab: 'HOME LAB — Montréal, QC  [egress-only]',
+    smart_plug: 'Zigbee Plug #1',
+    smart_plug_detail: 'ThirdReality smart plug',
+    smart_plug_meter: 'meters mtl-edge-01 USB-C',
+    smart_plug_power: 'Tier 4: cuts power',
+    usb_power: 'USB-C power',
+    signal_heading: 'Signal Flow Walkthrough',
+    signal_sub: 'Six steps from grid event to curtailed inference',
+    telemetry_heading: 'Telemetry Chain',
+    telemetry_sub: 'How wattage gets from the smart plug to your browser',
+    ladder_heading: 'Response Ladder — Mechanisms',
+    ladder_sub: 'What each tier actually does to the hardware',
+    baseline_measurements: 'Baseline Measurements — mtl-edge-01 (2026-04-28)',
+    idle_label: 'OS idle (llama.cpp loaded)',
+    load_label: 'Inference under load',
+    restore_label: 'Tier 4 restore time',
+    stack_heading: 'Stack',
+    stack_sub: 'Every technology layer, from Zigbee to browser',
+    layer: 'Layer',
+    technology: 'Technology',
+    detail: 'Detail',
+    cta_demo: 'Watch Live Demo →',
+    cta_source: 'View Source on GitHub',
+    ladder: [
+      {
+        name: 'Baseline',
+        mechanism: 'CPU governor → ondemand. llama-server active. Inference at full speed (~28 tokens/s prompt, ~6 tokens/s gen).',
+      },
+      {
+        name: 'Throttle',
+        mechanism: "CPU governor → conservative. This switches the CPU's frequency scaling algorithm from reactive to conservative: it raises frequency slowly and lowers it quickly. Net effect: 15–20% less power, ~10% slower inference. Fully transparent to the LLM.",
+      },
+      {
+        name: 'Power-save',
+        mechanism: 'CPU governor → powersave. Forces the CPU to its minimum frequency (1.5 GHz on Pi 5 vs 2.4 GHz max). Inference continues but throughput drops ~40%. Still usable for non-latency-sensitive workloads.',
+      },
+      {
+        name: 'Suspend',
+        mechanism: 'SIGSTOP sent to the llama-server process. The process freezes in memory — no CPU time consumed, no inference possible, state preserved. SIGCONT resumes it instantly when the event clears.',
+      },
+      {
+        name: 'Halt',
+        mechanism: 'The control path performs an orderly shutdown and isolates compute power through the metered plug. When the event clears, the node is restored and returns to service in roughly 55 seconds.',
+      },
+    ],
+    steps: [
+      {
+        title: 'VTN creates an event',
+        detail: 'A grid operator or test script posts an OpenADR event with a SIMPLE payload. The payload value (1–4) maps directly to a response tier and includes a start time plus duration.',
+      },
+      {
+        title: 'VEN polls every 10 seconds',
+        detail: 'The VEN checks the authorized event feed on a fixed cadence and only acts on events inside their active time window.',
+      },
+      {
+        title: 'is_active() checks interval timing',
+        detail: 'The OpenADR 3.0 RI does not set eventStatus reliably, so is_active() checks whether now falls within any interval window. ISO 8601 durations such as PT60S and PT1H are parsed locally.',
+      },
+      {
+        title: 'run_event() walks the response ladder',
+        detail: 'The SIMPLE payload value becomes the tier. run_event() calls the matching action function and deduplicates handled event IDs in memory. When the interval expires, the VEN restores tier 0 and reports completion.',
+      },
+      {
+        title: 'Control agent executes on mtl-edge-01',
+        detail: 'For tiers 1–2, the VEN changes the CPU governor. For tier 3, it pauses or resumes llama-server through the local control agent. For tier 4, it halts the node and controls the Zigbee plug through MQTT.',
+      },
+      {
+        title: 'VEN posts a completion report',
+        detail: 'After the event interval ends, the VEN restores normal operation and posts an OpenADR report with the actual duration and tier observed, closing the event lifecycle.',
+      },
+    ],
+    telemetry_nodes: [
+      { node: 'Zigbee Plug #1', detail: 'Measures USB-C draw every second and publishes to the MQTT topic zigbee2mqtt/plug_1.' },
+      { node: 'Mosquitto (MQTT broker)', detail: 'Brokers messages between Zigbee2MQTT and subscribers on mtl-ven-01.' },
+      { node: 'oled_status_writer.py', detail: 'Subscribes to plug telemetry, polls llama.cpp health, and writes /tmp/flexcompute_state.json atomically.' },
+      { node: 'telemetry_pusher.py', detail: 'Reads the state file every 5 seconds and sends authenticated telemetry with exponential backoff.' },
+      { node: '/api/ingest', detail: 'Vercel serverless function. Validates ingestion requests and writes latest plus rolling history entries to Redis.' },
+      { node: 'Upstash Redis', detail: 'Stores telemetry:latest and telemetry:history for the live dashboard.' },
+      { node: '/api/state', detail: 'Returns latest telemetry plus recent history. Cache-Control: no-store.' },
+      { node: 'Browser (5s poll)', detail: 'fetch("/api/state") updates wattage, sparkline, and tier badge in React state.' },
+    ],
   },
 } as const

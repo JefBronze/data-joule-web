@@ -35,11 +35,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Data Joule — Grid-Interactive AI Compute",
   description:
-    "A Raspberry Pi compute node that responds to real OpenADR 3.0 demand-response signals. Watch live wattage and inference status drop in real time.",
+    "A live AI compute node that responds to real OpenADR 3.0 demand-response signals. Watch wattage and inference status change in real time.",
   openGraph: {
     title: "Data Joule — Grid-Interactive AI Compute",
     description:
-      "Real hardware. Real OpenADR 3.0 signals. Live telemetry from a Raspberry Pi edge node in Montréal.",
+      "Real hardware. Real OpenADR 3.0 signals. Live telemetry from an AI edge node in Montréal.",
     url: "https://data-joule.com",
     siteName: "Data Joule",
     locale: "en_CA",

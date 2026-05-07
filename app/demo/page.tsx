@@ -140,6 +140,12 @@ export default function DemoPage() {
   const avgW = wattages.length
     ? (wattages.reduce((a, b) => a + b, 0) / wattages.length).toFixed(1)
     : '—'
+  const showNextEvent = (!demoEvent || demoEvent.end_ts <= Math.floor(now / 1000))
+  const nextEventLabel = showNextEvent
+    ? nextEventTs && nextEventTs > Math.floor(now / 1000)
+      ? `${d.next_event} ${fmtCountdown(nextEventTs - Math.floor(now / 1000))}`
+      : d.events_schedule
+    : null
 
   const chartTimeLabel = hourly.length >= 2
     ? `Wattage · Last 5 Days (${hourly.length}h)`
@@ -198,6 +204,11 @@ export default function DemoPage() {
               {data ? `${d.live} · ${secondsAgo(data.timestamp, now)}` : d.waiting}
             </span>
           </div>
+          {nextEventLabel && (
+            <span className="hidden md:inline text-xs text-neutral-600 font-mono">
+              {nextEventLabel}
+            </span>
+          )}
         </div>
         <span className="text-xs text-neutral-600 font-mono uppercase tracking-widest shrink-0">{d.page_title}</span>
       </header>
@@ -372,13 +383,6 @@ export default function DemoPage() {
 
         <div className="mt-6 text-center text-xs text-neutral-700 font-mono">
           {d.footer}
-          {(!demoEvent || demoEvent.end_ts <= Math.floor(now / 1000)) && (
-            <span className="block mt-1">
-              {nextEventTs && nextEventTs > Math.floor(now / 1000)
-                ? `${d.next_event}  ${fmtCountdown(nextEventTs - Math.floor(now / 1000))}`
-                : d.events_schedule}
-            </span>
-          )}
         </div>
       </main>
     </div>
