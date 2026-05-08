@@ -35,15 +35,32 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Data Joule — Grid-Interactive AI Compute",
   description:
-    "A live AI compute node that responds to real OpenADR 3.0 demand-response signals. Watch wattage and inference status change in real time.",
+    "A Raspberry Pi runs live LLM inference and responds to real OpenADR 3.0 demand-response signals. Four power tiers, five utility sources, live telemetry from Montréal.",
+  keywords: [
+    "OpenADR", "demand response", "AI edge compute", "grid interactive",
+    "Raspberry Pi", "LLM inference", "demand flexibility", "Internet of Energy",
+  ],
+  alternates: {
+    canonical: "https://data-joule.com",
+  },
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.ico",
+  },
   openGraph: {
     title: "Data Joule — Grid-Interactive AI Compute",
     description:
-      "Real hardware. Real OpenADR 3.0 signals. Live telemetry from an AI edge node in Montréal.",
+      "Real hardware. Real OpenADR 3.0 signals. A Raspberry Pi throttles its LLM under grid stress — live telemetry from Montréal.",
     url: "https://data-joule.com",
     siteName: "Data Joule",
     locale: "en_CA",
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Data Joule — Grid-Interactive AI Compute",
+    description:
+      "A Raspberry Pi runs live LLM inference and responds to real OpenADR 3.0 demand-response signals. Four power tiers, five utility sources, live telemetry.",
   },
 };
 
