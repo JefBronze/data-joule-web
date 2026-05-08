@@ -168,7 +168,7 @@ export default function HomePage() {
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {t.home.stats.map((item) => (
-                  <div key={item.stat} className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 flex gap-4 items-start">
+                  <div key={item.stat} className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-start">
                     <span className="font-mono text-3xl font-bold text-amber-400 shrink-0">{item.stat}</span>
                     <p className="text-sm text-neutral-400 leading-relaxed">{item.desc}</p>
                   </div>
