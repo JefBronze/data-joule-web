@@ -532,7 +532,7 @@ export default function DemoPage() {
 
         {/* Wattage chart */}
         <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 mb-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-1 sm:gap-0">
             <span className="text-xs text-neutral-500 uppercase tracking-widest font-mono">{chartTimeLabel}</span>
             <div className="flex gap-4 text-xs font-mono">
               <span className="text-neutral-500">MAX <span className="text-amber-400">{maxW} W</span></span>
