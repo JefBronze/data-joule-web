@@ -259,7 +259,7 @@ function EventBanner({
       className="rounded-lg border p-4 mb-6 font-mono"
       style={{ borderColor: cfg.color + '55', background: cfg.bg }}
     >
-      <div className="flex items-start justify-between flex-wrap gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs uppercase tracking-widest" style={{ color: cfg.color }}>
@@ -278,7 +278,7 @@ function EventBanner({
           )}
           <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
         </div>
-        <div className="text-right shrink-0">
+        <div className="text-center sm:text-right shrink-0 border-t border-neutral-800 pt-3 sm:border-0 sm:pt-0">
           <div className="text-xs text-neutral-500 uppercase tracking-widest">{d.ends_in}</div>
           <div className="text-2xl font-bold tabular-nums" style={{ color: cfg.color }}>
             {fmtCountdown(secsLeft)}
