@@ -133,6 +133,7 @@ export const pt = {
     updated:      'Atualizado',
     min_ago:      'min atrás',
     just_now:     'Agora mesmo',
+    demand_note:  'Carga elétrica consumida pela rede — residências, indústria e tudo conectado. % alto = rede sob pressão.',
   },
   method: {
     badge: 'Detalhe técnico',

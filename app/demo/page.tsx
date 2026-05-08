@@ -201,6 +201,10 @@ function GridSignalPanel({
           )}
         </>
       )}
+
+      <div className="text-xs text-neutral-600 font-mono mt-4 leading-relaxed">
+        {g.demand_note}
+      </div>
     </div>
   )
 }

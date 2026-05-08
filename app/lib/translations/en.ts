@@ -133,6 +133,7 @@ export const en = {
     updated:      'Updated',
     min_ago:      'min ago',
     just_now:     'Just now',
+    demand_note:  'Electrical load consumed by the grid — homes, industry, everything connected. Higher % = more stress.',
   },
   method: {
     badge: 'Technical Deep-Dive',

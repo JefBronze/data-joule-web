@@ -133,6 +133,7 @@ export const fr = {
     updated:      "Mis à jour",
     min_ago:      "min",
     just_now:     "À l'instant",
+    demand_note:  "Charge électrique consommée par le réseau — résidences, industrie, tout ce qui est connecté. % élevé = réseau sous tension.",
   },
   method: {
     badge: "Approfondissement technique",
