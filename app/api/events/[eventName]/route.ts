@@ -8,9 +8,9 @@ const redis = new Redis({
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { eventName: string } }
+  { params }: { params: Promise<{ eventName: string }> }
 ) {
-  const { eventName } = params
+  const { eventName } = await params
 
   if (!eventName || !eventName.startsWith('grid-tier')) {
     return NextResponse.json({ error: 'invalid event name' }, { status: 400 })
