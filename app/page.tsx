@@ -373,6 +373,76 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Joule Credits (JLC) ── */}
+      <section className="border-t border-neutral-800 py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <ScrollReveal>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-block mb-6">
+                  <span className="text-xs font-mono text-purple-400 border border-purple-900 bg-purple-950/30 px-3 py-1 rounded-full">
+                    {t.jlc.testnet_badge}
+                  </span>
+                </div>
+                <h2 className="text-2xl font-bold mb-3 text-neutral-100">{t.jlc.home_heading}</h2>
+                <div className="font-mono text-amber-400 font-bold text-lg mb-6 flex items-center gap-2 flex-wrap">
+                  <span className="text-purple-500">◈</span>
+                  <span>{t.jlc.stat_equation}</span>
+                  <span className="text-purple-500 text-sm font-normal">· Chainlink-verified</span>
+                </div>
+                <p className="text-neutral-400 leading-relaxed mb-4 text-sm">
+                  {t.jlc.home_oracle_desc}
+                </p>
+                <div className="text-xs font-mono text-neutral-600 mb-6">
+                  {t.jlc.home_roadmap}
+                </div>
+                <Link
+                  href="/joule-credits"
+                  className="inline-flex items-center justify-center h-10 px-6 rounded border border-purple-800 hover:border-purple-600 hover:bg-purple-950/30 text-purple-300 hover:text-purple-100 text-sm transition-colors font-mono"
+                >
+                  {t.jlc.home_cta}
+                </Link>
+              </div>
+
+              <div className="rounded-lg border border-purple-900/40 bg-purple-950/10 p-6">
+                <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-5">
+                  {t.jlc.chain_title}
+                </div>
+                <div className="space-y-2">
+                  {([
+                    { label: t.jlc.chain_step_vtn,    color: '#22d3ee' },
+                    { label: t.jlc.chain_step_ven,    color: '#22d3ee' },
+                    { label: t.jlc.chain_step_plug,   color: '#f59e0b' },
+                    { label: t.jlc.chain_step_oracle, color: '#a855f7' },
+                    { label: t.jlc.chain_step_evm,    color: '#a855f7' },
+                  ] as const).map((step, i) => (
+                    <div key={i}>
+                      <div className="rounded border border-neutral-800 bg-neutral-900/80 px-4 py-2.5 flex items-center gap-3">
+                        <div
+                          className="w-2 h-2 rounded-full shrink-0"
+                          style={{ backgroundColor: step.color, boxShadow: `0 0 6px ${step.color}` }}
+                        />
+                        <span className="font-mono text-xs font-semibold" style={{ color: step.color }}>
+                          {step.label}
+                        </span>
+                      </div>
+                      {i < 4 && (
+                        <div className="flex justify-center py-0.5">
+                          <div className="w-px h-3 border-l border-dashed border-neutral-700" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-4 border-t border-neutral-800 text-xs font-mono text-neutral-600">
+                  {t.jlc.home_tagline}
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* ── Live Snapshot CTA ── */}
       <section className="border-t border-neutral-800 py-28">
         <div className="max-w-7xl mx-auto px-6">
