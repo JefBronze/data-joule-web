@@ -31,6 +31,8 @@ const ECONOMICS = [
 
 const WHY_LABELS = ['The Problem', 'The Mechanism', 'The Result'] as const
 
+const ETH_TX_HASH_RE = /^0x[0-9a-fA-F]{64}$/
+
 export default function JouleCreditsPage() {
   const { t } = useLocale()
   const [events, setEvents] = useState<EventReport[]>([])
@@ -334,7 +336,7 @@ export default function JouleCreditsPage() {
                             {ev.kwh_reduced.toFixed(6)} JLC
                           </td>
                           <td className="px-4 py-3 text-center">
-                            {ev.tx_hash ? (
+                            {ev.tx_hash && ETH_TX_HASH_RE.test(ev.tx_hash) ? (
                               <a
                                 href={`https://amoy.polygonscan.com/tx/${ev.tx_hash}`}
                                 target="_blank"
