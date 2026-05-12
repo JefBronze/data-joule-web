@@ -46,7 +46,12 @@ export async function POST(request: NextRequest) {
     if (duration_s < 30 || duration_s > 3600 || !event_name) {
       return NextResponse.json({ error: 'invalid event payload' }, { status: 422 })
     }
-    pipeline.set('demo:event', { tier, end_ts: start_ts + duration_s, event_name }, { ex: duration_s + 120 })
+    // Capture pre-event baseline wattage from latest telemetry entry
+    const latest = await redis.get<{ wattage_w?: number }>('telemetry:latest')
+    const baseline_w = latest?.wattage_w ?? 13.5  // fallback: known inference-load baseline
+    pipeline.set('demo:event', {
+      tier, end_ts: start_ts + duration_s, event_name, start_ts, baseline_w,
+    }, { ex: duration_s + 120 })
   }
 
   await pipeline.exec()
