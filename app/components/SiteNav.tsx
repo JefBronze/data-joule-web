@@ -101,7 +101,7 @@ export function SiteNav() {
             </Link>
           ))}
           <a
-            href="https://github.com/JefBronze/data-joule-web"
+            href="https://github.com/Data-Joule/data-joule-web"
             target="_blank"
             rel="noopener noreferrer"
             className="text-neutral-400 hover:text-neutral-100 transition-colors"

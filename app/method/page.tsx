@@ -391,7 +391,7 @@ export default function MethodPage() {
                 {m.cta_demo}
               </Link>
               <a
-                href="https://github.com/JefBronze/data-joule-web"
+                href="https://github.com/Data-Joule/data-joule-web"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center h-11 px-6 rounded border border-neutral-700 hover:border-neutral-500 text-neutral-300 hover:text-neutral-100 text-sm transition-colors"

@@ -417,7 +417,7 @@ export default function JouleCreditsPage() {
               <h2 className="text-2xl font-bold mb-8 text-neutral-100">{t.jlc.contract_title}</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <a
-                  href="https://github.com/JefBronze/joule-credits"
+                  href="https://github.com/Data-Joule/joule-credits"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 hover:border-purple-900/60 hover:bg-purple-950/10 transition-colors group"
