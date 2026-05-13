@@ -232,7 +232,7 @@ export default function MethodPage() {
                 {/* mtl-ven-01 â†’ Zigbee plug */}
                 <path d="M140,274 L140,284 L600,284 L600,256" fill="none" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <polygon points="597,256 600,250 603,256" fill="#374151"/>
-                <text x="490" y="280" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)" textAnchor="middle">Zigbee 3.0</text>
+                <text x="555" y="280" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)" textAnchor="middle">Zigbee 3.0</text>
 
                 {/* Zigbee plug â†’ mtl-edge-01: powers */}
                 <line x1="520" y1="220" x2="482" y2="220" stroke="#f59e0b" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.4"/>
