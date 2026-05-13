@@ -71,24 +71,45 @@ export function LocaleSwitcher() {
   )
 }
 
+const IconMethod = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 12h6M9 16h6M7 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2h-2"/>
+    <path d="M9 3h6v4H9z"/>
+  </svg>
+)
+
+const IconDemo = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M10 8.5l6 3.5-6 3.5V8.5z" fill="currentColor" stroke="none"/>
+  </svg>
+)
+
+const IconJLC = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2l7.794 4.5v9L12 20l-7.794-4.5v-9L12 2z"/>
+    <path d="M12 8v4M12 14h.01" strokeWidth={2}/>
+  </svg>
+)
+
 export function SiteNav() {
   const pathname = usePathname()
   const { t } = useLocale()
 
   const NAV_LINKS = [
-    { href: '/method',         label: t.nav.method, color: null },
-    { href: '/demo',           label: t.nav.demo,   color: null },
-    { href: '/joule-credits',  label: t.nav.jlc,    color: 'text-purple-400 hover:text-purple-300' },
+    { href: '/method',        label: t.nav.method, color: null,                                       icon: <IconMethod /> },
+    { href: '/demo',          label: t.nav.demo,   color: null,                                       icon: <IconDemo /> },
+    { href: '/joule-credits', label: t.nav.jlc,    color: 'text-purple-400 hover:text-purple-300',   icon: <IconJLC /> },
   ]
 
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-(--background)/90 backdrop-blur-sm px-6 py-4">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
+        <Link href="/" className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
           Data Joule
         </Link>
-        <div className="flex items-center gap-6 text-sm">
-          {NAV_LINKS.map(({ href, label, color }) => (
+        <div className="flex items-center gap-4 sm:gap-6 text-sm">
+          {NAV_LINKS.map(({ href, label, color, icon }) => (
             <Link
               key={href}
               href={href}
@@ -99,8 +120,10 @@ export function SiteNav() {
                     : color ?? 'text-neutral-400 hover:text-neutral-100 transition-colors'
                 )
               }
+              aria-label={label}
             >
-              {label}
+              <span className="sm:hidden">{icon}</span>
+              <span className="hidden sm:inline">{label}</span>
             </Link>
           ))}
           <a
