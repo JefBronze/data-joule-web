@@ -178,9 +178,9 @@ export const pt = {
     badge: 'Detalhe técnico',
     heading: 'Como funciona',
     intro:
-      'Passo a passo do loop de controle do Data Joule: um evento OpenADR 3.0 chega, o nó de borda muda o comportamento da inferência, os watts são medidos na tomada e o resultado aparece no painel ao vivo.',
+      'Passo a passo do loop de controle do Data Joule: um evento OpenADR 3.0 chega, o nó de borda muda o comportamento da inferência, os watts são medidos na tomada, o resultado aparece no painel ao vivo e a redução é liquidada on-chain via Chainlink Functions.',
     architecture_heading: 'Arquitetura do sistema',
-    architecture_sub: 'Laboratório doméstico com dois Pi + plano de controle em VPS + plano de dados na Vercel',
+    architecture_sub: 'Laboratório doméstico com dois Pi + plano de controle em VPS + plano de dados na Vercel + liquidação Chainlink',
     public_internet: 'INTERNET PÚBLICA',
     browser_poll: 'Consulta /api/state a cada 5s',
     browser_dashboard: 'Painel ao vivo',
@@ -191,7 +191,7 @@ export const pt = {
     smart_plug_power: 'Nível 4: corta energia',
     usb_power: 'Energia USB-C',
     signal_heading: 'Fluxo do sinal',
-    signal_sub: 'Seis passos do evento da rede à inferência reduzida',
+    signal_sub: 'Sete passos do evento da rede à liquidação on-chain',
     telemetry_heading: 'Cadeia de telemetria',
     telemetry_sub: 'Como os watts saem da tomada inteligente e chegam ao navegador',
     ladder_heading: 'Escada de resposta — mecanismos',
@@ -221,6 +221,7 @@ export const pt = {
       { title: 'run_event() percorre a escada de resposta', detail: 'O valor SIMPLE vira o nível. run_event() chama a ação correspondente, deduplica eventos em memória e depois restaura o nível 0 com relatório de conclusão.' },
       { title: 'O agente de controle atua no mtl-edge-01', detail: 'Nos níveis 1–2, o VEN muda o governor da CPU. No nível 3, pausa ou retoma o llama-server. No nível 4, desliga o nó e controla a tomada Zigbee via MQTT.' },
       { title: 'O VEN publica um relatório de conclusão', detail: 'Após o intervalo, o VEN restaura a operação normal e publica um relatório OpenADR com a duração real e o nível observado.' },
+      { title: 'Oracle Chainlink liquida on-chain', detail: 'O VEN grava um relatório de conclusão (event:report:{eventName}) no Redis com baseline_w, avg_curtailed_w, duration_s e kwh_reduced. Os nós Chainlink Functions buscam independentemente /api/events/{eventName}, executam source.js para codificar kWh_reduced × 1e9, e chegam a consenso. fulfillRequest() é acionado e JouleCredit.sol cunha os tokens JLC equivalentes na Polygon Mainnet — um token por kWh reduzido, com o ID Chainlink e o hash Polygonscan como trilha de auditoria verificável.' },
     ],
     telemetry_nodes: [
       { node: 'Tomada Zigbee #1', detail: 'Mede o consumo USB-C a cada segundo e publica no tópico MQTT zigbee2mqtt/plug_1.' },

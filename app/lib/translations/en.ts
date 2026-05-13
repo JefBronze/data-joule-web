@@ -178,9 +178,9 @@ export const en = {
     badge: 'Technical Deep-Dive',
     heading: 'How It Works',
     intro:
-      'End-to-end walkthrough of the Data Joule control loop: an OpenADR 3.0 event arrives, the edge node changes inference behavior, watts are measured at the plug, and the result is published to the live dashboard.',
+      'End-to-end walkthrough of the Data Joule control loop: an OpenADR 3.0 event arrives, the edge node changes inference behavior, watts are measured at the plug, the result is published to the live dashboard, and curtailment is settled on-chain via Chainlink Functions.',
     architecture_heading: 'System Architecture',
-    architecture_sub: 'Two-Pi home lab + VPS control plane + Vercel data plane',
+    architecture_sub: 'Two-Pi home lab + VPS control plane + Vercel data plane + Chainlink settlement',
     public_internet: 'PUBLIC INTERNET',
     browser_poll: 'Polls /api/state every 5s',
     browser_dashboard: 'Live dashboard',
@@ -191,7 +191,7 @@ export const en = {
     smart_plug_power: 'Tier 4: cuts power',
     usb_power: 'USB-C power',
     signal_heading: 'Signal Flow Walkthrough',
-    signal_sub: 'Six steps from grid event to curtailed inference',
+    signal_sub: 'Seven steps from grid event to on-chain settlement',
     telemetry_heading: 'Telemetry Chain',
     telemetry_sub: 'How wattage gets from the smart plug to your browser',
     ladder_heading: 'Response Ladder — Mechanisms',
@@ -253,6 +253,10 @@ export const en = {
       {
         title: 'VEN posts a completion report',
         detail: 'After the event interval ends, the VEN restores normal operation and posts an OpenADR report with the actual duration and tier observed, closing the event lifecycle.',
+      },
+      {
+        title: 'Chainlink oracle settles on-chain',
+        detail: 'The VEN writes a completion report (event:report:{eventName}) to Redis with baseline_w, avg_curtailed_w, duration_s, and kwh_reduced. Chainlink Functions nodes independently fetch /api/events/{eventName}, run source.js to encode kWh_reduced × 1e9, and reach consensus. fulfillRequest() fires and JouleCredit.sol mints the equivalent JLC tokens on Polygon Mainnet — one token per kWh curtailed, with Chainlink request ID and Polygonscan transaction hash as a verifiable audit trail.',
       },
     ],
     telemetry_nodes: [

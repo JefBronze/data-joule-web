@@ -49,6 +49,7 @@ const STACK = [
   { layer: 'Web / API', tech: 'Next.js 16.2.4', detail: 'App Router, TypeScript, Vercel serverless functions' },
   { layer: 'Styling', tech: 'Tailwind CSS v4', detail: '@theme inline, no tailwind.config.js, CSS-first config' },
   { layer: 'LLM runtime', tech: 'llama.cpp', detail: 'Llama 3.2-3B-Instruct Q4_K_M, 28.5 tok/s prompt, 6.1 tok/s gen' },
+  { layer: 'Settlement', tech: 'Chainlink Functions + ERC-20', detail: 'Decentralized oracle verifies curtailment kWh; JouleCredit.sol mints JLC on Polygon Mainnet' },
 ]
 
 const STEPS = [
@@ -100,6 +101,15 @@ const STEPS = [
   record actual response window
   close event lifecycle`,
   },
+  {
+    n: 7,
+    code: `Settlement
+  event:report:{name} → written to Redis
+  Chainlink DON fetches /api/events/{name}
+  source.js encodes kWh_reduced × 1e9 → uint256
+  consensus fulfilled → fulfillRequest() fires
+  JouleCredit.sol mints kWh_reduced JLC on Polygon`,
+  },
 ]
 export default function MethodPage() {
   const { t } = useLocale()
@@ -146,7 +156,7 @@ export default function MethodPage() {
           <ScrollReveal delay={100}>
             {/* Architecture SVG */}
             <div className="rounded-lg border border-neutral-800 bg-neutral-950 p-6 overflow-x-auto">
-              <svg viewBox="0 0 720 300" className="w-full min-w-[560px]" aria-label="System architecture diagram">
+              <svg viewBox="0 0 720 420" className="w-full min-w-[560px]" aria-label="System architecture diagram">
 
                 {/* Internet / Public */}
                 <text x="360" y="18" textAnchor="middle" fill="#374151" fontSize="9" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="3">{m.public_internet}</text>
@@ -226,6 +236,37 @@ export default function MethodPage() {
 
                 {/* Zigbee plug â†’ mtl-edge-01: powers */}
                 <line x1="520" y1="220" x2="482" y2="220" stroke="#f59e0b" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.4"/>
+
+                {/* SETTLEMENT LAYER */}
+                <rect x="20" y="300" width="680" height="108" rx="8" fill="none" stroke="#2d1b4e" strokeWidth="1.5" strokeDasharray="6 4"/>
+                <text x="36" y="318" fill="#4b3a7a" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">SETTLEMENT — POLYGON MAINNET</text>
+
+                {/* Chainlink DON box */}
+                <rect x="40" y="325" width="210" height="72" rx="6" fill="#150920" stroke="#5b21b6" strokeWidth="1.2"/>
+                <text x="145" y="345" textAnchor="middle" fill="#a78bfa" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Chainlink DON</text>
+                <text x="145" y="360" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">functions.chain.link</text>
+                <text x="58" y="376" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- Independent oracle nodes</text>
+                <text x="58" y="389" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- Consensus on kWh_reduced</text>
+
+                {/* JouleCredit.sol box */}
+                <rect x="470" y="325" width="210" height="72" rx="6" fill="#150920" stroke="#5b21b6" strokeWidth="1.2"/>
+                <text x="575" y="345" textAnchor="middle" fill="#a78bfa" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">JouleCredit.sol</text>
+                <text x="575" y="360" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">ERC-20 · Polygon Mainnet</text>
+                <text x="488" y="376" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- Mints kWh_reduced JLC tokens</text>
+                <text x="488" y="389" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- 0x14b90C2E...8470101</text>
+
+                {/* Arrow Chainlink DON → JouleCredit.sol */}
+                <line x1="250" y1="361" x2="320" y2="361" stroke="#5b21b6" strokeWidth="1.2" strokeDasharray="3 3"/>
+                <polygon points="320,358 326,361 320,364" fill="#5b21b6"/>
+                <text x="285" y="356" textAnchor="middle" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">fulfillRequest()</text>
+
+                {/* Vercel → Chainlink DON: oracle fetch, routes along left edge */}
+                <line x1="280" y1="94" x2="280" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
+                <line x1="280" y1="126" x2="12" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
+                <line x1="12" y1="126" x2="12" y2="361" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
+                <line x1="12" y1="361" x2="40" y2="361" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
+                <polygon points="40,358 46,361 40,364" fill="#5b21b6" fillOpacity="0.5"/>
+                <text x="32" y="122" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">oracle fetch: /api/events/{'{name}'}</text>
               </svg>
             </div>
           </ScrollReveal>

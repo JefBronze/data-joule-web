@@ -178,9 +178,9 @@ export const fr = {
     badge: "Approfondissement technique",
     heading: "Comment ça marche",
     intro:
-      "Parcours de bout en bout de la boucle de contrôle Data Joule : un événement OpenADR 3.0 arrive, le nœud edge adapte son inférence, les watts sont mesurés à la prise, puis le résultat est publié sur le tableau de bord.",
+      "Parcours de bout en bout de la boucle de contrôle Data Joule : un événement OpenADR 3.0 arrive, le nœud edge adapte son inférence, les watts sont mesurés à la prise, le résultat est publié sur le tableau de bord, puis le curtailment est réglé on-chain via Chainlink Functions.",
     architecture_heading: "Architecture du système",
-    architecture_sub: "Laboratoire domestique à deux Pi + plan de contrôle VPS + plan de données Vercel",
+    architecture_sub: "Laboratoire domestique à deux Pi + plan de contrôle VPS + plan de données Vercel + règlement Chainlink",
     public_internet: "INTERNET PUBLIC",
     browser_poll: "Interroge /api/state toutes les 5s",
     browser_dashboard: "Tableau de bord en direct",
@@ -191,7 +191,7 @@ export const fr = {
     smart_plug_power: "Niveau 4 : coupe l'alimentation",
     usb_power: "Alimentation USB-C",
     signal_heading: "Parcours du signal",
-    signal_sub: "Six étapes de l'événement réseau à l'inférence réduite",
+    signal_sub: "Sept étapes de l'événement réseau à la liquidation on-chain",
     telemetry_heading: "Chaîne de télémétrie",
     telemetry_sub: "Comment les watts passent de la prise intelligente au navigateur",
     ladder_heading: "Échelle de réponse — mécanismes",
@@ -221,6 +221,7 @@ export const fr = {
       { title: "run_event() parcourt l'échelle de réponse", detail: "La valeur SIMPLE devient le niveau. run_event() appelle l'action correspondante, évite les doublons en mémoire, puis restaure le niveau 0 et publie un rapport à la fin." },
       { title: "L'agent de contrôle agit sur mtl-edge-01", detail: "Pour les niveaux 1–2, le VEN change le gouverneur CPU. Pour le niveau 3, il met llama-server en pause ou le reprend. Pour le niveau 4, il arrête le nœud et contrôle la prise Zigbee via MQTT." },
       { title: "Le VEN publie un rapport de fin", detail: "Après l'intervalle, le VEN restaure le fonctionnement normal et publie un rapport OpenADR avec la durée réelle et le niveau observé." },
+      { title: "L'oracle Chainlink règle on-chain", detail: "Le VEN écrit un rapport de fin (event:report:{eventName}) dans Redis avec baseline_w, avg_curtailed_w, duration_s et kwh_reduced. Les nœuds Chainlink Functions récupèrent indépendamment /api/events/{eventName}, exécutent source.js pour encoder kWh_reduced × 1e9, et atteignent un consensus. fulfillRequest() se déclenche et JouleCredit.sol mint les tokens JLC équivalents sur Polygon Mainnet — un token par kWh effacé, avec l'identifiant Chainlink et le hash Polygonscan comme piste d'audit vérifiable." },
     ],
     telemetry_nodes: [
       { node: "Prise Zigbee #1", detail: "Mesure l'alimentation USB-C chaque seconde et publie sur le topic MQTT zigbee2mqtt/plug_1." },
