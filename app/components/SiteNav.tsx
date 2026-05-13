@@ -107,7 +107,7 @@ export function SiteNav() {
             href="https://github.com/Data-Joule/data-joule-web"
             target="_blank"
             rel="noopener noreferrer"
-            className="whitespace-nowrap text-neutral-400 hover:text-neutral-100 transition-colors"
+            className="whitespace-nowrap text-neutral-400 hover:text-neutral-100 transition-colors hidden sm:inline"
           >
             GitHub
           </a>
