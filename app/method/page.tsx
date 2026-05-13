@@ -391,6 +391,12 @@ export default function MethodPage() {
                 {m.cta_demo}
               </Link>
               <a
+                href="/joule-credits"
+                className="inline-flex items-center justify-center h-11 px-6 rounded border border-purple-800 hover:border-purple-600 text-purple-400 hover:text-purple-300 text-sm transition-colors"
+              >
+                Joule Credits (JLC) →
+              </a>
+              <a
                 href="https://github.com/Data-Joule/data-joule-web"
                 target="_blank"
                 rel="noopener noreferrer"

@@ -2,6 +2,7 @@ export const pt = {
   nav: {
     method: 'Método',
     demo: 'Demo',
+    jlc: 'Créditos Joule',
   },
   footer: {
     tagline: 'Telemetria ao vivo de um nó de computação de IA em Montréal, QC. Atualizada a cada 5s.',

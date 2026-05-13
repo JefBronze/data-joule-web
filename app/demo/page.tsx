@@ -589,7 +589,16 @@ export default function DemoPage() {
           )}
         </div>
 
-        <div className="mt-6 text-center text-xs text-neutral-700 font-mono">{d.footer}</div>
+        <div className="mt-6 text-center">
+          <a
+            href="/joule-credits"
+            className="inline-flex items-center gap-2 text-xs font-mono text-purple-500 hover:text-purple-300 transition-colors border border-purple-900/40 hover:border-purple-700 bg-purple-950/10 rounded-full px-4 py-1.5"
+          >
+            <span className="text-purple-400">◈</span>
+            Each completed DR event mints JLC on Polygon Mainnet — Explore Joule Credits →
+          </a>
+        </div>
+        <div className="mt-3 text-center text-xs text-neutral-700 font-mono">{d.footer}</div>
       </main>
     </div>
   )

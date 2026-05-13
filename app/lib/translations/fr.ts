@@ -2,6 +2,7 @@ export const fr = {
   nav: {
     method: "Méthode",
     demo: "Démo",
+    jlc: "Crédits Joule",
   },
   footer: {
     tagline: "Télémétrie en direct depuis un nœud de calcul IA à Montréal, QC. Mise à jour toutes les 5s.",

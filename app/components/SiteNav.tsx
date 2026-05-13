@@ -76,8 +76,9 @@ export function SiteNav() {
   const { t } = useLocale()
 
   const NAV_LINKS = [
-    { href: '/method', label: t.nav.method },
-    { href: '/demo',   label: t.nav.demo },
+    { href: '/method',         label: t.nav.method, color: null },
+    { href: '/demo',           label: t.nav.demo,   color: null },
+    { href: '/joule-credits',  label: t.nav.jlc,    color: 'text-purple-400 hover:text-purple-300' },
   ]
 
   return (
@@ -87,14 +88,14 @@ export function SiteNav() {
           Data Joule
         </Link>
         <div className="flex items-center gap-6 text-sm">
-          {NAV_LINKS.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, label, color }) => (
             <Link
               key={href}
               href={href}
               className={
                 pathname === href
                   ? 'text-neutral-100'
-                  : 'text-neutral-400 hover:text-neutral-100 transition-colors'
+                  : color ?? 'text-neutral-400 hover:text-neutral-100 transition-colors'
               }
             >
               {label}

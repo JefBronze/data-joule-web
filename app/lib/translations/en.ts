@@ -2,6 +2,7 @@ export const en = {
   nav: {
     method: 'Method',
     demo: 'Demo',
+    jlc: 'Joule Credits',
   },
   footer: {
     tagline: 'Live telemetry from an AI compute node in Montréal, QC. Updated every 5s.',
