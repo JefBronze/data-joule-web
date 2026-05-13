@@ -33,6 +33,7 @@ export const en = {
     sources: [
       { label: 'IEA Energy and AI, 2025', href: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai' },
       { label: 'U.S. DOE / EPRI data center demand estimate', href: 'https://www.energy.gov/oe/clean-energy-resources-meet-data-center-electricity-demand' },
+      { label: 'CSA × OpenADR Alliance liaison, May 2026', href: 'https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html' },
     ],
     mechanism_heading: 'How it works',
     mechanism_sub: 'Signal → control action → measured watts → public dashboard',
@@ -59,7 +60,7 @@ export const en = {
     why_cards: [
       {
         audience: 'Utilities',
-        point: 'Demonstrates that AI loads can become controllable grid resources, with visible response and measurement rather than promises.',
+        point: 'Demonstrates that AI loads can become controllable grid resources. Several regulators have signaled intent to mandate OpenADR 3 — the standard this project already runs.',
       },
       {
         audience: 'Hyperscalers',

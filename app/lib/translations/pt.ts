@@ -33,6 +33,7 @@ export const pt = {
     sources: [
       { label: 'IEA Energy and AI, 2025', href: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai' },
       { label: 'U.S. DOE / estimativa EPRI para data centers', href: 'https://www.energy.gov/oe/clean-energy-resources-meet-data-center-electricity-demand' },
+      { label: 'CSA × OpenADR Alliance — acordo de liaison, maio 2026', href: 'https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html' },
     ],
     mechanism_heading: 'Como funciona',
     mechanism_sub: 'Sinal → ação de controle → watts medidos → painel público',
@@ -59,7 +60,7 @@ export const pt = {
     why_cards: [
       {
         audience: 'Distribuidoras',
-        point: 'Demonstra que cargas de IA podem virar recursos controláveis da rede, com resposta visível e medição real em vez de promessa.',
+        point: 'Demonstra que cargas de IA podem virar recursos controláveis da rede. Vários reguladores sinalizaram intenção de tornar obrigatório o OpenADR 3 — o padrão já implementado neste projeto.',
       },
       {
         audience: 'Indústria',

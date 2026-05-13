@@ -33,6 +33,7 @@ export const fr = {
     sources: [
       { label: "IEA Energy and AI, 2025", href: "https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai" },
       { label: "U.S. DOE / estimation EPRI sur les centres de données", href: "https://www.energy.gov/oe/clean-energy-resources-meet-data-center-electricity-demand" },
+      { label: "CSA × OpenADR Alliance liaison, mai 2026", href: "https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html" },
     ],
     mechanism_heading: "Comment ça marche",
     mechanism_sub: "Signal → action de contrôle → watts mesurés → tableau public",
@@ -59,7 +60,7 @@ export const fr = {
     why_cards: [
       {
         audience: "Distributeurs",
-        point: "Démontre que les charges IA peuvent devenir des ressources réseau contrôlables, avec une réponse visible et mesurée plutôt qu'une promesse.",
+        point: "Démontre que les charges IA peuvent devenir des ressources réseau contrôlables. Plusieurs régulateurs ont signalé leur intention de rendre obligatoire OpenADR 3 — le standard déjà implémenté ici.",
       },
       {
         audience: "Grands opérateurs",

@@ -150,6 +150,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Industry signal strip ── */}
+      <div className="border-b border-amber-900/20 bg-neutral-950 py-2.5 px-6">
+        <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-mono">
+          <span className="text-amber-500 shrink-0">⚡</span>
+          <span className="text-neutral-600 shrink-0 hidden sm:inline">May 11, 2026 —</span>
+          <span className="text-neutral-500 truncate">OpenADR Alliance × Connectivity Standards Alliance (Matter) announce formal liaison. Several regulators have signaled interest in mandating OpenADR 3.</span>
+          <a
+            href="https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-auto shrink-0 text-amber-500 hover:text-amber-300 transition-colors whitespace-nowrap pl-2"
+          >
+            Read →
+          </a>
+        </div>
+      </div>
+
       {/* ── Problem ── */}
       <section className="bg-[#0d0d18] py-28">
         <div className="max-w-7xl mx-auto px-6">
