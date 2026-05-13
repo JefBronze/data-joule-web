@@ -128,7 +128,7 @@ export default function JouleCreditsPage() {
                     </div>
                     {CONTRACT_ADDRESS ? (
                       <a
-                        href={`https://amoy.polygonscan.com/address/${CONTRACT_ADDRESS}`}
+                        href={`https://polygonscan.com/address/${CONTRACT_ADDRESS}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-sm font-bold text-purple-300 hover:text-purple-100 transition-colors"
@@ -338,7 +338,7 @@ export default function JouleCreditsPage() {
                           <td className="px-4 py-3 text-center">
                             {ev.tx_hash && ETH_TX_HASH_RE.test(ev.tx_hash) ? (
                               <a
-                                href={`https://amoy.polygonscan.com/tx/${ev.tx_hash}`}
+                                href={`https://polygonscan.com/tx/${ev.tx_hash}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-purple-400 hover:text-purple-200 transition-colors"
@@ -433,7 +433,7 @@ export default function JouleCreditsPage() {
 
                 {CONTRACT_ADDRESS ? (
                   <a
-                    href={`https://amoy.polygonscan.com/address/${CONTRACT_ADDRESS}`}
+                    href={`https://polygonscan.com/address/${CONTRACT_ADDRESS}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 hover:border-purple-900/60 hover:bg-purple-950/10 transition-colors group"
