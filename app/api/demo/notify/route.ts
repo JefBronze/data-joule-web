@@ -6,7 +6,8 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN!,
 })
 
-const CADENCE_SECONDS = 300  // 5-min cron cadence
+const CADENCE_SECONDS = 300
+const MAX_BODY_BYTES = 2048
 
 export async function POST(request: NextRequest) {
   const auth = request.headers.get('authorization') ?? ''
@@ -14,9 +15,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
+  // Payload size cap
+  const contentLength = Number(request.headers.get('content-length') ?? 0)
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'payload too large' }, { status: 413 })
+  }
+
   let body: Record<string, unknown>
   try {
-    body = await request.json()
+    const raw = await request.text()
+    if (raw.length > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: 'payload too large' }, { status: 413 })
+    }
+    body = JSON.parse(raw)
   } catch {
     return NextResponse.json({ error: 'bad json' }, { status: 400 })
   }
@@ -34,9 +45,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'missing start_ts' }, { status: 422 })
   }
 
+  // grid_signal must be a plain object under 512 bytes when present
+  if (grid_signal !== null) {
+    if (typeof grid_signal !== 'object' || Array.isArray(grid_signal)) {
+      return NextResponse.json({ error: 'invalid grid_signal' }, { status: 422 })
+    }
+    if (JSON.stringify(grid_signal).length > 512) {
+      return NextResponse.json({ error: 'grid_signal too large' }, { status: 422 })
+    }
+  }
+
   const pipeline = redis.pipeline()
 
-  // Always update grid signal display and next-check timestamp
   if (grid_signal !== null) {
     pipeline.set('demo:grid_signal', grid_signal, { ex: tier > 0 ? 1800 : 600 })
   }
@@ -46,9 +66,8 @@ export async function POST(request: NextRequest) {
     if (duration_s < 30 || duration_s > 3600 || !event_name) {
       return NextResponse.json({ error: 'invalid event payload' }, { status: 422 })
     }
-    // Capture pre-event baseline wattage from latest telemetry entry
     const latest = await redis.get<{ wattage_w?: number }>('telemetry:latest')
-    const baseline_w = latest?.wattage_w ?? 13.5  // fallback: known inference-load baseline
+    const baseline_w = latest?.wattage_w ?? 13.5
     pipeline.set('demo:event', {
       tier, end_ts: start_ts + duration_s, event_name, start_ts, baseline_w,
     }, { ex: duration_s + 120 })
