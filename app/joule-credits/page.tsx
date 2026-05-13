@@ -64,7 +64,7 @@ export default function JouleCreditsPage() {
     { label: t.jlc.chain_step_ven,    sub: 'mtl-ven-01',            color: '#22d3ee', glow: '#164e63', bg: 'bg-cyan-950/20',   border: 'border-cyan-900' },
     { label: t.jlc.chain_step_plug,   sub: 'Zigbee · wattage_w',   color: '#f59e0b', glow: '#78350f', bg: 'bg-amber-950/20',  border: 'border-amber-900' },
     { label: t.jlc.chain_step_oracle, sub: 'DON consensus',         color: '#a855f7', glow: '#6b21a8', bg: 'bg-purple-950/20', border: 'border-purple-900' },
-    { label: t.jlc.chain_step_evm,    sub: 'JLC token · Amoy',      color: '#d8b4fe', glow: '#6b21a8', bg: 'bg-purple-950/20', border: 'border-purple-900' },
+    { label: t.jlc.chain_step_evm,    sub: 'JLC token · Polygon',   color: '#d8b4fe', glow: '#6b21a8', bg: 'bg-purple-950/20', border: 'border-purple-900' },
   ]
 
   return (
@@ -118,7 +118,7 @@ export default function JouleCreditsPage() {
                       {loading ? '—' : events.length}
                     </div>
                     <div className="text-xs font-mono text-neutral-600 mt-1">
-                      {CONTRACT_ADDRESS ? 'on Polygon Amoy' : 'pending deploy'}
+                      {CONTRACT_ADDRESS ? 'on Polygon Mainnet' : 'pending deploy'}
                     </div>
                   </div>
 
@@ -139,7 +139,7 @@ export default function JouleCreditsPage() {
                     ) : (
                       <div className="font-mono text-sm text-neutral-600">Deploying…</div>
                     )}
-                    <div className="text-xs font-mono text-neutral-600 mt-1">Polygon Amoy</div>
+                    <div className="text-xs font-mono text-neutral-600 mt-1">Polygon Mainnet</div>
                   </div>
                 </div>
               </div>
@@ -444,7 +444,7 @@ export default function JouleCreditsPage() {
                     <div className="text-sm text-purple-300 group-hover:text-purple-100 font-mono transition-colors">
                       {CONTRACT_ADDRESS.slice(0, 10)}… ↗
                     </div>
-                    <div className="text-xs text-neutral-600 mt-1 font-mono">Polygon Amoy</div>
+                    <div className="text-xs text-neutral-600 mt-1 font-mono">Polygon Mainnet</div>
                   </a>
                 ) : (
                   <div className="rounded-lg border border-neutral-800 bg-neutral-900/40 p-5">
@@ -452,13 +452,13 @@ export default function JouleCreditsPage() {
                       {t.jlc.polygonscan}
                     </div>
                     <div className="text-sm text-neutral-600 font-mono">Deploying…</div>
-                    <div className="text-xs text-neutral-700 mt-1 font-mono">Polygon Amoy testnet</div>
+                    <div className="text-xs text-neutral-700 mt-1 font-mono">Polygon Mainnet testnet</div>
                   </div>
                 )}
 
                 <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5">
                   <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-2">Network</div>
-                  <div className="text-sm text-neutral-300 font-mono">Polygon Amoy</div>
+                  <div className="text-sm text-neutral-300 font-mono">Polygon Mainnet</div>
                   <div className="text-xs text-neutral-600 mt-1 font-mono">chainId 80002</div>
                 </div>
 
