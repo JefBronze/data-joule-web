@@ -12,7 +12,7 @@ export async function GET(
 ) {
   const { eventName } = await params
 
-  if (!eventName || !eventName.startsWith('grid-tier')) {
+  if (!eventName || !/^grid-tier[1-4]-\d{10}$/.test(eventName)) {
     return NextResponse.json({ error: 'invalid event name' }, { status: 400 })
   }
 

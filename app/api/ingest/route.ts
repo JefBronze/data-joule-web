@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     const activeEvent = await redis.get<{
       tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
     }>('demo:event')
-    if (activeEvent) {
+    if (activeEvent && /^grid-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
       const { start_ts: evStart, end_ts: evEnd, event_name, tier: evTier, baseline_w } = activeEvent
       // start_ts fallback: parse from event_name (format: "grid-tierN-TIMESTAMP")
       const resolvedStart = evStart ?? parseInt(event_name.split('-').pop() ?? '0', 10)
