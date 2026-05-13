@@ -255,10 +255,10 @@ export default function MethodPage() {
                 <text x="488" y="376" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- Mints kWh_reduced JLC tokens</text>
                 <text x="488" y="389" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- 0x14b90C2E...8470101</text>
 
-                {/* Arrow Chainlink DON → JouleCredit.sol */}
-                <line x1="250" y1="361" x2="320" y2="361" stroke="#5b21b6" strokeWidth="1.2" strokeDasharray="3 3"/>
-                <polygon points="320,358 326,361 320,364" fill="#5b21b6"/>
-                <text x="285" y="356" textAnchor="middle" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">fulfillRequest()</text>
+                {/* Arrow Chainlink DON → JouleCredit.sol (full span) */}
+                <line x1="250" y1="361" x2="468" y2="361" stroke="#5b21b6" strokeWidth="1.2" strokeDasharray="3 3"/>
+                <polygon points="468,358 474,361 468,364" fill="#5b21b6"/>
+                <text x="359" y="356" textAnchor="middle" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">fulfillRequest()</text>
 
                 {/* Vercel → Chainlink DON: oracle fetch, routes along left edge */}
                 <line x1="280" y1="94" x2="280" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
@@ -266,7 +266,7 @@ export default function MethodPage() {
                 <line x1="12" y1="126" x2="12" y2="361" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
                 <line x1="12" y1="361" x2="40" y2="361" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
                 <polygon points="40,358 46,361 40,364" fill="#5b21b6" fillOpacity="0.5"/>
-                <text x="32" y="122" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">oracle fetch: /api/events/{'{name}'}</text>
+                <text x="7" y="243" textAnchor="middle" fill="#5b21b6" fontSize="6.5" fontFamily="var(--font-mono)" transform="rotate(-90, 7, 243)">oracle fetch: /api/events/{'{name}'}</text>
               </svg>
             </div>
           </ScrollReveal>
