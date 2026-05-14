@@ -8,18 +8,6 @@ import { SiteNav } from './components/SiteNav'
 import { SiteFooter } from './components/SiteFooter'
 import { useLocale } from './lib/i18n'
 
-const SIGNAL_ITEMS = [
-  {
-    date: 'May 12, 2026',
-    text: "NV Energy redirecting power from 49,000 Lake Tahoe residents to data centers — which already consume 22% of Nevada's electricity, rising to 35% by 2030.",
-    href: 'https://fortune.com/2026/05/12/lake-tahoe-data-center-49000-residents-power-source/',
-  },
-  {
-    date: 'May 11, 2026',
-    text: 'OpenADR Alliance × Connectivity Standards Alliance (Matter) announce formal liaison. Several regulators have signaled interest in mandating OpenADR 3.',
-    href: 'https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html',
-  },
-]
 
 const TIER_STATIC = [
   { tier: 0, power: '~14 W', reduction: '—',    color: '#4ade80' },
@@ -68,6 +56,7 @@ const PROOF_ICONS = [
 
 export default function HomePage() {
   const { t } = useLocale()
+  const signalItems = t.home.signal_items
   const [signalIndex, setSignalIndex] = useState(0)
   const [signalVisible, setSignalVisible] = useState(true)
 
@@ -75,14 +64,14 @@ export default function HomePage() {
     const timer = setInterval(() => {
       setSignalVisible(false)
       setTimeout(() => {
-        setSignalIndex(i => (i + 1) % SIGNAL_ITEMS.length)
+        setSignalIndex(i => (i + 1) % signalItems.length)
         setSignalVisible(true)
       }, 300)
     }, 7000)
     return () => clearInterval(timer)
-  }, [])
+  }, [signalItems.length])
 
-  const signal = SIGNAL_ITEMS[signalIndex]
+  const signal = signalItems[signalIndex]
 
   const RESPONSE_LADDER = TIER_STATIC.map((s, i) => ({
     ...s,

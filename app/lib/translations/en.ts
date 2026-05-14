@@ -75,6 +75,18 @@ export const en = {
         point: 'Publicly observable proof of cross-domain capability: grid protocols, embedded systems, and web telemetry.',
       },
     ],
+    signal_items: [
+      {
+        date: 'May 12, 2026',
+        text: "NV Energy redirecting power from 49,000 Lake Tahoe residents to data centers — which already consume 22% of Nevada's electricity, rising to 35% by 2030.",
+        href: 'https://fortune.com/2026/05/12/lake-tahoe-data-center-49000-residents-power-source/',
+      },
+      {
+        date: 'May 11, 2026',
+        text: 'OpenADR Alliance × Connectivity Standards Alliance (Matter) announce formal liaison. Several regulators have signaled interest in mandating OpenADR 3.',
+        href: 'https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html',
+      },
+    ],
     about_heading: 'About this project',
     about_p1:
       'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility. The full stack — from VTN deployment on a VPS to the Zigbee smart plug measuring wattage — was designed, deployed, and tested as a working proof point.',

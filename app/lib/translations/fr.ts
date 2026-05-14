@@ -75,6 +75,18 @@ export const fr = {
         point: "Preuve observable d'une compétence transversale : protocoles réseau, systèmes embarqués et télémétrie web.",
       },
     ],
+    signal_items: [
+      {
+        date: '12 mai 2026',
+        text: "NV Energy redirige le courant de 49 000 foyers du lac Tahoe vers des data centers — qui consomment déjà 22 % de l'électricité du Nevada, en hausse à 35 % d'ici 2030.",
+        href: 'https://fortune.com/2026/05/12/lake-tahoe-data-center-49000-residents-power-source/',
+      },
+      {
+        date: '11 mai 2026',
+        text: "OpenADR Alliance × Connectivity Standards Alliance (Matter) annoncent une liaison officielle. Plusieurs régulateurs ont signalé un intérêt pour rendre OpenADR 3 obligatoire.",
+        href: 'https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html',
+      },
+    ],
     about_heading: "À propos du projet",
     about_p1:
       "Data Joule est un projet de portfolio Internet of Energy conçu pour démontrer que le calcul IA de périphérie peut participer à la flexibilité réseau en temps réel. La pile complète — du déploiement du VTN sur un VPS à la prise intelligente Zigbee mesurant la puissance — a été conçue, déployée et testée comme preuve fonctionnelle.",
