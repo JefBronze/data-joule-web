@@ -1,11 +1,25 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { LiveStatusHero } from './components/LiveStatus'
 import ScrollReveal from './components/ScrollReveal'
 import { SiteNav } from './components/SiteNav'
 import { SiteFooter } from './components/SiteFooter'
 import { useLocale } from './lib/i18n'
+
+const SIGNAL_ITEMS = [
+  {
+    date: 'May 12, 2026',
+    text: "NV Energy redirecting power from 49,000 Lake Tahoe residents to data centers — which already consume 22% of Nevada's electricity, rising to 35% by 2030.",
+    href: 'https://fortune.com/2026/05/12/lake-tahoe-data-center-49000-residents-power-source/',
+  },
+  {
+    date: 'May 11, 2026',
+    text: 'OpenADR Alliance × Connectivity Standards Alliance (Matter) announce formal liaison. Several regulators have signaled interest in mandating OpenADR 3.',
+    href: 'https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html',
+  },
+]
 
 const TIER_STATIC = [
   { tier: 0, power: '~14 W', reduction: '—',    color: '#4ade80' },
@@ -54,6 +68,21 @@ const PROOF_ICONS = [
 
 export default function HomePage() {
   const { t } = useLocale()
+  const [signalIndex, setSignalIndex] = useState(0)
+  const [signalVisible, setSignalVisible] = useState(true)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSignalVisible(false)
+      setTimeout(() => {
+        setSignalIndex(i => (i + 1) % SIGNAL_ITEMS.length)
+        setSignalVisible(true)
+      }, 300)
+    }, 7000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const signal = SIGNAL_ITEMS[signalIndex]
 
   const RESPONSE_LADDER = TIER_STATIC.map((s, i) => ({
     ...s,
@@ -152,12 +181,15 @@ export default function HomePage() {
 
       {/* ── Industry signal strip ── */}
       <div className="border-b border-amber-900/20 bg-neutral-950 py-2.5 px-6">
-        <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-mono">
+        <div
+          className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-mono transition-opacity duration-300"
+          style={{ opacity: signalVisible ? 1 : 0 }}
+        >
           <span className="text-amber-500 shrink-0">⚡</span>
-          <span className="text-neutral-600 shrink-0 hidden sm:inline">May 11, 2026 —</span>
-          <span className="text-neutral-500 truncate">OpenADR Alliance × Connectivity Standards Alliance (Matter) announce formal liaison. Several regulators have signaled interest in mandating OpenADR 3.</span>
+          <span className="text-neutral-600 shrink-0 hidden sm:inline">{signal.date} —</span>
+          <span className="text-neutral-500 truncate">{signal.text}</span>
           <a
-            href="https://finance.yahoo.com/sectors/energy/articles/connectivity-standards-alliance-openadr-alliance-140000761.html"
+            href={signal.href}
             target="_blank"
             rel="noopener noreferrer"
             className="ml-auto shrink-0 text-amber-500 hover:text-amber-300 transition-colors whitespace-nowrap pl-2"
