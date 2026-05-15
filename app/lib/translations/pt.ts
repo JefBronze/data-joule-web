@@ -91,7 +91,7 @@ export const pt = {
     ],
     about_heading: 'Sobre o projeto',
     about_p1:
-      'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e publica telemetria de potência ao vivo. A arquitetura é genérica: o mesmo caminho, do VTN à medição na tomada, pode ser aplicado a qualquer processo elétrico com flexibilidade operacional..',
+      'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e publica telemetria de potência ao vivo. A arquitetura é genérica: o mesmo caminho, do VTN à medição na tomada, pode ser aplicado a qualquer processo elétrico com flexibilidade operacional.',
     about_p2:
       'O sistema roda continuamente. A telemetria vem de medição física. Os eventos OpenADR são emitidos por um VTN de referência operado pelo projeto. O painel público mostra a malha de controle em operação, da sinalização ao registro verificável da redução.',
     tier_label: 'PATAMAR',
@@ -183,7 +183,7 @@ export const pt = {
     chain_step_oracle: 'Chainlink DON',
     chain_step_evm: 'Emissão ERC-20',
     why_title: 'Por que isso é diferente',
-    why_p1: 'Na RD regulada, a redução é apurada contra uma linha base de consumo e transformada em montante reduzido para contabilização e liquidação nos processos setoriais. O Data Joule replica essa lógica em escala de laboratório: baseline antes do evento, potência medida durante a resposta e relatório público ao final.',
+    why_p1: 'Na RD regulada, a redução é apurada contra uma linha base de consumo e transformada em montante reduzido para contabilização e liquidação nos processos setoriais. Este projeto replica essa lógica em escala de laboratório: baseline antes do evento, potência medida durante a resposta e relatório público ao final.',
     why_p2: 'Os Créditos Joule adicionam uma camada de verificação independente usando a Rede de Oráculos Descentralizada da Chainlink. Quando um evento termina, múltiplos nós oráculo consultam a medição física de potência e chegam a consenso antes da emissão.',
     why_p3: 'Cada token JLC carrega uma trilha de auditoria verificável: ID de evento OpenADR, ID de requisição Chainlink e hash de transação no Polygonscan. Não substitui a liquidação regulada da CCEE; demonstra como a prova técnica de redução pode ser tornada pública e auditável.',
     log_title: 'Registro de eventos',
