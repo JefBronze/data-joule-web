@@ -41,7 +41,7 @@ export const fr = {
     telemetry_mid: "→ MQTT → collecteur d'état →",
     telemetry_end: "→ Tableau de bord (5s)",
     ladder_heading: "Paliers d'effacement",
-    ladder_sub: "Quatre paliers progressifs — du ralentissement léger à l'arrêt complet",
+    ladder_sub: "Quatre paliers progressifs — valeurs mesurées sur le matériel réel, pas théoriques.",
     ladder_power: "Puissance",
     ladder_reduction: "Effacement",
     ladder_sla: "SLA",

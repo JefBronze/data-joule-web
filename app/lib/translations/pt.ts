@@ -41,7 +41,7 @@ export const pt = {
     telemetry_mid: '→ MQTT → coletor de estado →',
     telemetry_end: '→ Painel ao Vivo (5s)',
     ladder_heading: 'Escada de resposta',
-    ladder_sub: 'Quatro patamares de redução progressiva — do throttling suave ao desligamento controlado',
+    ladder_sub: 'Quatro patamares de redução progressiva — valores medidos no hardware real, não teóricos.',
     ladder_power: 'Potência',
     ladder_reduction: 'Redução de Carga',
     ladder_sla: 'SLA',

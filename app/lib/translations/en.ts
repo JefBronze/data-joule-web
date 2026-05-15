@@ -41,7 +41,7 @@ export const en = {
     telemetry_mid: '→ MQTT → state writer →',
     telemetry_end: '→ Live Dashboard (5s)',
     ladder_heading: 'Response ladder',
-    ladder_sub: 'Four graded tiers — from mild throttling to full halt',
+    ladder_sub: 'Four progressive tiers — measured on real hardware, not theoretical.',
     ladder_power: 'Power',
     ladder_reduction: 'Reduction',
     ladder_sla: 'SLA',
