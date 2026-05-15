@@ -350,7 +350,7 @@ export default function HomePage() {
                 >
                   <div className="w-24 shrink-0">
                     <span className="font-mono font-bold text-sm" style={{ color: row.color }}>
-                      TIER {row.tier}
+                      {t.home.tier_label} {row.tier}
                     </span>
                     <div className="text-xs text-neutral-500 font-mono">{row.name}</div>
                   </div>
@@ -385,7 +385,7 @@ export default function HomePage() {
                 <summary className="p-4 flex items-center justify-between cursor-pointer list-none">
                   <div className="flex items-center gap-3">
                     <span className="font-mono font-bold text-sm" style={{ color: row.color }}>
-                      TIER {row.tier}
+                      {t.home.tier_label} {row.tier}
                     </span>
                     <span className="text-xs text-neutral-500 font-mono">{row.name}</span>
                   </div>

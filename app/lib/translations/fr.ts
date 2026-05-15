@@ -94,6 +94,7 @@ export const fr = {
       "Data Joule est un projet de portefeuille Internet of Energy conçu pour démontrer que le calcul IA de bord peut participer à la flexibilité réseau en temps réel. La pile complète — du VTN sur VPS jusqu'à la prise Zigbee qui mesure la puissance — a été pensée, déployée et testée comme preuve fonctionnelle.",
     about_p2:
       "Le matériel roule 24h/24. La télémétrie est réelle. Les signaux OpenADR viennent d'une implémentation de référence VTN de niveau production. Rien n'est simulé ici; le tableau public montre la boucle de contrôle en temps réel.",
+    tier_label: 'PALIER',
     live_node: 'Nœud en direct',
     waiting_telemetry: 'En attente de télémétrie…',
     proof_tiers_value: '4 niveaux',

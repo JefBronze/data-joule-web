@@ -48,7 +48,7 @@ export const pt = {
     ladder_sla: 'SLA',
     tiers: [
       { name: 'Base', action: 'governor ondemand, inferência completa ativa', sla: 'Serviço completo' },
-      { name: 'Throttle', action: 'governor conservador de CPU, inferência continua ativa', sla: '~10% mais lento' },
+      { name: 'Limitado', action: 'governor conservador de CPU, inferência continua ativa', sla: '~10% mais lento' },
       { name: 'Economia', action: 'governor powersave de CPU, inferência continua ativa', sla: '~40% mais lento' },
       { name: 'Suspenso', action: 'SIGSTOP enviado ao processo llama-server', sla: 'Offline' },
       { name: 'Desligado', action: 'caminho de desligamento controlado — nó offline', sla: 'Nó offline' },
@@ -94,6 +94,7 @@ export const pt = {
       'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e publica telemetria de potência ao vivo. A arquitetura é genérica: o mesmo caminho, do VTN à medição na tomada, pode ser aplicado a qualquer processo elétrico com flexibilidade operacional..',
     about_p2:
       'O sistema roda continuamente. A telemetria vem de medição física. Os eventos OpenADR são emitidos por um VTN de referência operado pelo projeto. O painel público mostra a malha de controle em operação, da sinalização ao registro verificável da redução.',
+    tier_label: 'PATAMAR',
     live_node: 'Nó em operação',
     waiting_telemetry: 'Aguardando telemetria…',
     proof_tiers_value: '4 patamares',
