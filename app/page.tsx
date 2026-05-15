@@ -55,7 +55,7 @@ const PROOF_ICONS = [
 ]
 
 export default function HomePage() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
   const signalItems = t.home.signal_items
   const [signalIndex, setSignalIndex] = useState(0)
   const [signalVisible, setSignalVisible] = useState(true)
@@ -108,10 +108,22 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
-                <div className="inline-block mb-6">
-                  <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
+                <div className="inline-flex flex-col gap-2 mb-6">
+                  <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full self-start">
                     {t.home.hero_badge}
                   </span>
+                  {locale === 'fr' && (
+                    <span
+                      className="text-xs font-mono font-semibold px-3 py-1 rounded-full self-start tracking-wide"
+                      style={{
+                        color: '#ffffff',
+                        background: 'linear-gradient(90deg, #AF1E2D 0%, #192168 100%)',
+                        border: '1px solid #AF1E2D66',
+                      }}
+                    >
+                      ⚜ Allez les Habs ! Go Habs Go ! 🏒
+                    </span>
+                  )}
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={150}>

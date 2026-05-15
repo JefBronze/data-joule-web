@@ -94,7 +94,7 @@ const IconJLC = () => (
 
 export function SiteNav() {
   const pathname = usePathname()
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
 
   const NAV_LINKS = [
     { href: '/method',        label: t.nav.method, color: null,                                       icon: <IconMethod /> },
@@ -105,8 +105,9 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-(--background)/90 backdrop-blur-sm px-6 py-4">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg">
+        <Link href="/" className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg inline-flex items-center gap-1.5">
           Data Joule
+          {locale === 'fr' && <span className="text-base leading-none opacity-70">⚜</span>}
         </Link>
         <div className="flex items-center gap-4 sm:gap-6 text-sm">
           {NAV_LINKS.map(({ href, label, color, icon }) => (
