@@ -22,19 +22,18 @@ type EventReport = {
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_JLC_CONTRACT_ADDRESS ?? null
 
-const ECONOMICS = [
-  { fleet: '1 Pi (this node)',  events: '100',          jlc: '0.0375 JLC',     usd: '$0.005'    },
-  { fleet: '1,000 nodes',      events: '100 each',     jlc: '37.5 JLC',       usd: '$4.50'     },
-  { fleet: '1M nodes',         events: '100 each',     jlc: '37,500 JLC',     usd: '$4,500'    },
-  { fleet: 'V2G (Phase 3)',    events: '100 × 10 kWh', jlc: '1,000,000 JLC',  usd: '$120,000'  },
-]
-
-const WHY_LABELS = ['The Problem', 'The Mechanism', 'The Result'] as const
-
 const ETH_TX_HASH_RE = /^0x[0-9a-fA-F]{64}$/
 
 export default function JouleCreditsPage() {
   const { t } = useLocale()
+  const fleet = t.jlc.economics_fleet as readonly string[]
+  const ECONOMICS = [
+    { fleet: fleet[0], events: '100',          jlc: '0.0375 JLC',    usd: '$0.005'   },
+    { fleet: fleet[1], events: '100 each',     jlc: '37.5 JLC',      usd: '$4.50'    },
+    { fleet: fleet[2], events: '100 each',     jlc: '37,500 JLC',    usd: '$4,500'   },
+    { fleet: fleet[3], events: '100 × 10 kWh', jlc: '1,000,000 JLC', usd: '$120,000' },
+  ]
+  const WHY_LABELS = t.jlc.why_labels as readonly string[]
   const [events, setEvents] = useState<EventReport[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -277,7 +276,7 @@ export default function JouleCreditsPage() {
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.jlc.log_title}</h2>
               <p className="text-neutral-500 text-sm font-mono mb-8">
-                Verified curtailment events · written at tier-drop · 30-day retention
+                {t.jlc.log_sub}
               </p>
             </ScrollReveal>
 
@@ -304,7 +303,7 @@ export default function JouleCreditsPage() {
                     {loading ? (
                       <tr>
                         <td colSpan={6} className="px-4 py-10 text-center text-neutral-600">
-                          Loading…
+                          {t.jlc.loading}
                         </td>
                       </tr>
                     ) : events.length === 0 ? (
@@ -366,7 +365,7 @@ export default function JouleCreditsPage() {
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.jlc.economics_title}</h2>
               <p className="text-neutral-500 text-sm font-mono mb-8">
-                1 JLC = 1 kWh curtailed · @$0.12/kWh reference · 100 events/year
+                {t.jlc.economics_sub}
               </p>
             </ScrollReveal>
 
@@ -375,10 +374,10 @@ export default function JouleCreditsPage() {
                 <table className="w-full text-xs font-mono">
                   <thead>
                     <tr className="border-b border-neutral-800 bg-neutral-900/60">
-                      <th className="text-left   px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">Fleet</th>
-                      <th className="text-right  px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">Events/yr</th>
-                      <th className="text-right  px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">Annual JLC</th>
-                      <th className="text-right  px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">@$0.12/kWh</th>
+                      <th className="text-left   px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">{t.jlc.economics_col_fleet}</th>
+                      <th className="text-right  px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">{t.jlc.economics_col_events}</th>
+                      <th className="text-right  px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">{t.jlc.economics_col_jlc}</th>
+                      <th className="text-right  px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal">{t.jlc.economics_col_usd}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -390,7 +389,7 @@ export default function JouleCreditsPage() {
                         <td className={`px-4 py-3 ${i === ECONOMICS.length - 1 ? 'text-purple-300 font-bold' : 'text-neutral-300'}`}>
                           {row.fleet}
                           {i === ECONOMICS.length - 1 && (
-                            <span className="ml-2 text-purple-700 text-xs font-normal">Phase 3</span>
+                            <span className="ml-2 text-purple-700 text-xs font-normal">{t.jlc.phase3}</span>
                           )}
                         </td>
                         <td className="px-4 py-3 text-right text-neutral-400">{row.events}</td>
@@ -404,7 +403,7 @@ export default function JouleCreditsPage() {
                 </table>
               </div>
               <p className="text-xs font-mono text-neutral-700 mt-3">
-                V2G is the economic unlock — same token, same contract, same oracle, representing injected kWh.
+                {t.jlc.v2g_note}
               </p>
             </ScrollReveal>
           </div>
