@@ -364,6 +364,12 @@ function SparkChart({ data, collectingLabel }: { data: number[]; collectingLabel
 export default function DemoPage() {
   const { t, locale } = useLocale()
   const d = t.demo
+  const gridT = t.grid
+  function timeAgo(ts: number): string {
+    const diff = Math.floor(now / 1000) - ts
+    if (diff < 60) return `${diff}${gridT.sec_ago}`
+    return `${Math.floor(diff / 60)} ${gridT.min_ago}`
+  }
   const g = t.grid
   const { data, history, hourly, demoEvent, nextEventTs, gridSignal, loading, now, connectionStatus } = useFlexState()
 
@@ -438,7 +444,7 @@ export default function DemoPage() {
               style={{ backgroundColor: connectionStatus === 'error' ? '#f87171' : data ? '#4ade80' : '#6b7280' }}
             />
             <span className="text-xs text-neutral-500 font-mono hidden sm:inline">
-              {data ? `${d.live} · ${secondsAgo(data.timestamp, now)}` : d.waiting}
+              {data ? `${d.live} · ${timeAgo(data.timestamp)}` : d.waiting}
             </span>
           </div>
           {nextCheckLabel && (
@@ -570,7 +576,7 @@ export default function DemoPage() {
                   {[...history].reverse().slice(0, 12).map((entry, i) => (
                     <tr key={i} className="border-b border-neutral-800/50">
                       <td className="py-1.5 pr-4 text-neutral-400 sticky left-0 bg-neutral-900">
-                        {secondsAgo(entry.timestamp, now)}
+                        {timeAgo(entry.timestamp)}
                       </td>
                       <td className="py-1.5 pr-4 text-right text-amber-400">{entry.wattage_w.toFixed(1)} W</td>
                       <td className="py-1.5 pr-4 text-right font-semibold"
@@ -579,11 +585,11 @@ export default function DemoPage() {
                       </td>
                       <td className="py-1.5 pr-4 text-right"
                         style={{ color: entry.llm_status === 'active' ? '#4ade80' : entry.llm_status === 'degraded' ? '#facc15' : '#f87171' }}>
-                        {entry.llm_status.toUpperCase()}
+                        {entry.llm_status === 'active' ? d.llm_active : entry.llm_status === 'degraded' ? d.llm_degraded : d.llm_offline}
                       </td>
                       <td className="py-1.5 text-right hidden md:table-cell"
                         style={{ color: entry.openadr_status === 'ready' ? '#22d3ee' : '#6b7280' }}>
-                        {entry.openadr_status.toUpperCase()}
+                        {entry.openadr_status === 'ready' ? d.ven_ready : d.ven_offline}
                       </td>
                     </tr>
                   ))}
@@ -599,7 +605,7 @@ export default function DemoPage() {
             className="inline-flex items-center gap-2 text-xs font-mono text-purple-500 hover:text-purple-300 transition-colors border border-purple-900/40 hover:border-purple-700 bg-purple-950/10 rounded-full px-4 py-1.5"
           >
             <span className="text-purple-400">◈</span>
-            Each completed DR event mints JLC on Polygon Mainnet — Explore Joule Credits →
+            {d.jlc_banner}
           </a>
         </div>
         <div className="mt-3 text-center text-xs text-neutral-700 font-mono">{d.footer}</div>

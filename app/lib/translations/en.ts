@@ -131,6 +131,12 @@ export const en = {
     event_active: 'Auto DR Event Active',
     ends_in: 'Ends in',
     ends_in_sub: 'then our system rechecks',
+    jlc_banner: 'Each completed DR event mints JLC on Polygon Mainnet — Explore Joule Credits →',
+    llm_active: 'ACTIVE',
+    llm_degraded: 'DEGRADED',
+    llm_offline: 'OFFLINE',
+    ven_ready: 'READY',
+    ven_offline: 'OFFLINE',
   },
   grid: {
     panel_title: 'Grid Conditions',

@@ -131,6 +131,12 @@ export const pt = {
     event_active: 'Evento de RD Automático Ativo',
     ends_in: 'Encerra em',
     ends_in_sub: 'nosso sistema verifica após',
+    jlc_banner: 'Cada evento de RD concluído emite JLC na Polygon Mainnet — Explorar Créditos Joule →',
+    llm_active: 'ATIVO',
+    llm_degraded: 'DEGRADADO',
+    llm_offline: 'OFFLINE',
+    ven_ready: 'PRONTO',
+    ven_offline: 'OFFLINE',
   },
   grid: {
     panel_title: 'Condições do Sistema',

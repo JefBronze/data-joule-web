@@ -131,6 +131,12 @@ export const fr = {
     event_active: "Signal d'effacement actif",
     ends_in: "Fin dans",
     ends_in_sub: "puis notre système revérifie",
+    jlc_banner: "Chaque événement DR complété émet des JLC sur Polygon Mainnet — Explorer les Crédits Joule →",
+    llm_active: "ACTIF",
+    llm_degraded: "DÉGRADÉ",
+    llm_offline: "OFFLINE",
+    ven_ready: "PRÊT",
+    ven_offline: "OFFLINE",
   },
   grid: {
     panel_title: "État du réseau",
