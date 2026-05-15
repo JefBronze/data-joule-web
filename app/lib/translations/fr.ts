@@ -47,8 +47,8 @@ export const fr = {
     ladder_reduction: "Effacement",
     ladder_sla: "SLA",
     tiers: [
-      { name: "Baseline", action: "gouverneur ondemand, inférence complète active", sla: "Service complet" },
-      { name: "Throttle", action: "gouverneur CPU conservateur, inférence continue", sla: "~10% plus lent" },
+      { name: "Normal", action: "gouverneur ondemand, inférence complète active", sla: "Service complet" },
+      { name: "Réduit", action: "gouverneur CPU conservateur, inférence continue", sla: "~10% plus lent" },
       { name: "Économie", action: "gouverneur CPU powersave, inférence continue", sla: "~40% plus lent" },
       { name: "Suspendu", action: "SIGSTOP envoyé au processus llama-server", sla: "Hors ligne" },
       { name: "Arrêt", action: "chemin d'arrêt contrôlé — nœud hors ligne", sla: "Nœud hors ligne" },
@@ -255,8 +255,8 @@ export const fr = {
     cta_demo: "Voir la démo en direct →",
     cta_source: "Voir le code sur GitHub",
     ladder: [
-      { name: "Baseline", mechanism: "Gouverneur CPU → ondemand. llama-server actif. Inférence à pleine vitesse (~28 tokens/s prompt, ~6 tokens/s génération)." },
-      { name: "Throttle", mechanism: "Gouverneur CPU → conservative. L'algorithme monte la fréquence lentement et la baisse rapidement. Effet net : 15–20% de puissance en moins, inférence ~10% plus lente. Transparent pour le LLM." },
+      { name: "Normal", mechanism: "Gouverneur CPU → ondemand. llama-server actif. Inférence à pleine vitesse (~28 tokens/s prompt, ~6 tokens/s génération)." },
+      { name: "Réduit", mechanism: "Gouverneur CPU → conservative. L'algorithme monte la fréquence lentement et la baisse rapidement. Effet net : 15–20% de puissance en moins, inférence ~10% plus lente. Transparent pour le LLM." },
       { name: "Économie", mechanism: "Gouverneur CPU → powersave. Force la fréquence minimale du CPU (1,5 GHz sur Pi 5 contre 2,4 GHz max). L'inférence continue, mais le débit baisse d'environ 40%." },
       { name: "Suspendu", mechanism: "SIGSTOP envoyé au processus llama-server. Le processus reste en mémoire sans temps CPU; aucune inférence n'est possible. SIGCONT le reprend instantanément quand l'événement se termine." },
       { name: "Arrêt", mechanism: "Le chemin de contrôle effectue un arrêt ordonné et isole l'alimentation de calcul via la prise mesurée. Quand l'événement se termine, le nœud est restauré et revient en service en environ 55 secondes." },
