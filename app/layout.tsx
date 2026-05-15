@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Data Joule — Grid-Interactive AI Compute",
+  title: "Data Joule — Grid Response, Chainlink-Settled",
   description:
     "An AI edge node runs live LLM inference and responds to real OpenADR 3.0 demand-response signals. Four power tiers, five utility sources, live telemetry from Montréal.",
   keywords: [
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "Data Joule — Grid-Interactive AI Compute",
+    title: "Data Joule — Grid Response, Chainlink-Settled",
     description:
       "Real hardware. Real OpenADR 3.0 signals. An AI edge node throttles its LLM under grid stress — live telemetry from Montréal.",
     url: "https://data-joule.com",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Data Joule — Grid-Interactive AI Compute",
+    title: "Data Joule — Grid Response, Chainlink-Settled",
     description:
       "An AI edge node runs live LLM inference and responds to real OpenADR 3.0 demand-response signals. Four power tiers, five utility sources, live telemetry.",
   },

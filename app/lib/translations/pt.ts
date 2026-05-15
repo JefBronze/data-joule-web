@@ -1,5 +1,5 @@
 export const pt = {
-  site_title: 'Data Joule — Carga de IA no SIN',
+  site_title: 'Data Joule — Resposta da Demanda liquidada em Chainlink',
   nav: {
     method: 'Método',
     demo: 'Demo',

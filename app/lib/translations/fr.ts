@@ -1,5 +1,5 @@
 export const fr = {
-  site_title: 'Data Joule — Calcul IA effaçable à la pointe hivernale',
+  site_title: 'Data Joule — Effacement IA réglé sur Chainlink',
   nav: {
     method: "Méthode",
     demo: "Démo",
