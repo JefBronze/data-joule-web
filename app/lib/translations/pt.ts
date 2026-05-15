@@ -9,7 +9,7 @@ export const pt = {
     tagline: 'Telemetria ao vivo de um nó de computação de IA em Montréal, QC. Atualizada a cada 5s.',
   },
   home: {
-    hero_badge: 'OpenADR 3.0 · Hardware real · Telemetria ao vivo',
+    hero_badge: 'OpenADR 3.0 · IoT hardware · Telemetria ao vivo',
     headline1: 'Resposta da Demanda',
     headline2: 'verificável on-chain.',
     description:
