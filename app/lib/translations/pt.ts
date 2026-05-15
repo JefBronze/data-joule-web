@@ -10,17 +10,17 @@ export const pt = {
   },
   home: {
     hero_badge: 'OpenADR 3.0 · Hardware Real · Montréal, QC',
-    headline1: 'Qualquer carga flexível,',
-    headline2: 'recurso ativo no SIN.',
+    headline1: 'Inferência de IA',
+    headline2: 'respondendo ao ONS em tempo real.',
     description:
-      'Data Joule demonstra, em hardware real, que qualquer carga com margem de operação pode atuar como Recurso Controlável de Carga (RCC) no SIN. Neste projeto a carga é inferência de IA — mas o protocolo OpenADR 3.0 e a escada de resposta são genéricos: funcionam para qualquer processo elétrico com postergabilidade operacional.',
+      'Data Joule demonstra, em hardware real, que uma carga computacional pode recuar por patamares quando o sistema sinaliza restrição na hora de ponta — e liquidar cada kWh reduzido on-chain. O protocolo OpenADR 3.0 e a escada de resposta são genéricos: qualquer processo com postergabilidade pode fazer o mesmo.',
     cta_demo: 'Ver Demo ao Vivo →',
     cta_method: 'Como Funciona',
     proof_hardware: 'Hardware',
     proof_protocol: 'Protocolo',
     proof_signal: 'Fonte do sinal',
     proof_tiers: 'Níveis de resposta',
-    problem_heading: 'Qualquer carga flexível pode virar\nrecurso ativo do sistema.',
+    problem_heading: 'O SIN precisa de carga flexível.\nA maioria das cargas ainda não responde.',
     problem_p1:
       'Cargas industriais, data centers, sistemas de refrigeração e processos postergáveis representam flexibilidade não explorada no SIN. Construir geração e transmissão leva anos; viabilizar Resposta da Demanda nas instalações já existentes é o caminho mais rápido para equilibrar o sistema no horário de ponta.',
     problem_p2:
