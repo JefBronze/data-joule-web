@@ -417,8 +417,9 @@ export default function DemoPage() {
     <div className="min-h-screen bg-(--background) text-neutral-100 font-sans">
       {/* Header */}
       <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between gap-4">
-        <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg shrink-0">
+        <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg shrink-0 inline-flex items-center gap-1.5">
           Data Joule
+          {locale === 'fr' && <span className="text-base leading-none opacity-70">⚜</span>}
         </Link>
         <div className="flex items-center gap-3">
           {connectionStatus === 'stale' && (
