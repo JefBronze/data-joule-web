@@ -20,6 +20,8 @@ type GridSource = {
   peak_event_name?: string | null
   // ISNE/CAISO/NYISO-specific
   ref_peak_mw?: number
+  // ONS-specific
+  area?: string
 }
 
 type GridLocale = {

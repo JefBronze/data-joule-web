@@ -171,7 +171,7 @@ function GridSignalPanel({
       )}
       {locale === 'pt' && (
         <div className="flex flex-col sm:flex-row gap-3">
-          <SourceCard label={g.source_ons} source={pt?.ons} highlight={pt?.triggered_by === 'ons' && !!activeEvent} now={now} g={g} />
+          <SourceCard label={`${g.source_ons}${pt?.ons?.area ? ` (${pt.ons.area})` : ''}`} source={pt?.ons} highlight={pt?.triggered_by === 'ons' && !!activeEvent} now={now} g={g} />
         </div>
       )}
 
@@ -197,7 +197,7 @@ function GridSignalPanel({
             </div>
           )}
           {triggeredLocale === 'pt' && (
-            <SourceCard label={g.source_ons} source={pt?.ons} highlight now={now} g={g} />
+            <SourceCard label={`${g.source_ons}${pt?.ons?.area ? ` (${pt.ons.area})` : ''}`} source={pt?.ons} highlight now={now} g={g} />
           )}
           <p className="text-xs font-mono text-neutral-500 mt-4 leading-relaxed border-l-2 border-amber-900/40 pl-3">
             {g.cross_locale_note}

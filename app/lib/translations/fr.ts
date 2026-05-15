@@ -128,7 +128,7 @@ export const fr = {
     source_isne:  "ISO Nouvelle-Angleterre",
     source_caiso: "CAISO (Californie)",
     source_nyiso: "NYISO (New York)",
-    source_ons:   "ONS Brasil (SE/CO)",
+    source_ons:   "ONS Brasil",
     status: {
       normal:   "Normal",
       moderate: "Modéré",
