@@ -139,6 +139,7 @@ export const pt = {
     no_peak:      'Sem alerta de pico',
     unavailable:  'Indisponível',
     event_source: '⚡ Fonte do evento',
+    cross_locale_note: 'Este evento foi acionado por uma rede fora da sua região. O Data-Joule monitora três áreas simultaneamente — Québec/Nova Inglaterra (FR), Califórnia/Nova York (EN) e Brasil (PT). Quando qualquer rede monitorada atinge um limiar de estresse, o sinal de RD é ativado em todas as localidades.',
     triggered_by: 'Acionado por',
     demand_at:    'Demanda em',
     capacity:     'da capacidade',

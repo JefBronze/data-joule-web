@@ -139,6 +139,7 @@ export const en = {
     no_peak:      'No peak alert',
     unavailable:  'Unavailable',
     event_source: '⚡ Event source',
+    cross_locale_note: 'This event was triggered by a grid outside your region. Data-Joule monitors three areas simultaneously — Québec/New England (FR), California/New York (EN), and Brazil (PT). When any monitored grid reaches a stress threshold, the DR signal fires across all locales.',
     triggered_by: 'Triggered by',
     demand_at:    'Demand at',
     capacity:     'capacity',

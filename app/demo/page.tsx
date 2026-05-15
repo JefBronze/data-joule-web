@@ -199,6 +199,9 @@ function GridSignalPanel({
           {triggeredLocale === 'pt' && (
             <SourceCard label={g.source_ons} source={pt?.ons} highlight now={now} g={g} />
           )}
+          <p className="text-xs font-mono text-neutral-500 mt-4 leading-relaxed border-l-2 border-amber-900/40 pl-3">
+            {g.cross_locale_note}
+          </p>
         </>
       )}
 

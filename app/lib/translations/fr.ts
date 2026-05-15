@@ -139,6 +139,7 @@ export const fr = {
     no_peak:      "Aucune alerte de pointe",
     unavailable:  "Indisponible",
     event_source: "⚡ Source de l'événement",
+    cross_locale_note: "Cet événement a été déclenché par un réseau hors de votre région. Data-Joule surveille trois zones simultanément — Québec/Nouvelle-Angleterre (FR), Californie/New York (EN) et Brésil (PT). Lorsqu'un réseau surveillé atteint un seuil de stress, le signal DR se déclenche dans toutes les zones.",
     triggered_by: "Déclenché par",
     demand_at:    "Demande à",
     capacity:     "de la capacité",
