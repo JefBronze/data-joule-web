@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     if (typeof grid_signal !== 'object' || Array.isArray(grid_signal)) {
       return NextResponse.json({ error: 'invalid grid_signal' }, { status: 422 })
     }
-    if (JSON.stringify(grid_signal).length > 512) {
+    if (JSON.stringify(grid_signal).length > 2048) {
       return NextResponse.json({ error: 'grid_signal too large' }, { status: 422 })
     }
   }
