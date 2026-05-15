@@ -93,6 +93,15 @@ export const pt = {
       'Data Joule é um projeto de portfólio de Internet de Energia criado para demonstrar que cargas flexíveis podem responder a sinais operativos em tempo real. A carga demonstrada é inferência de IA em hardware de borda — mas a arquitetura é genérica: a pilha completa, do VTN ao medidor Zigbee, funciona para qualquer processo elétrico com margem de operação.',
     about_p2:
       'O hardware funciona 24/7. A telemetria é real. Os eventos OpenADR vêm de uma implementação de referência VTN operada pelo projeto. O painel público mostra a malha de controle em operação contínua.',
+    live_node: 'Nó em operação',
+    waiting_telemetry: 'Aguardando telemetria…',
+    proof_tiers_value: '4 patamares',
+    signal_read: 'Ler →',
+    flow_operator: 'Operador de Rede',
+    flow_operator_sub: 'Despacha evento de RD',
+    flow_control_sub: 'controle via LAN privada',
+    flow_plug_sub: 'Zigbee · mede em W',
+    tier_labels: ['NORMAL', 'REDUZIDO', 'ECO', 'SUSPENSO', 'DESLIGADO'],
   },
   demo: {
     back: '← data-joule.com',
@@ -148,6 +157,7 @@ export const pt = {
     grid_low:     'Sinais da rede baixos · ciclo demo programado em andamento',
     updated:      'Atualizado',
     min_ago:      'min atrás',
+    sec_ago:      's atrás',
     just_now:     'Agora mesmo',
     demand_note:  'Carga elétrica atendida no SIN (Sistema Interligado Nacional) — residências, indústria e demais consumidores conectados. Percentual alto indica maior solicitação do sistema.',
   },
@@ -188,6 +198,7 @@ export const pt = {
     view_source: 'Ver código-fonte',
     abi_download: 'Baixar ABI',
     chainlink_sub: 'Assinatura Chainlink',
+    chainlink_verified: '· verificado pela Chainlink',
   },
   method: {
     badge: 'Detalhe técnico',

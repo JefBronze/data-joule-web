@@ -93,6 +93,15 @@ export const en = {
       'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility. The full stack — from VTN deployment on a VPS to the Zigbee smart plug measuring wattage — was designed, deployed, and tested as a working proof point.',
     about_p2:
       'The hardware runs 24/7. The telemetry is real. The OpenADR signals come from a production-grade VTN reference implementation. Nothing here is simulated; the public dashboard shows the control loop as it happens.',
+    live_node: 'Live Node',
+    waiting_telemetry: 'Waiting for telemetry…',
+    proof_tiers_value: '4 levels',
+    signal_read: 'Read →',
+    flow_operator: 'Grid Operator',
+    flow_operator_sub: 'Issues DR event',
+    flow_control_sub: 'private LAN control',
+    flow_plug_sub: 'Zigbee · measures W',
+    tier_labels: ['BASELINE', 'THROTTLED', 'POWER-SAVE', 'SUSPENDED', 'HALT'],
   },
   demo: {
     back: '← data-joule.com',
@@ -148,6 +157,7 @@ export const en = {
     grid_low:     'Grid signals currently low · running scheduled demo cycle',
     updated:      'Updated',
     min_ago:      'min ago',
+    sec_ago:      's ago',
     just_now:     'Just now',
     demand_note:  'Electrical load consumed by the grid — homes, industry, everything connected. Higher % = more stress.',
   },
@@ -188,6 +198,7 @@ export const en = {
     view_source: 'View Source',
     abi_download: 'Download ABI',
     chainlink_sub: 'Chainlink Subscription',
+    chainlink_verified: '· Chainlink-verified',
   },
   method: {
     badge: 'Technical Deep-Dive',

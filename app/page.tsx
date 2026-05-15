@@ -84,7 +84,7 @@ export default function HomePage() {
     { label: t.home.proof_hardware, value: 'Raspberry Pi 5', icon: PROOF_ICONS[0] },
     { label: t.home.proof_protocol, value: 'OpenADR 3.0',    icon: PROOF_ICONS[1] },
     { label: t.home.proof_signal,   value: 'VTN on VPS',     icon: PROOF_ICONS[2] },
-    { label: t.home.proof_tiers,    value: '4 levels',        icon: PROOF_ICONS[3] },
+    { label: t.home.proof_tiers,    value: t.home.proof_tiers_value, icon: PROOF_ICONS[3] },
   ]
 
   const problemLines = t.home.problem_heading.split('\n')
@@ -183,7 +183,7 @@ export default function HomePage() {
             rel="noopener noreferrer"
             className="ml-auto shrink-0 text-amber-500 hover:text-amber-300 transition-colors whitespace-nowrap pl-2"
           >
-            Read →
+            {t.home.signal_read}
           </a>
         </div>
       </div>
@@ -264,8 +264,8 @@ export default function HomePage() {
                 </defs>
 
                 <rect x="0" y="12" width="120" height="56" rx="6" fill="#111118" stroke="#374151" strokeWidth="1"/>
-                <text x="60" y="37" textAnchor="middle" fill="#9ca3af" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Grid Operator</text>
-                <text x="60" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Issues DR event</text>
+                <text x="60" y="37" textAnchor="middle" fill="#9ca3af" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">{t.home.flow_operator}</text>
+                <text x="60" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_operator_sub}</text>
 
                 <path d="M120,40 L152,40" stroke="#374151" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-gray)" className="animate-signal-dash"/>
 
@@ -283,24 +283,24 @@ export default function HomePage() {
 
                 <rect x="474" y="12" width="120" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
                 <text x="534" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Control Agent</text>
-                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">private LAN control</text>
+                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_control_sub}</text>
 
                 <path d="M594,40 L626,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.6s"}}/>
 
                 <rect x="632" y="12" width="158" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
                 <text x="711" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Smart Plug</text>
-                <text x="711" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Zigbee · measures W</text>
+                <text x="711" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_plug_sub}</text>
               </svg>
             </div>
 
             {/* Mobile vertical stack */}
             <div className="sm:hidden space-y-2 mb-6">
               {[
-                { label: 'Grid Operator', sub: 'Issues DR event', color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
+                { label: t.home.flow_operator, sub: t.home.flow_operator_sub, color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
                 { label: 'VTN', sub: 'vtn.data-joule.com', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
                 { label: 'VEN', sub: 'mtl-ven-01', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'Control Agent', sub: 'private LAN control', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
-                { label: 'Smart Plug', sub: 'Zigbee · measures W', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: 'Control Agent', sub: t.home.flow_control_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: 'Smart Plug', sub: t.home.flow_plug_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
               ].map((node, i) => (
                 <div key={i}>
                   <div className={`rounded-lg border ${node.border} ${node.bg} px-4 py-3 flex items-center justify-between`}>
@@ -426,7 +426,7 @@ export default function HomePage() {
                 <div className="font-mono text-amber-400 font-bold text-lg mb-6 flex items-center gap-2 flex-wrap">
                   <span className="text-purple-500">◈</span>
                   <span>{t.jlc.stat_equation}</span>
-                  <span className="text-purple-500 text-sm font-normal">· Chainlink-verified</span>
+                  <span className="text-purple-500 text-sm font-normal">{t.jlc.chainlink_verified}</span>
                 </div>
                 <p className="text-neutral-400 leading-relaxed mb-4 text-sm">
                   {t.jlc.home_oracle_desc}

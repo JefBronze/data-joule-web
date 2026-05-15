@@ -1,13 +1,21 @@
 'use client'
 
 import { useFlexState } from '@/app/hooks/useFlexState'
-import { TIER_LABEL, TIER_COLOR, secondsAgo } from '@/app/lib/telemetry'
+import { useLocale } from '@/app/lib/i18n'
+import { TIER_COLOR } from '@/app/lib/telemetry'
 
 export function LiveStatusHero() {
   const { data, loading, now } = useFlexState()
+  const { t } = useLocale()
   const tier = data?.dr_tier ?? 0
   const tierColor = TIER_COLOR[tier] ?? TIER_COLOR[0]
-  const tierLabel = TIER_LABEL[tier] ?? 'UNKNOWN'
+  const tierLabels = t.home.tier_labels as readonly string[]
+  const tierLabel = tierLabels[tier] ?? 'UNKNOWN'
+
+  const diff = data ? Math.floor(now / 1000) - data.timestamp : 0
+  const timeStr = diff < 60
+    ? `${diff}${t.grid.sec_ago}`
+    : `${Math.floor(diff / 60)} ${t.grid.min_ago}`
 
   return (
     <div
@@ -15,7 +23,7 @@ export function LiveStatusHero() {
       className="rounded-lg border bg-neutral-900 p-5 w-full font-mono"
     >
       <div className="flex items-center justify-between mb-4">
-        <span className="text-xs text-neutral-400 uppercase tracking-widest">Live Node</span>
+        <span className="text-xs text-neutral-400 uppercase tracking-widest">{t.home.live_node}</span>
         <span
           className={`text-xs px-2 py-0.5 rounded-full border${tier > 0 ? ' animate-pulse-ring' : ''}`}
           style={{ color: tierColor, borderColor: tierColor + '44', backgroundColor: tierColor + '18' }}
@@ -34,7 +42,7 @@ export function LiveStatusHero() {
           <span className="text-lg text-amber-600">W</span>
         </div>
       ) : (
-        <div className="text-neutral-500 text-sm mb-3">Waiting for telemetry…</div>
+        <div className="text-neutral-500 text-sm mb-3">{t.home.waiting_telemetry}</div>
       )}
 
       <div className="flex flex-col gap-1.5 text-xs">
@@ -57,7 +65,7 @@ export function LiveStatusHero() {
 
       {data && (
         <div className="mt-4 text-xs text-neutral-400 border-t border-neutral-800 pt-2">
-          Updated {secondsAgo(data.timestamp, now)}
+          {t.grid.updated} {timeStr}
         </div>
       )}
     </div>

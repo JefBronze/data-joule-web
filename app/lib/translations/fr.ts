@@ -93,6 +93,15 @@ export const fr = {
       "Data Joule est un projet de portefeuille Internet of Energy conçu pour démontrer que le calcul IA de bord peut participer à la flexibilité réseau en temps réel. La pile complète — du VTN sur VPS jusqu'à la prise Zigbee qui mesure la puissance — a été pensée, déployée et testée comme preuve fonctionnelle.",
     about_p2:
       "Le matériel roule 24h/24. La télémétrie est réelle. Les signaux OpenADR viennent d'une implémentation de référence VTN de niveau production. Rien n'est simulé ici; le tableau public montre la boucle de contrôle en temps réel.",
+    live_node: 'Nœud en direct',
+    waiting_telemetry: 'En attente de télémétrie…',
+    proof_tiers_value: '4 niveaux',
+    signal_read: 'Lire →',
+    flow_operator: 'Gestionnaire réseau',
+    flow_operator_sub: "Envoie l'événement DR",
+    flow_control_sub: 'contrôle LAN privé',
+    flow_plug_sub: 'Zigbee · mesure en W',
+    tier_labels: ['NORMAL', 'RÉDUIT', 'ÉCO', 'SUSPENDU', 'ARRÊT'],
   },
   demo: {
     back: "← data-joule.com",
@@ -148,6 +157,7 @@ export const fr = {
     grid_low:     "Signaux réseau faibles · cycle démo programmé en cours",
     updated:      "Mis à jour",
     min_ago:      "min",
+    sec_ago:      "s",
     just_now:     "À l'instant",
     demand_note:  "Puissance appelée sur le réseau d'HQ — résidences, industries et tout ce qui est branché. % élevé = signal de pointe hivernale imminente.",
   },
@@ -188,6 +198,7 @@ export const fr = {
     view_source: 'Voir le code source',
     abi_download: 'Télécharger l\'ABI',
     chainlink_sub: 'Abonnement Chainlink',
+    chainlink_verified: '· validé Chainlink',
   },
   method: {
     badge: "Détails techniques",
