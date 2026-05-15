@@ -13,7 +13,7 @@ export const pt = {
     headline1: 'Qualquer carga flexível,',
     headline2: 'recurso ativo no SIN.',
     description:
-      'Data Joule demonstra, em hardware real, que qualquer carga com margem de operação pode atuar como Recurso Controlável de Carga (RCC) no SIN. Neste projeto a carga é inferência de IA — mas o protocolo OpenADR 3.0 e a escada de resposta graduada são genéricos: funcionam para qualquer processo elétrico com flexibilidade temporal.',
+      'Data Joule demonstra, em hardware real, que qualquer carga com margem de operação pode atuar como Recurso Controlável de Carga (RCC) no SIN. Neste projeto a carga é inferência de IA — mas o protocolo OpenADR 3.0 e a escada de resposta são genéricos: funcionam para qualquer processo elétrico com postergabilidade operacional.',
     cta_demo: 'Ver Demo ao Vivo →',
     cta_method: 'Como Funciona',
     proof_hardware: 'Hardware',
@@ -22,9 +22,9 @@ export const pt = {
     proof_tiers: 'Níveis de resposta',
     problem_heading: 'Qualquer carga flexível pode virar\nrecurso ativo do sistema.',
     problem_p1:
-      'Cargas industriais, data centers, sistemas de refrigeração e processos postergáveis representam flexibilidade não explorada no SIN. Construir geração e transmissão leva anos; habilitar resposta de demanda nas cargas existentes é o caminho mais rápido para equilibrar o sistema no horário de ponta.',
+      'Cargas industriais, data centers, sistemas de refrigeração e processos postergáveis representam flexibilidade não explorada no SIN. Construir geração e transmissão leva anos; viabilizar Resposta da Demanda nas instalações já existentes é o caminho mais rápido para equilibrar o sistema no horário de ponta.',
     problem_p2:
-      'A maioria das cargas trata potência como constante. Não precisa ser assim. Qualquer processo com tolerância a atraso — inferência de IA, bombeamento, refrigeração, manufatura — pode expor resposta graduada: reduzir, pausar ou retomar com base em um sinal da rede, mantendo um compromisso de serviço mensurável.',
+      'A maioria das cargas trata potência como constante. Não precisa ser assim. Qualquer processo com postergabilidade — inferência de IA, bombeamento, refrigeração, manufatura — pode ofertar resposta graduada: reduzir, pausar ou retomar com base em um sinal do ONS, mantendo um compromisso de serviço mensurável.',
     stats: [
       { stat: '+165%', desc: 'Crescimento projetado da carga de data centers no SIN até 2030 — uma das maiores cargas flexíveis sem programa de DR ativo, segundo a EPE' },
       { stat: '1,7% → 3,9%', desc: 'Participação dos data centers na demanda elétrica do Brasil: nível atual e projeção para 2029 — sem contar outras cargas flexíveis industriais' },
@@ -41,7 +41,7 @@ export const pt = {
     telemetry_mid: '→ MQTT → coletor de estado →',
     telemetry_end: '→ Painel ao Vivo (5s)',
     ladder_heading: 'Escada de resposta',
-    ladder_sub: 'Quatro patamares graduados de redução — do throttling suave ao desligamento completo',
+    ladder_sub: 'Quatro patamares de redução progressiva — do throttling suave ao desligamento controlado',
     ladder_power: 'Potência',
     ladder_reduction: 'Redução de Carga',
     ladder_sla: 'SLA',
@@ -61,19 +61,19 @@ export const pt = {
     why_cards: [
       {
         audience: 'Operadores e Distribuidoras',
-        point: 'Demonstra que qualquer carga flexível — de inferência de IA a processos industriais — pode se tornar um Recurso Controlável de Carga (RCC) no SIN. O ONS opera um Sandbox de Resposta da Demanda ativo desde 2024 — e o OpenADR 3.0 implementado neste projeto é o padrão que viabiliza a participação automatizada de qualquer tipo de carga.',
+        point: 'Demonstra que qualquer RCC — de inferência de IA a processos industriais — pode participar do programa de RD sem integração customizada por agente. O ONS mantém um ambiente de testes de RD ativo desde novembro de 2024, com previsão de operação comercial a partir de 2026 — o OpenADR 3.0 é o protocolo que viabiliza essa participação em escala.',
       },
       {
         audience: 'Indústria',
-        point: 'Conecta flexibilidade de potência ao impacto de SLA, transformando curtailment em modo operacional medido.',
+        point: 'Mostra como transformar corte de carga em modo de operação planejado: cada patamar de redução tem impacto mensurável no SLA, tornando a Resposta da Demanda uma variável de negócio gerenciável, não uma interrupção.',
       },
       {
         audience: 'Pesquisadores',
-        point: 'Bancada open-source para computação interativa com a rede, reproduzível em hardware comum e inspecionável de ponta a ponta.',
+        point: 'Bancada open-source para grid-interactive computing, reproduzível em hardware de prateleira e inspecionável de ponta a ponta — do protocolo OpenADR ao contrato ERC-20.',
       },
       {
         audience: 'Recrutadores',
-        point: 'Prova observável de capacidade multidisciplinar: protocolos de rede, sistemas embarcados e telemetria web.',
+        point: 'Entrega observável de uma pilha multidisciplinar completa: protocolo industrial (OpenADR), sistemas embarcados (Pi + Zigbee), telemetria web e liquidação on-chain — rodando em produção, não em ambiente de testes.',
       },
     ],
     signal_items: [
@@ -92,7 +92,7 @@ export const pt = {
     about_p1:
       'Data Joule é um projeto de portfólio de Internet de Energia criado para demonstrar que cargas flexíveis podem participar da Resposta da Demanda em tempo real. A carga demonstrada é inferência de IA em hardware de borda — mas a arquitetura é genérica: a pilha completa, do VTN ao medidor Zigbee, funciona para qualquer processo elétrico com margem de operação.',
     about_p2:
-      'O hardware funciona 24/7. A telemetria é real. Os sinais OpenADR vêm de uma implementação de referência VTN de nível de produção. Nada aqui é simulado; o painel público mostra o loop de controle acontecendo.',
+      'O hardware funciona 24/7. A telemetria é real. Os sinais OpenADR vêm de uma implementação de referência VTN de nível de produção. Nada aqui é simulado; o painel público mostra a malha de controle em operação real.',
   },
   demo: {
     back: '← data-joule.com',
@@ -139,7 +139,7 @@ export const pt = {
     no_peak:      'Sem alerta de pico',
     unavailable:  'Indisponível',
     event_source: '⚡ Fonte do evento',
-    cross_locale_note: 'Este evento foi acionado por uma rede fora da sua região. O Data-Joule monitora três áreas simultaneamente — Québec/Nova Inglaterra (FR), Califórnia/Nova York (EN) e Brasil (PT). Quando qualquer rede monitorada atinge um limiar de estresse, o sinal de RD é ativado em todas as localidades.',
+    cross_locale_note: 'Este evento foi acionado por uma rede fora da sua região. O Data-Joule monitora três áreas simultaneamente — Québec/Nova Inglaterra (FR), Califórnia/Nova York (EN) e Brasil (PT). Quando qualquer rede monitorada atinge um limiar de estresse, o sinal de RD dispara para todas as regiões monitoradas.',
     triggered_by: 'Acionado por',
     demand_at:    'Demanda em',
     capacity:     'da capacidade',
@@ -165,8 +165,8 @@ export const pt = {
     chain_step_oracle: 'Chainlink DON',
     chain_step_evm: 'Minting ERC-20',
     why_title: 'Por que isso é diferente',
-    why_p1: 'A liquidação atual no Programa de Resposta da Demanda é opaca: o ONS e a CCEE confiam na auto-declaração do agente. Não há prova criptográfica de que a carga realmente caiu. Esse é o problema do oráculo aplicado ao setor elétrico.',
-    why_p2: 'Os Créditos Joule resolvem isso com a Rede de Oráculos Descentralizada da Chainlink. Quando um evento termina, múltiplos nós oracles independentes buscam a medição física de potência e chegam a consenso antes do minting. Nenhuma parte isolada pode forjar um resultado.',
+    why_p1: 'A liquidação atual no Programa de Resposta da Demanda é opaca: o ONS e a CCEE dependem da medição autodeclarada pelo agente respondente. Não há verificação independente de que a carga efetivamente reduziu. Esse é o problema do oráculo aplicado ao setor elétrico brasileiro.',
+    why_p2: 'Os Créditos Joule resolvem isso com a Rede de Oráculos Descentralizada da Chainlink. Quando um evento termina, múltiplos nós oracles independentes consultam a medição física de potência e chegam a um consenso antes do minting. Nenhuma parte isolada pode forjar um resultado.',
     why_p3: 'Cada token JLC carrega uma trilha de auditoria verificável: ID de evento OpenADR, ID de requisição Chainlink, hash de transação no Polygonscan. A liquidação não é mais uma promessa; é um fato registrado on-chain.',
     log_title: 'Registro de eventos',
     log_col_date: 'Data',
@@ -195,11 +195,11 @@ export const pt = {
     intro:
       'Passo a passo do loop de controle do Data Joule: um evento OpenADR 3.0 chega, o nó de borda muda o comportamento da inferência, os watts são medidos na tomada, o resultado aparece no painel ao vivo e a redução é liquidada on-chain via Chainlink Functions.',
     architecture_heading: 'Arquitetura do sistema',
-    architecture_sub: 'Laboratório doméstico com dois Pi + plano de controle em VPS + plano de dados na Vercel + liquidação Chainlink',
+    architecture_sub: 'Home lab com dois Pi + plano de controle em VPS + plano de dados na Vercel + liquidação Chainlink',
     public_internet: 'INTERNET PÚBLICA',
     browser_poll: 'Consulta /api/state a cada 5s',
     browser_dashboard: 'Painel ao vivo',
-    home_lab: 'LABORATÓRIO DOMÉSTICO — Montréal, QC  [somente saída]',
+    home_lab: 'HOME LAB — Montréal, QC  [somente saída]',
     smart_plug: 'Tomada Zigbee #1',
     smart_plug_detail: 'Tomada inteligente ThirdReality',
     smart_plug_meter: 'mede o USB-C do mtl-edge-01',
@@ -230,7 +230,7 @@ export const pt = {
       { name: 'Desligado', mechanism: 'O caminho de controle executa um desligamento ordenado e isola a energia de computação pela tomada medida. Quando o evento termina, o nó é restaurado e volta ao serviço em cerca de 55 segundos.' },
     ],
     steps: [
-      { title: 'O VTN cria um evento', detail: 'O operador do sistema (ONS) ou um script de teste publica um evento OpenADR com payload SIMPLE. O valor (1–4) mapeia diretamente para um patamar de redução com início e duração.' },
+      { title: 'O VTN cria um evento', detail: 'O ONS, ou um script de teste, publica um evento OpenADR com payload do tipo SIMPLE. O valor (1–4) mapeia diretamente para um patamar de redução, com horário de início e duração definidos.' },
       { title: 'O VEN consulta a cada 10 segundos', detail: 'O VEN consulta o feed autorizado de eventos em cadência fixa e só age em eventos dentro da janela ativa.' },
       { title: 'is_active() verifica o intervalo', detail: 'Como a implementação OpenADR 3.0 RI nem sempre define eventStatus, is_active() verifica localmente se o horário atual cai dentro de uma janela de intervalo.' },
       { title: 'run_event() percorre a escada de resposta', detail: 'O valor SIMPLE vira o patamar de redução. run_event() chama a ação correspondente, deduplica eventos em memória e depois restaura o patamar 0 com relatório de conclusão.' },
