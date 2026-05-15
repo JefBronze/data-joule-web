@@ -1,4 +1,5 @@
 export const pt = {
+  site_title: 'Data Joule — Carga de IA no SIN',
   nav: {
     method: 'Método',
     demo: 'Demo',

@@ -5,6 +5,7 @@ import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { LocaleProvider } from "./lib/i18n";
+import { TitleUpdater } from "./components/TitleUpdater";
 import "./globals.css";
 
 const display = Chakra_Petch({
@@ -45,7 +46,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.svg",
-    shortcut: "/favicon.ico",
   },
   openGraph: {
     title: "Data Joule — Grid-Interactive AI Compute",
@@ -75,7 +75,10 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
       <body suppressHydrationWarning className="min-h-full bg-(--background) text-neutral-100 antialiased font-[family-name:var(--font-body)]">
-        <LocaleProvider>{children}</LocaleProvider>
+        <LocaleProvider>
+          <TitleUpdater />
+          {children}
+        </LocaleProvider>
         {process.env.NODE_ENV === "development" && (
           <TwentyFirstToolbar config={toolbarConfig} />
         )}

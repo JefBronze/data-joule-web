@@ -1,4 +1,5 @@
 export const fr = {
+  site_title: 'Data Joule — Calcul IA effaçable à la pointe hivernale',
   nav: {
     method: "Méthode",
     demo: "Démo",

@@ -1,4 +1,5 @@
 export const en = {
+  site_title: 'Data Joule — Grid-Interactive AI Compute',
   nav: {
     method: 'Method',
     demo: 'Demo',
