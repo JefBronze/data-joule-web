@@ -200,6 +200,8 @@ export const en = {
     abi_download: 'Download ABI',
     chainlink_sub: 'Chainlink Subscription',
     chainlink_verified: '· Chainlink-verified',
+    decentralized_verification: 'decentralized verification',
+    oracle_sub: 'Decentralized oracle',
   },
   method: {
     badge: 'Technical Deep-Dive',

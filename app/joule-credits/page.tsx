@@ -153,7 +153,7 @@ export default function JouleCreditsPage() {
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.jlc.chain_title}</h2>
               <p className="text-neutral-500 text-sm font-mono mb-12">
-                {t.jlc.stat_equation} · decentralized verification
+                {t.jlc.stat_equation} · {t.jlc.decentralized_verification}
               </p>
             </ScrollReveal>
 
@@ -213,7 +213,7 @@ export default function JouleCreditsPage() {
                   <circle cx="580" cy="36" r="4" fill="none" stroke="#a855f7" strokeWidth="2"/>
                   <text x="639" y="40" textAnchor="middle" fill="#a855f7" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">Chainlink DON</text>
                   <text x="639" y="57" textAnchor="middle" fill="#6b21a8" fontSize="8.5" fontFamily="var(--font-mono)">Functions · consensus</text>
-                  <text x="639" y="72" textAnchor="middle" fill="#3b0764" fontSize="8" fontFamily="var(--font-mono)">Decentralized oracle</text>
+                  <text x="639" y="72" textAnchor="middle" fill="#3b0764" fontSize="8" fontFamily="var(--font-mono)">{t.jlc.oracle_sub}</text>
 
                   <path d="M720,52 L752,52" stroke="#6b21a8" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#jlc-arr-purple)" className="animate-signal-dash" style={{animationDelay: '0.75s'}}/>
 

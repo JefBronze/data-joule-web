@@ -33,7 +33,7 @@ export const pt = {
     ],
     sources_label: 'Fontes',
     sources: [
-      { label: 'EPE — Consumo de Data Centers no Brasil', href: 'https://www.epe.gov.br/pt/areas-de-atuacao/energia-eletrica/consumo-de-energia-eletrica/consumo-de-data-centers' },
+      { label: 'EPE — Anuário Estatístico de Energia Elétrica', href: 'https://www.epe.gov.br/pt/publicacoes-dados-abertos/publicacoes/anuario-estatistico-de-energia-eletrica' },
       { label: 'ONS — Flexibilidade Operativa no SIN, NT-ONS DPL 0111-2024', href: 'https://www.ons.org.br/AcervoDigitalDocumentosEPublicacoes/NT-ONS%20DPL%200111-2024%20-%20Avalia%C3%A7%C3%A3o%20dos%20Requisitos%20de%20Flexibilidade%20Operativa%20no%20SIN.pdf' },
       { label: 'EPE — REDATA e crescimento de data centers, nov 2025', href: 'https://www.epe.gov.br/pt/imprensa/noticias/redata-epe-acelera-planejamento-da-rede-para-suportar-crescimento-recorde-de-data-centers' },
     ],
@@ -200,6 +200,8 @@ export const pt = {
     abi_download: 'Baixar ABI',
     chainlink_sub: 'Assinatura Chainlink',
     chainlink_verified: '· verificado pela Chainlink',
+    decentralized_verification: 'verificação descentralizada',
+    oracle_sub: 'Oráculo descentralizado',
   },
   method: {
     badge: 'Detalhe técnico',
