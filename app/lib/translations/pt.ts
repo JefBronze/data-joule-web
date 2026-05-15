@@ -10,25 +10,25 @@ export const pt = {
   },
   home: {
     hero_badge: 'OpenADR 3.0 · Hardware Real · Montréal, QC',
-    headline1: 'Computação de IA,',
-    headline2: 'recurso flexível do SIN.',
+    headline1: 'Qualquer carga flexível,',
+    headline2: 'recurso ativo no SIN.',
     description:
-      'Data Joule demonstra, em hardware real, que cargas de inferência de IA podem atuar como Recursos Controláveis de Carga (RCC) no SIN — reduzindo consumo em patamares graduados quando o sistema sinaliza restrição no horário de ponta, conforme o modelo do Programa de Resposta da Demanda do ONS.',
+      'Data Joule demonstra, em hardware real, que qualquer carga com margem de operação pode atuar como Recurso Controlável de Carga (RCC) no SIN. Neste projeto a carga é inferência de IA — mas o protocolo OpenADR 3.0 e a escada de resposta graduada são genéricos: funcionam para qualquer processo elétrico com flexibilidade temporal.',
     cta_demo: 'Ver Demo ao Vivo →',
     cta_method: 'Como Funciona',
     proof_hardware: 'Hardware',
     proof_protocol: 'Protocolo',
     proof_signal: 'Fonte do sinal',
     proof_tiers: 'Níveis de resposta',
-    problem_heading: 'A carga de IA está virando carga do sistema.\nEla precisa ser flexível.',
+    problem_heading: 'Qualquer carga flexível pode virar\nrecurso ativo do sistema.',
     problem_p1:
-      'Data centers e cargas de inferência estão virando demanda elétrica relevante no SIN. Construir geração e transmissão leva anos; flexibilidade de demanda ajuda a usar melhor a capacidade existente durante o horário de ponta.',
+      'Cargas industriais, data centers, sistemas de refrigeração e processos postergáveis representam flexibilidade não explorada no SIN. Construir geração e transmissão leva anos; habilitar resposta de demanda nas cargas existentes é o caminho mais rápido para equilibrar o sistema no horário de ponta.',
     problem_p2:
-      'A maioria das cargas computacionais trata potência como constante. Não precisa ser assim. Cargas de inferência podem expor resposta graduada: desacelerar, suspender ou recuperar com base em um sinal da rede, mantendo um compromisso de serviço mensurável.',
+      'A maioria das cargas trata potência como constante. Não precisa ser assim. Qualquer processo com tolerância a atraso — inferência de IA, bombeamento, refrigeração, manufatura — pode expor resposta graduada: reduzir, pausar ou retomar com base em um sinal da rede, mantendo um compromisso de serviço mensurável.',
     stats: [
-      { stat: '+165%', desc: 'Crescimento projetado da carga de data centers no SIN até 2030, segundo a EPE' },
-      { stat: '1,7% → 3,9%', desc: 'Participação dos data centers na demanda elétrica do Brasil: nível atual e projeção para 2029' },
-      { stat: '0', desc: 'Nós de borda de IA compatíveis com OpenADR demonstrados publicamente antes deste projeto' },
+      { stat: '+165%', desc: 'Crescimento projetado da carga de data centers no SIN até 2030 — uma das maiores cargas flexíveis sem programa de DR ativo, segundo a EPE' },
+      { stat: '1,7% → 3,9%', desc: 'Participação dos data centers na demanda elétrica do Brasil: nível atual e projeção para 2029 — sem contar outras cargas flexíveis industriais' },
+      { stat: '0', desc: 'Cargas de borda compatíveis com OpenADR demonstradas publicamente antes deste projeto' },
     ],
     sources_label: 'Fontes',
     sources: [
@@ -61,7 +61,7 @@ export const pt = {
     why_cards: [
       {
         audience: 'Operadores e Distribuidoras',
-        point: 'Demonstra que cargas de IA podem se tornar Recursos Controláveis de Carga (RCC) habilitados no SIN. O ONS opera um Sandbox de Resposta da Demanda ativo desde 2024 — e o OpenADR 3.0 implementado neste projeto é o padrão que viabiliza a participação automatizada.',
+        point: 'Demonstra que qualquer carga flexível — de inferência de IA a processos industriais — pode se tornar um Recurso Controlável de Carga (RCC) no SIN. O ONS opera um Sandbox de Resposta da Demanda ativo desde 2024 — e o OpenADR 3.0 implementado neste projeto é o padrão que viabiliza a participação automatizada de qualquer tipo de carga.',
       },
       {
         audience: 'Indústria',
@@ -90,7 +90,7 @@ export const pt = {
     ],
     about_heading: 'Sobre o projeto',
     about_p1:
-      'Data Joule é um projeto de portfólio de Internet de Energia criado para demonstrar que a computação de IA de borda pode participar da flexibilidade da rede em tempo real. A pilha completa — do deploy do VTN em um VPS à tomada inteligente Zigbee medindo a potência — foi projetada, implantada e testada como prova funcional.',
+      'Data Joule é um projeto de portfólio de Internet de Energia criado para demonstrar que cargas flexíveis podem participar da Resposta da Demanda em tempo real. A carga demonstrada é inferência de IA em hardware de borda — mas a arquitetura é genérica: a pilha completa, do VTN ao medidor Zigbee, funciona para qualquer processo elétrico com margem de operação.',
     about_p2:
       'O hardware funciona 24/7. A telemetria é real. Os sinais OpenADR vêm de uma implementação de referência VTN de nível de produção. Nada aqui é simulado; o painel público mostra o loop de controle acontecendo.',
   },
