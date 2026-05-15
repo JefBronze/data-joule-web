@@ -109,7 +109,10 @@ export default function HomePage() {
             <div className="flex-1">
               <ScrollReveal>
                 <div className="inline-block mb-6">
-                  <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
+                  <span className="sm:hidden text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
+                    {t.home.hero_badge_mobile}
+                  </span>
+                  <span className="hidden sm:inline text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                     {t.home.hero_badge}
                   </span>
                 </div>

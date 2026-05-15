@@ -10,6 +10,7 @@ export const en = {
   },
   home: {
     hero_badge: 'OpenADR 3.0 · Live Hardware · Montréal, QC',
+    hero_badge_mobile: 'OpenADR 3.0 · Live Hardware · Montréal, QC',
     headline1: 'AI compute,',
     headline2: 'dispatchable by the grid.',
     description:

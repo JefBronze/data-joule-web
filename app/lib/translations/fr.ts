@@ -10,6 +10,7 @@ export const fr = {
   },
   home: {
     hero_badge: "OpenADR 3.0 · Matériel réel · Montréal, QC",
+    hero_badge_mobile: "OpenADR 3.0 · Matériel réel · Montréal, QC",
     headline1: "Du calcul IA,",
     headline2: "effaçable à la pointe hivernale.",
     description:
