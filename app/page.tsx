@@ -104,26 +104,38 @@ export default function HomePage() {
             backgroundSize: '24px 24px',
           }}
         />
+        {/* CH roundel sticker — FR only */}
+        {locale === 'fr' && (
+          <div
+            className="absolute pointer-events-none select-none hidden lg:block"
+            style={{
+              top: '14%',
+              left: '51%',
+              transform: 'rotate(-11deg)',
+              filter: 'drop-shadow(2px 6px 18px rgba(0,0,0,0.7))',
+              zIndex: 10,
+            }}
+          >
+            <svg width="136" height="136" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="59" fill="white" opacity="0.96"/>
+              <circle cx="60" cy="60" r="56" fill="#AF1E2D"/>
+              <circle cx="60" cy="60" r="42" fill="white"/>
+              <circle cx="60" cy="60" r="38" fill="#192168"/>
+              <text x="60" y="81" textAnchor="middle" fill="white"
+                fontSize="42" fontWeight="900"
+                fontFamily="Georgia,'Times New Roman',serif"
+                fontStyle="italic">CH</text>
+            </svg>
+          </div>
+        )}
         <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-20">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
-                <div className="inline-flex flex-col gap-2 mb-6">
-                  <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full self-start">
+                <div className="inline-block mb-6">
+                  <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                     {t.home.hero_badge}
                   </span>
-                  {locale === 'fr' && (
-                    <span
-                      className="text-xs font-mono font-semibold px-3 py-1 rounded-full self-start tracking-wide"
-                      style={{
-                        color: '#ffffff',
-                        background: 'linear-gradient(90deg, #AF1E2D 0%, #192168 100%)',
-                        border: '1px solid #AF1E2D66',
-                      }}
-                    >
-                      ⚜ Allez les Habs ! Go Habs Go ! 🏒
-                    </span>
-                  )}
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={150}>
