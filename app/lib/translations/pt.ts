@@ -9,7 +9,7 @@ export const pt = {
     tagline: 'Telemetria ao vivo de um nó de computação de IA em Montréal, QC. Atualizada a cada 5s.',
   },
   home: {
-    hero_badge: 'OpenADR 3.0 · IoT hardware · Telemetria ao vivo',
+    hero_badge: 'OpenADR 3.0 · IoT hardware · Liquidação on-chain',
     hero_badge_mobile: 'OpenADR 3.0 · Telemetria ao vivo',
     headline1: 'Resposta da Demanda',
     headline2: 'verificável on-chain.',
@@ -20,7 +20,7 @@ export const pt = {
     proof_hardware: 'Hardware',
     proof_protocol: 'Protocolo',
     proof_signal: 'Fonte do sinal',
-    proof_tiers: 'Patamares de resposta',
+    proof_tiers: 'Liquidação',
     problem_heading: 'Flexibilidade pelo lado da demanda.\nO SIN vai precisar de cargas que saibam responder.',
     problem_p1:
       'Data centers, refrigeração, bombeamento, manufatura e outras cargas com flexibilidade operacional podem ajudar o sistema sem esperar anos por nova geração ou transmissão. A Resposta da Demanda transforma essa flexibilidade em recurso: reduzir consumo, deslocar operação ou retomar carga conforme a condição do sistema.',
@@ -29,7 +29,7 @@ export const pt = {
     stats: [
       { stat: '+165%', desc: 'Crescimento projetado da carga de data centers no SIN até 2030, segundo a EPE.' },
       { stat: '1,7% → 3,9%', desc: 'Participação estimada dos data centers na demanda elétrica do Brasil, do nível atual à projeção para 2029.' },
-      { stat: '0', desc: 'Demonstrações públicas encontradas de nós de inferência de IA compatíveis com OpenADR antes do Data Joule.' },
+      { stat: '55 s', desc: 'Boot a frio até inferência ativa após corte de Nível 4 — medido em hardware real.' },
     ],
     sources_label: 'Fontes',
     sources: [
@@ -73,8 +73,8 @@ export const pt = {
         point: 'Bancada aberta para computação interativa com a rede, reproduzível em hardware de prateleira e auditável de ponta a ponta — do protocolo OpenADR ao contrato ERC-20.',
       },
       {
-        audience: 'Recrutadores',
-        point: 'Entrega observável de uma pilha multidisciplinar completa: protocolo industrial (OpenADR), sistemas embarcados (Pi + Zigbee), telemetria web e registro on-chain — rodando continuamente em hardware real.',
+        audience: 'Web3 / Energia',
+        point: 'Cada evento de RD concluído cunha um Joule Credit (ERC-20) na Polygon, verificado pela rede de oráculos Chainlink contra a medição real de potência. Liquidação de energia do mundo físico on-chain, sem intermediário de confiança.',
       },
     ],
     signal_items: [
@@ -91,13 +91,13 @@ export const pt = {
     ],
     about_heading: 'Sobre o projeto',
     about_p1:
-      'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e publica telemetria de potência ao vivo. A arquitetura é genérica: o mesmo caminho, do VTN à medição na tomada, pode ser aplicado a qualquer processo elétrico com flexibilidade operacional.',
+      'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e liquida cada kWh cortado on-chain sem intermediário de confiança. A arquitetura vai do VTN no VPS até a verificação oracle Chainlink na Polygon — projetada, implantada e testada como prova funcional.',
     about_p2:
-      'O sistema roda continuamente. A telemetria vem de medição física. Os eventos OpenADR são emitidos por um VTN de referência operado pelo projeto. O painel público mostra a malha de controle em operação, da sinalização ao registro verificável da redução.',
+      'O sistema roda continuamente. A telemetria vem de medição física. Os eventos OpenADR são emitidos por um VTN de referência operado pelo projeto. Quando um evento é concluído, a redução medida é liquidada on-chain: a rede de oráculos Chainlink verifica a queda em kWh e cunha um Joule Credit na Polygon. Nada aqui é simulado ou declarado — é medido, registrado e verificável.',
     tier_label: 'PATAMAR',
     live_node: 'Nó em operação',
     waiting_telemetry: 'Aguardando telemetria…',
-    proof_tiers_value: '4 patamares',
+    proof_tiers_value: 'Chainlink · Polygon',
     signal_read: 'Ler →',
     flow_operator: 'Sinal do sistema',
     flow_operator_sub: 'Gera evento de RD',

@@ -9,18 +9,18 @@ export const en = {
     tagline: 'Live telemetry from an AI compute node in Montréal, QC. Updated every 5s.',
   },
   home: {
-    hero_badge: 'OpenADR 3.0 · Live Hardware · Montréal, QC',
-    hero_badge_mobile: 'OpenADR 3.0 · Live Hardware · Montréal, QC',
+    hero_badge: 'OpenADR 3.0 · Live Hardware · Chainlink-settled',
+    hero_badge_mobile: 'OpenADR 3.0 · Chainlink-settled',
     headline1: 'AI compute,',
     headline2: 'dispatchable by the grid.',
     description:
-      'Data Joule is a live OpenADR demo that turns demand-response events into measured inference curtailment on an edge node. It shows how flexible AI load can reduce peak stress, use existing grid capacity better, and remain auditable through open telemetry.',
+      'Data Joule turns OpenADR 3.0 demand-response events into measured inference curtailment on a Raspberry Pi — and mints each curtailed kWh as a Joule Credit on Polygon via Chainlink. Flexible AI load that is measured, auditable, and on-chain provable.',
     cta_demo: 'Watch Live Demo →',
     cta_method: 'How It Works',
     proof_hardware: 'Hardware',
     proof_protocol: 'Protocol',
     proof_signal: 'Signal source',
-    proof_tiers: 'Response tiers',
+    proof_tiers: 'Settlement',
     problem_heading: 'AI load is becoming grid load.\nIt needs to become flexible.',
     problem_p1:
       'Data centers and inference workloads are becoming material grid demand. Adding generation and wires takes years; demand flexibility can make today\'s capacity work harder during constrained hours.',
@@ -29,7 +29,7 @@ export const en = {
     stats: [
       { stat: '2×', desc: 'Projected data center power demand growth by 2030' },
       { stat: '4% → 9%', desc: 'U.S. electricity load share from data centers: 2023 actual to 2030 high estimate' },
-      { stat: '0', desc: 'OpenADR-compliant AI edge nodes publicly demonstrated before this project' },
+      { stat: '55 s', desc: 'Cold-boot to inference-ready after a Tier 4 hard cutoff — measured on real hardware' },
     ],
     sources_label: 'Sources',
     sources: [
@@ -73,8 +73,8 @@ export const en = {
         point: 'Open-source testbed for grid-interactive compute, reproducible on commodity hardware and inspectable end to end.',
       },
       {
-        audience: 'Hiring teams',
-        point: 'Publicly observable proof of cross-domain capability: grid protocols, embedded systems, and web telemetry.',
+        audience: 'Web3 / Energy',
+        point: 'Each completed DR event mints a Joule Credit (ERC-20) on Polygon, verified by Chainlink\'s oracle network against the real wattage drop. Physical-world energy settlement on-chain, without a trusted intermediary.',
       },
     ],
     signal_items: [
@@ -91,13 +91,13 @@ export const en = {
     ],
     about_heading: 'About this project',
     about_p1:
-      'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility. The full stack — from VTN deployment on a VPS to the Zigbee smart plug measuring wattage — was designed, deployed, and tested as a working proof point.',
+      'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility — and that curtailment events can be settled on-chain without a trusted intermediary. The full stack — from VTN deployment on a VPS to Chainlink oracle verification on Polygon — was designed, deployed, and tested as a working proof point.',
     about_p2:
-      'The hardware runs 24/7. The telemetry is real. The OpenADR signals come from a production-grade VTN reference implementation. Nothing here is simulated; the public dashboard shows the control loop as it happens.',
+      'The hardware runs 24/7. The telemetry is real. The OpenADR signals come from a production-grade VTN reference implementation. When a DR event completes, the measured curtailment is settled on-chain: Chainlink\'s oracle network verifies the kWh reduction and mints a Joule Credit on Polygon. Nothing here is simulated or claimed — it is measured, recorded, and provable.',
     tier_label: 'TIER',
     live_node: 'Live Node',
     waiting_telemetry: 'Waiting for telemetry…',
-    proof_tiers_value: '4 levels',
+    proof_tiers_value: 'Chainlink · Polygon',
     signal_read: 'Read →',
     flow_operator: 'Grid Operator',
     flow_operator_sub: 'Issues DR event',

@@ -48,8 +48,11 @@ const PROOF_ICONS = [
     </svg>
   ),
   (
-    <svg key="tiers" viewBox="0 0 16 16" width="16" height="16" fill="none" className="text-amber-500">
-      <path d="M8 2L10 6H14L11 9L12 13L8 10.5L4 13L5 9L2 6H6L8 2Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+    <svg key="settlement" viewBox="0 0 16 16" width="16" height="16" fill="none" className="text-amber-500">
+      <path d="M5 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.2"/>
+      <path d="M11 14a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.2"/>
+      <path d="M7.5 5.5L8.5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M7.5 10.5L8.5 11" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
     </svg>
   ),
 ]

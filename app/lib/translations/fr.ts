@@ -9,8 +9,8 @@ export const fr = {
     tagline: "Télémétrie en direct d'un nœud de calcul IA à Montréal, QC. Mise à jour aux 5 secondes.",
   },
   home: {
-    hero_badge: "OpenADR 3.0 · Matériel réel · Montréal, QC",
-    hero_badge_mobile: "OpenADR 3.0 · Matériel réel · Montréal, QC",
+    hero_badge: "OpenADR 3.0 · Matériel réel · Réglé sur Chainlink",
+    hero_badge_mobile: "OpenADR 3.0 · Chainlink",
     headline1: "Du calcul IA,",
     headline2: "effaçable à la pointe hivernale.",
     description:
@@ -20,7 +20,7 @@ export const fr = {
     proof_hardware: "Matériel",
     proof_protocol: "Protocole",
     proof_signal: "Source du signal",
-    proof_tiers: "Paliers d'effacement",
+    proof_tiers: "Règlement",
     problem_heading: "La charge IA prend de la place sur le réseau d'HQ.\nElle doit pouvoir s'effacer à la pointe.",
     problem_p1:
       "Les centres de données et l'inférence IA représentent une demande qui monte vite sur le réseau d'HQ. Construire de nouvelles capacités prend des années; l'effacement et la modulation permettent de mieux passer la pointe hivernale avec ce qu'on a déjà.",
@@ -29,7 +29,7 @@ export const fr = {
     stats: [
       { stat: "~1 100 MW", desc: "Demande projetée des centres de données au Québec d'ici 2035 — contre 130 MW en 2024 (Hydro-Québec)" },
       { stat: "700 MW", desc: "Effacement de pointe atteint par les thermostats intelligents Hilo lors de l'hiver 2025-2026" },
-      { stat: "0", desc: "Nœuds de calcul IA conformes OpenADR démontrés publiquement avant ce projet" },
+      { stat: "55 s", desc: "Redémarrage à froid jusqu'à l'inférence active après une coupure Palier 4 — mesuré sur matériel réel" },
     ],
     sources_label: "Sources",
     sources: [
@@ -73,8 +73,8 @@ export const fr = {
         point: "Plateforme d'essai open-source pour le calcul interactif avec le réseau, reproductible sur du matériel courant et inspectable de A à Z.",
       },
       {
-        audience: "Recruteurs",
-        point: "Preuve concrète d'une capacité transversale : protocoles réseau, systèmes embarqués et télémétrie web — le tout qui fonctionne ensemble pour vrai.",
+        audience: "Web3 / Énergie",
+        point: "Chaque événement d'effacement complété frappe un Joule Credit (ERC-20) sur Polygon, vérifié par le réseau d'oracles Chainlink contre la mesure de puissance réelle. Règlement d'énergie physique sur chaîne, sans intermédiaire de confiance.",
       },
     ],
     signal_items: [
@@ -91,13 +91,13 @@ export const fr = {
     ],
     about_heading: "À propos du projet",
     about_p1:
-      "Data Joule est un projet de portefeuille Internet of Energy conçu pour démontrer que le calcul IA de bord peut participer à la flexibilité réseau en temps réel. La pile complète — du VTN sur VPS jusqu'à la prise Zigbee qui mesure la puissance — a été pensée, déployée et testée comme preuve fonctionnelle.",
+      "Data Joule est un projet de portefeuille Internet of Energy conçu pour démontrer que le calcul IA de bord peut participer à la flexibilité réseau en temps réel — et que les événements d'effacement peuvent être réglés sur chaîne sans intermédiaire de confiance. La pile complète — du VTN sur VPS jusqu'à la vérification oracle Chainlink sur Polygon — a été pensée, déployée et testée comme preuve fonctionnelle.",
     about_p2:
-      "Le matériel roule 24h/24. La télémétrie est réelle. Les signaux OpenADR viennent d'une implémentation de référence VTN de niveau production. Rien n'est simulé ici; le tableau public montre la boucle de contrôle en temps réel.",
+      "Le matériel roule 24h/24. La télémétrie est réelle. Les signaux OpenADR viennent d'une implémentation de référence VTN de niveau production. Quand un événement d'effacement se termine, la réduction mesurée est réglée sur chaîne : le réseau d'oracles Chainlink vérifie la baisse en kWh et frappe un Joule Credit sur Polygon. Rien n'est simulé ni déclaré — c'est mesuré, enregistré et vérifiable.",
     tier_label: 'PALIER',
     live_node: 'Nœud en direct',
     waiting_telemetry: 'En attente de télémétrie…',
-    proof_tiers_value: '4 niveaux',
+    proof_tiers_value: 'Chainlink · Polygon',
     signal_read: 'Lire →',
     flow_operator: 'Gestionnaire réseau',
     flow_operator_sub: "Envoie l'événement DR",
