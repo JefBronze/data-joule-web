@@ -14,7 +14,7 @@ export const fr = {
     headline1: "Du calcul IA,",
     headline2: "effaçable à la pointe hivernale.",
     description:
-      "Data Joule démontre, sur du matériel réel à Montréal, qu’un nœud d’inférence IA peut s’effacer sur signal — comme un participant Hilo ou au tarif Flex d’HQ. La puissance se module par paliers à la pointe hivernale, et chaque effacement reste vérifiable par télémétrie ouverte.",
+      "Data Joule démontre, sur du matériel réel à Montréal, qu’un nœud d’inférence IA peut s’effacer sur signal — comme un participant Hilo ou au tarif Flex d’HQ. Chaque événement d’effacement est réglé sur chaîne : un Joule Credit (ERC-20) frappé sur Polygon via Chainlink, vérifiable sans intermédiaire.",
     cta_demo: "Voir la démo en direct →",
     cta_method: "Comment ça marche",
     proof_hardware: "Matériel",
