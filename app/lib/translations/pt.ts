@@ -10,7 +10,7 @@ export const pt = {
   },
   home: {
     hero_badge: 'OpenADR 3.0 · IoT hardware · Liquidação on-chain',
-    hero_badge_mobile: 'OpenADR 3.0 · Telemetria ao vivo',
+    hero_badge_mobile: 'OpenADR 3.0 · Liquidação on-chain',
     headline1: 'Resposta da Demanda',
     headline2: 'verificável on-chain.',
     description:
