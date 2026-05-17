@@ -458,7 +458,7 @@ export default function JouleCreditsPage() {
                 <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5">
                   <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-2">Network</div>
                   <div className="text-sm text-neutral-300 font-mono">Polygon Mainnet</div>
-                  <div className="text-xs text-neutral-600 mt-1 font-mono">chainId 80002</div>
+                  <div className="text-xs text-neutral-600 mt-1 font-mono">chainId 137</div>
                 </div>
 
                 <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5">
