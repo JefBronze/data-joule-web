@@ -127,7 +127,7 @@ export default function JouleCreditsPage() {
                     </div>
                     {CONTRACT_ADDRESS ? (
                       <a
-                        href={`https://polygonscan.com/address/${CONTRACT_ADDRESS}`}
+                        href={`https://polygonscan.com/token/${CONTRACT_ADDRESS}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-sm font-bold text-purple-300 hover:text-purple-100 transition-colors"
@@ -432,7 +432,7 @@ export default function JouleCreditsPage() {
 
                 {CONTRACT_ADDRESS ? (
                   <a
-                    href={`https://polygonscan.com/address/${CONTRACT_ADDRESS}`}
+                    href={`https://polygonscan.com/token/${CONTRACT_ADDRESS}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 hover:border-purple-900/60 hover:bg-purple-950/10 transition-colors group"
