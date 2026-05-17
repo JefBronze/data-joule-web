@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Chakra_Petch, DM_Sans, IBM_Plex_Mono } from "next/font/google";
-import { ReactPlugin } from "@21st-extension/react";
-import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { LocaleProvider } from "./lib/i18n";
@@ -25,9 +23,6 @@ const mono = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
-const toolbarConfig = {
-  plugins: [ReactPlugin],
-};
 
 export const viewport: Viewport = {
   themeColor: "#09090f",
@@ -84,9 +79,6 @@ export default function RootLayout({
           <TitleUpdater />
           {children}
         </LocaleProvider>
-        {process.env.NODE_ENV === "development" && (
-          <TwentyFirstToolbar config={toolbarConfig} />
-        )}
         <SpeedInsights />
         <Analytics />
       </body>
