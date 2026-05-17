@@ -209,7 +209,7 @@ export const en = {
     chainlink_verified: '· Chainlink-verified',
     decentralized_verification: 'decentralized verification',
     oracle_sub: 'Decentralized oracle',
-    log_sub: 'Verified curtailment events · written at tier-drop · 30-day retention',
+    log_sub: 'Verified curtailment events · 30-day retention',
     loading: 'Loading…',
     economics_sub: '1 JLC = 1 kWh curtailed · @$0.12/kWh reference · 100 events/year',
     economics_col_fleet: 'Fleet',

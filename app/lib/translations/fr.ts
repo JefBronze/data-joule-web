@@ -209,7 +209,7 @@ export const fr = {
     chainlink_verified: '· validé Chainlink',
     decentralized_verification: 'vérification décentralisée',
     oracle_sub: 'Oracle décentralisé',
-    log_sub: 'Effacements vérifiés · écrits au palier · rétention 30 jours',
+    log_sub: 'Effacements vérifiés · rétention 30 jours',
     loading: 'Chargement…',
     economics_sub: '1 JLC = 1 kWh effacé · référence @$0,12/kWh · 100 événements/an',
     economics_col_fleet: 'Flotte',

@@ -209,7 +209,7 @@ export const pt = {
     chainlink_verified: '· verificado pela Chainlink',
     decentralized_verification: 'verificação descentralizada',
     oracle_sub: 'Oráculo descentralizado',
-    log_sub: 'Eventos de redução verificados · gravados no patamar de corte · retenção de 30 dias',
+    log_sub: 'Eventos verificados · retenção de 30 dias',
     loading: 'Carregando…',
     economics_sub: '1 JLC = 1 kWh reduzido · referência @$0,12/kWh · 100 eventos/ano',
     economics_col_fleet: 'Frota',
