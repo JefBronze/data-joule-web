@@ -68,7 +68,7 @@ npm run dev
 
 All three are required for live telemetry. The static sections of the site render without them.
 
-In **Vercel production**, set these under Settings → Environment Variables (Production + Preview only — the live `INGEST_API_KEY` must match `/home/jeferson/flexcompute/.env` on pi-compute).
+In **Vercel production**, set these under Settings → Environment Variables (Production + Preview only — the live `INGEST_API_KEY` must match the value configured on pi-compute).
 
 ---
 
@@ -150,13 +150,3 @@ Push to `master` → Vercel deploys automatically. No manual steps required.
 | Deployment | Vercel |
 | Security headers | CSP, HSTS, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy |
 
----
-
-## Related
-
-- [`flexcompute-edge`](https://github.com/JefBronze/flexcompute-edge) — VEN daemon, control agent, hardware setup
-- [data-joule.com/method](https://data-joule.com/method) — how the full signal chain works
-
-## Security
-
-See [SECURITY.md](SECURITY.md). The `/api/ingest` endpoint is in scope for vulnerability reports.
