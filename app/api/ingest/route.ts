@@ -82,8 +82,43 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'invalid timestamp' }, { status: 422 })
   }
 
-  const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp }
+  const inference_tok_s = payload.inference_tok_s != null ? Number(payload.inference_tok_s) : undefined
+  const inference_status = payload.inference_status != null ? String(payload.inference_status) : undefined
+
+  const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp,
+    ...(inference_tok_s != null && isFinite(inference_tok_s) ? { inference_tok_s } : {}),
+    ...(inference_status ? { inference_status } : {}),
+  }
   const hourTs = Math.floor(timestamp / 3600) * 3600
+
+  // Detect tier drop (≥1 → 0): write event completion report for Chainlink oracle
+  const prevEntry = await redis.get<{ dr_tier: number }>('telemetry:latest')
+  if (prevEntry && prevEntry.dr_tier >= 1 && dr_tier === 0) {
+    const activeEvent = await redis.get<{
+      tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
+    }>('demo:event')
+    if (activeEvent && /^grid-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
+      const { start_ts: evStart, end_ts: evEnd, event_name, tier: evTier, baseline_w } = activeEvent
+      // start_ts fallback: parse from event_name (format: "grid-tierN-TIMESTAMP")
+      const resolvedStart = evStart ?? parseInt(event_name.split('-').pop() ?? '0', 10)
+
+      const rawHistory = await redis.lrange<Record<string, unknown>>('telemetry:history', 0, -1)
+      const history = rawHistory.map(h => (typeof h === 'string' ? JSON.parse(h) : h) as { timestamp: number; wattage_w: number })
+      const eventEntries = history.filter(h => h.timestamp >= resolvedStart && h.timestamp <= evEnd)
+      const avgCurtailed = eventEntries.length > 0
+        ? eventEntries.reduce((s, h) => s + h.wattage_w, 0) / eventEntries.length
+        : wattage_w
+      const durationS = evEnd - resolvedStart
+      const kwhReduced = Math.max(0, (baseline_w - avgCurtailed) * durationS / 3_600_000)
+
+      await redis.set(`event:report:${event_name}`, {
+        event_name, tier: evTier, start_ts: resolvedStart, end_ts: evEnd,
+        baseline_w, avg_curtailed_w: avgCurtailed,
+        duration_s: durationS, kwh_reduced: kwhReduced,
+        completed_at: Math.floor(Date.now() / 1000),
+      }, { ex: 86400 * 30 })
+    }
+  }
 
   const pipe = redis.pipeline()
   pipe.set('telemetry:latest', entry)

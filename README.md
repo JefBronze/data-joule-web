@@ -15,7 +15,7 @@ This Next.js app serves three things:
 
 1. **Marketing site (`/`)** — explains the FlexCompute Edge project: the problem (AI loads and grid constraints), the mechanism (OpenADR 3.0 signal chain), the response ladder (4 curtailment tiers), and the live system status.
 
-2. **Live dashboard (`/demo`)** — polls real telemetry from a Raspberry Pi 5 in Montréal every 5 seconds. Shows current wattage, DR tier, LLM inference status, connection health, and a 5-minute wattage sparkline.
+2. **Live dashboard (`/demo`)** — polls real telemetry from a Raspberry Pi 5 in Montréal every 5 seconds. Shows current wattage, DR tier, LLM inference status (tok/s), connection health, a locale-aware Grid Conditions panel (live demand from Hydro-Québec / CAISO / NYISO / ISNE / ONS), and a wattage chart. Locale switcher (EN/FR/PT) on every page.
 
 3. **Technical deep-dive (`/method`)** — end-to-end walkthrough of the signal chain: architecture SVG, 6-step signal flow with code callouts, telemetry chain, response ladder deep-dive, and full stack table.
 
@@ -68,7 +68,7 @@ npm run dev
 
 All three are required for live telemetry. The static sections of the site render without them.
 
-In **Vercel production**, set these under Settings → Environment Variables (Production + Preview only — the live `INGEST_API_KEY` must match `/home/jeferson/flexcompute/.env` on pi-compute).
+In **Vercel production**, set these under Settings → Environment Variables (Production + Preview only — the live `INGEST_API_KEY` must match the value configured on pi-compute).
 
 ---
 
@@ -80,25 +80,55 @@ Receives telemetry from pi-compute. Requires `Authorization: Bearer <INGEST_API_
 
 **Body:**
 ```json
-{ "dr_tier": 0, "wattage_w": 3.3, "llm_status": "active", "openadr_status": "ready", "timestamp": 1746230400 }
+{
+  "dr_tier": 0,
+  "wattage_w": 10.3,
+  "llm_status": "active",
+  "openadr_status": "ready",
+  "timestamp": 1746230400,
+  "inference_tok_s": 3.5,
+  "inference_status": "active"
+}
 ```
 
 **Field constraints:**
-| Field | Type | Valid values |
-|-------|------|-------------|
-| `dr_tier` | integer | 0–4 |
-| `wattage_w` | float | 0–100 |
-| `llm_status` | string | `active`, `degraded`, `offline`, `paused` |
-| `openadr_status` | string | `ready`, `offline`, `error`, `pending` |
-| `timestamp` | integer | Unix seconds, within ±5 min of server time |
+| Field | Type | Required | Valid values |
+|-------|------|----------|-------------|
+| `dr_tier` | integer | ✓ | 0–4 |
+| `wattage_w` | float | ✓ | 0–100 |
+| `llm_status` | string | ✓ | `active`, `degraded`, `offline`, `paused` |
+| `openadr_status` | string | ✓ | `ready`, `offline`, `error`, `pending` |
+| `timestamp` | integer | ✓ | Unix seconds, within ±5 min of server time |
+| `inference_tok_s` | float | — | Tokens/sec from llama-server (`timings.predicted_per_second`) |
+| `inference_status` | string | — | `active`, `suspended`, `error`, `stale`, `unknown` |
 
 Rate limited to **30 requests/minute per IP** + **120 requests/minute global** (dual sliding window). Returns `429` if either limit is exceeded, `413` if body > 1 KB, `422` on validation failure.
 
 Stores `telemetry:latest` and appends to `telemetry:history` (max 360 entries) in Redis via pipeline.
 
+### `POST /api/demo/notify`
+
+Called by the VPS demo scheduler every 5 minutes. Requires `Authorization: Bearer <INGEST_API_KEY>`.
+
+**Body:**
+```json
+{
+  "tier": 1,
+  "duration_seconds": 240,
+  "event_name": "grid-tier1-...",
+  "start_ts": 1746230400,
+  "grid_signal": { "tier": 1, "triggered_by_locale": "en", "triggered_by_source": "caiso", "is_synthetic": false, "fetched_at": 1746230400, "fr": {...}, "en": {...}, "pt": {...} }
+}
+```
+
+- `tier` 0–4. Tier 0 = signal-only update (no VTN event was created); still updates `demo:grid_signal`.
+- `grid_signal` — full locale-grouped JSON from `grid_signal.py` (optional but always sent by the scheduler).
+
+Writes Redis keys: `demo:event` (TTL: duration+120s), `demo:next_event_ts` (TTL: 3600s), `demo:grid_signal` (TTL: 600s idle / 1800s active).
+
 ### `GET /api/state`
 
-Public. Returns current state + last 60 history entries. `Cache-Control: no-store`.
+Public. Returns current telemetry, last 360 history entries, hourly averages (5-day window), demo event metadata, and `gridSignal` (locale-grouped live grid data). CDN-cached for 10 seconds (`s-maxage=10, stale-while-revalidate=20`).
 
 ---
 
@@ -120,13 +150,3 @@ Push to `master` → Vercel deploys automatically. No manual steps required.
 | Deployment | Vercel |
 | Security headers | CSP, HSTS, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy |
 
----
-
-## Related
-
-- [`flexcompute-edge`](https://github.com/JefBronze/flexcompute-edge) — VEN daemon, control agent, hardware setup
-- [data-joule.com/method](https://data-joule.com/method) — how the full signal chain works
-
-## Security
-
-See [SECURITY.md](SECURITY.md). The `/api/ingest` endpoint is in scope for vulnerability reports.

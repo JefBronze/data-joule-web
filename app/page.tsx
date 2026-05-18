@@ -1,11 +1,13 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { LiveStatusHero } from './components/LiveStatus'
 import ScrollReveal from './components/ScrollReveal'
 import { SiteNav } from './components/SiteNav'
 import { SiteFooter } from './components/SiteFooter'
 import { useLocale } from './lib/i18n'
+
 
 const TIER_STATIC = [
   { tier: 0, power: '~14 W', reduction: '—',    color: '#4ade80' },
@@ -46,14 +48,33 @@ const PROOF_ICONS = [
     </svg>
   ),
   (
-    <svg key="tiers" viewBox="0 0 16 16" width="16" height="16" fill="none" className="text-amber-500">
-      <path d="M8 2L10 6H14L11 9L12 13L8 10.5L4 13L5 9L2 6H6L8 2Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+    <svg key="settlement" viewBox="0 0 16 16" width="16" height="16" fill="none" className="text-amber-500">
+      <path d="M5 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.2"/>
+      <path d="M11 14a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.2"/>
+      <path d="M7.5 5.5L8.5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M7.5 10.5L8.5 11" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
     </svg>
   ),
 ]
 
 export default function HomePage() {
-  const { t } = useLocale()
+  const { t, locale } = useLocale()
+  const signalItems = t.home.signal_items
+  const [signalIndex, setSignalIndex] = useState(0)
+  const [signalVisible, setSignalVisible] = useState(true)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSignalVisible(false)
+      setTimeout(() => {
+        setSignalIndex(i => (i + 1) % signalItems.length)
+        setSignalVisible(true)
+      }, 300)
+    }, 7000)
+    return () => clearInterval(timer)
+  }, [signalItems.length])
+
+  const signal = signalItems[signalIndex]
 
   const RESPONSE_LADDER = TIER_STATIC.map((s, i) => ({
     ...s,
@@ -66,7 +87,7 @@ export default function HomePage() {
     { label: t.home.proof_hardware, value: 'Raspberry Pi 5', icon: PROOF_ICONS[0] },
     { label: t.home.proof_protocol, value: 'OpenADR 3.0',    icon: PROOF_ICONS[1] },
     { label: t.home.proof_signal,   value: 'VTN on VPS',     icon: PROOF_ICONS[2] },
-    { label: t.home.proof_tiers,    value: '4 levels',        icon: PROOF_ICONS[3] },
+    { label: t.home.proof_tiers,    value: t.home.proof_tiers_value, icon: PROOF_ICONS[3] },
   ]
 
   const problemLines = t.home.problem_heading.split('\n')
@@ -90,16 +111,11 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
-                <div className="flex items-center gap-4 mb-6">
-                  <img src="/data-joule.svg" alt="Data Joule" width={52} height={52} />
-                  <span className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-5xl mt-2">
-                    Data Joule
-                  </span>
-                </div>
-              </ScrollReveal>
-              <ScrollReveal>
                 <div className="inline-block mb-6">
-                  <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
+                  <span className="sm:hidden text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
+                    {t.home.hero_badge_mobile}
+                  </span>
+                  <span className="hidden sm:inline text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                     {t.home.hero_badge}
                   </span>
                 </div>
@@ -158,6 +174,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Industry signal strip ── */}
+      <div className="border-b border-amber-900/20 bg-neutral-950 py-2.5 px-6">
+        <div
+          className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-mono transition-opacity duration-300"
+          style={{ opacity: signalVisible ? 1 : 0 }}
+        >
+          <span className="text-amber-500 shrink-0">⚡</span>
+          <span className="text-neutral-600 shrink-0 hidden sm:inline">{signal.date} —</span>
+          <span className="text-neutral-500 truncate">{signal.text}</span>
+          <a
+            href={signal.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-auto shrink-0 text-amber-500 hover:text-amber-300 transition-colors whitespace-nowrap pl-2"
+          >
+            {t.home.signal_read}
+          </a>
+        </div>
+      </div>
+
       {/* ── Problem ── */}
       <section className="bg-[#0d0d18] py-28">
         <div className="max-w-7xl mx-auto px-6">
@@ -176,11 +212,27 @@ export default function HomePage() {
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {t.home.stats.map((item) => (
-                  <div key={item.stat} className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 flex gap-4 items-start">
+                  <div key={item.stat} className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-start">
                     <span className="font-mono text-3xl font-bold text-amber-400 shrink-0">{item.stat}</span>
                     <p className="text-sm text-neutral-400 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
+                <div className="text-xs text-neutral-600 font-mono leading-relaxed">
+                  <span className="uppercase tracking-widest">{t.home.sources_label}: </span>
+                  {t.home.sources.map((source, i) => (
+                    <span key={source.href}>
+                      <a
+                        href={source.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-neutral-500 hover:text-neutral-300 underline underline-offset-4"
+                      >
+                        {source.label}
+                      </a>
+                      {i < t.home.sources.length - 1 ? ' · ' : ''}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </ScrollReveal>
@@ -218,8 +270,8 @@ export default function HomePage() {
                 </defs>
 
                 <rect x="0" y="12" width="120" height="56" rx="6" fill="#111118" stroke="#374151" strokeWidth="1"/>
-                <text x="60" y="37" textAnchor="middle" fill="#9ca3af" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Grid Operator</text>
-                <text x="60" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Issues DR event</text>
+                <text x="60" y="37" textAnchor="middle" fill="#9ca3af" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">{t.home.flow_operator}</text>
+                <text x="60" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_operator_sub}</text>
 
                 <path d="M120,40 L152,40" stroke="#374151" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-gray)" className="animate-signal-dash"/>
 
@@ -231,31 +283,30 @@ export default function HomePage() {
 
                 <rect x="316" y="12" width="120" height="56" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1"/>
                 <text x="376" y="37" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">VEN</text>
-                <text x="376" y="49" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01</text>
-                <text x="376" y="60" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Raspberry Pi</text>
+                <text x="376" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01</text>
 
                 <path d="M436,40 L468,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.4s"}}/>
 
                 <rect x="474" y="12" width="120" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
                 <text x="534" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Control Agent</text>
-                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">mtl-edge-01:8081</text>
+                <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_control_sub}</text>
 
                 <path d="M594,40 L626,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.6s"}}/>
 
                 <rect x="632" y="12" width="158" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
                 <text x="711" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Smart Plug</text>
-                <text x="711" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">Zigbee · measures W</text>
+                <text x="711" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_plug_sub}</text>
               </svg>
             </div>
 
             {/* Mobile vertical stack */}
             <div className="sm:hidden space-y-2 mb-6">
               {[
-                { label: 'Grid Operator', sub: 'Issues DR event', color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
+                { label: t.home.flow_operator, sub: t.home.flow_operator_sub, color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
                 { label: 'VTN', sub: 'vtn.data-joule.com', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'VEN', sub: 'mtl-ven-01 · Raspberry Pi', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'Control Agent', sub: 'mtl-edge-01:8081', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
-                { label: 'Smart Plug', sub: 'Zigbee · measures W', color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: 'VEN', sub: 'mtl-ven-01', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
+                { label: 'Control Agent', sub: t.home.flow_control_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: 'Smart Plug', sub: t.home.flow_plug_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
               ].map((node, i) => (
                 <div key={i}>
                   <div className={`rounded-lg border ${node.border} ${node.bg} px-4 py-3 flex items-center justify-between`}>
@@ -302,7 +353,7 @@ export default function HomePage() {
                 >
                   <div className="w-24 shrink-0">
                     <span className="font-mono font-bold text-sm" style={{ color: row.color }}>
-                      TIER {row.tier}
+                      {t.home.tier_label} {row.tier}
                     </span>
                     <div className="text-xs text-neutral-500 font-mono">{row.name}</div>
                   </div>
@@ -337,7 +388,7 @@ export default function HomePage() {
                 <summary className="p-4 flex items-center justify-between cursor-pointer list-none">
                   <div className="flex items-center gap-3">
                     <span className="font-mono font-bold text-sm" style={{ color: row.color }}>
-                      TIER {row.tier}
+                      {t.home.tier_label} {row.tier}
                     </span>
                     <span className="text-xs text-neutral-500 font-mono">{row.name}</span>
                   </div>
@@ -363,6 +414,76 @@ export default function HomePage() {
               </details>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── Joule Credits (JLC) ── */}
+      <section className="border-t border-neutral-800 py-28">
+        <div className="max-w-7xl mx-auto px-6">
+          <ScrollReveal>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-block mb-6">
+                  <span className="text-xs font-mono text-purple-400 border border-purple-900 bg-purple-950/30 px-3 py-1 rounded-full">
+                    {t.jlc.testnet_badge}
+                  </span>
+                </div>
+                <h2 className="text-2xl font-bold mb-3 text-neutral-100">{t.jlc.home_heading}</h2>
+                <div className="font-mono text-amber-400 font-bold text-lg mb-6 flex items-center gap-2 flex-wrap">
+                  <span className="text-purple-500">◈</span>
+                  <span>{t.jlc.stat_equation}</span>
+                  <span className="text-purple-500 text-sm font-normal">{t.jlc.chainlink_verified}</span>
+                </div>
+                <p className="text-neutral-400 leading-relaxed mb-4 text-sm">
+                  {t.jlc.home_oracle_desc}
+                </p>
+                <div className="text-xs font-mono text-neutral-600 mb-6">
+                  {t.jlc.home_roadmap}
+                </div>
+                <Link
+                  href="/joule-credits"
+                  className="inline-flex items-center justify-center h-10 px-6 rounded border border-purple-800 hover:border-purple-600 hover:bg-purple-950/30 text-purple-300 hover:text-purple-100 text-sm transition-colors font-mono"
+                >
+                  {t.jlc.home_cta}
+                </Link>
+              </div>
+
+              <div className="rounded-lg border border-purple-900/40 bg-purple-950/10 p-6">
+                <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-5">
+                  {t.jlc.chain_title}
+                </div>
+                <div className="space-y-2">
+                  {([
+                    { label: t.jlc.chain_step_vtn,    color: '#22d3ee' },
+                    { label: t.jlc.chain_step_ven,    color: '#22d3ee' },
+                    { label: t.jlc.chain_step_plug,   color: '#f59e0b' },
+                    { label: t.jlc.chain_step_oracle, color: '#a855f7' },
+                    { label: t.jlc.chain_step_evm,    color: '#a855f7' },
+                  ] as const).map((step, i) => (
+                    <div key={i}>
+                      <div className="rounded border border-neutral-800 bg-neutral-900/80 px-4 py-2.5 flex items-center gap-3">
+                        <div
+                          className="w-2 h-2 rounded-full shrink-0"
+                          style={{ backgroundColor: step.color, boxShadow: `0 0 6px ${step.color}` }}
+                        />
+                        <span className="font-mono text-xs font-semibold" style={{ color: step.color }}>
+                          {step.label}
+                        </span>
+                      </div>
+                      {i < 4 && (
+                        <div className="flex justify-center py-0.5">
+                          <div className="w-px h-3 border-l border-dashed border-neutral-700" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-4 border-t border-neutral-800 text-xs font-mono text-neutral-600">
+                  {t.jlc.home_tagline}
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -426,7 +547,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <a
-                  href="https://github.com/JefBronze/data-joule-web"
+                  href="https://github.com/Data-Joule/data-joule-web"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
@@ -434,15 +555,7 @@ export default function HomePage() {
                   GitHub
                 </a>
                 <a
-                  href="https://linkedin.com/in/jefersonbronze"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="mailto:jefersonbronze@gmail.com"
+                  href="mailto:contact@data-joule.com"
                   className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
                 >
                   Contact

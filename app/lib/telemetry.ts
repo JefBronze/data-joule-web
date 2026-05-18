@@ -4,6 +4,8 @@ export type TelemetryEntry = {
   llm_status: string
   openadr_status: string
   timestamp: number
+  inference_tok_s?: number
+  inference_status?: string
 }
 
 export type TierConfig = {

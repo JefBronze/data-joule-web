@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Chakra_Petch, DM_Sans, IBM_Plex_Mono } from "next/font/google";
-import { ReactPlugin } from "@21st-extension/react";
-import { TwentyFirstToolbar } from "@21st-extension/toolbar-next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import { LocaleProvider } from "./lib/i18n";
+import { TitleUpdater } from "./components/TitleUpdater";
 import "./globals.css";
 
 const display = Chakra_Petch({
@@ -23,26 +23,44 @@ const mono = IBM_Plex_Mono({
   variable: "--font-mono",
 });
 
-const toolbarConfig = {
-  plugins: [ReactPlugin],
-};
 
 export const viewport: Viewport = {
   themeColor: "#09090f",
 };
 
 export const metadata: Metadata = {
-  title: "Data Joule — Grid-Interactive AI Compute",
+  title: "Data Joule — Grid Response, Chainlink-Settled",
   description:
-    "A Raspberry Pi compute node that responds to real OpenADR 3.0 demand-response signals. Watch live wattage and inference status drop in real time.",
+    "An AI edge node runs live LLM inference and responds to real OpenADR 3.0 demand-response signals. Four power tiers, five utility sources, live telemetry from Montréal.",
+  keywords: [
+    "OpenADR", "demand response", "AI edge compute", "grid interactive",
+    "LLM inference", "demand flexibility", "Internet of Energy", "edge AI",
+  ],
+  alternates: {
+    canonical: "https://data-joule.com",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
-    title: "Data Joule — Grid-Interactive AI Compute",
+    title: "Data Joule — Grid Response, Chainlink-Settled",
     description:
-      "Real hardware. Real OpenADR 3.0 signals. Live telemetry from a Raspberry Pi edge node in Montréal.",
+      "Real hardware. Real OpenADR 3.0 signals. An AI edge node throttles its LLM under grid stress — live telemetry from Montréal.",
     url: "https://data-joule.com",
     siteName: "Data Joule",
     locale: "en_CA",
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Data Joule — Grid Response, Chainlink-Settled",
+    description:
+      "An AI edge node runs live LLM inference and responds to real OpenADR 3.0 demand-response signals. Four power tiers, five utility sources, live telemetry.",
   },
 };
 
@@ -57,10 +75,10 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
       <body suppressHydrationWarning className="min-h-full bg-(--background) text-neutral-100 antialiased font-[family-name:var(--font-body)]">
-        {children}
-        {process.env.NODE_ENV === "development" && (
-          <TwentyFirstToolbar config={toolbarConfig} />
-        )}
+        <LocaleProvider>
+          <TitleUpdater />
+          {children}
+        </LocaleProvider>
         <SpeedInsights />
         <Analytics />
       </body>
