@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -129,25 +129,25 @@ export default function MethodPage() {
 
       <main>
       {/* Section 1 â€" Header */}
-      <section className=â€max-w-7xl mx-auto px-6 pt-20 pb-12â€>
+      <section className="max-w-7xl mx-auto px-6 pt-20 pb-12">
         <ScrollReveal>
-          <div className=â€flex flex-col md:flex-row items-center gap-8 md:gap-12â€>
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
             {/* Text */}
-            <div className=â€flex-1 min-w-0â€>
-              <div className=â€inline-block mb-4â€>
-                <span className=â€text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-fullâ€>
+            <div className="flex-1 min-w-0">
+              <div className="inline-block mb-4">
+                <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                   {m.badge}
                 </span>
               </div>
-              <h1 className=â€text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-4â€>
+              <h1 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-4">
                 {m.heading}
               </h1>
-              <p className=â€text-lg text-neutral-400 max-w-2xl leading-relaxedâ€>
+              <p className="text-lg text-neutral-400 max-w-2xl leading-relaxed">
                 {m.intro}
               </p>
             </div>
             {/* Flag â€" fades into page background via mask */}
-            <div className=â€w-full md:w-72 lg:w-96 shrink-0 order-first md:order-lastâ€>
+            <div className="w-full md:w-72 lg:w-96 shrink-0 order-first md:order-last">
               <div
                 style={{
                   maskImage: 'radial-gradient(ellipse 80% 75% at 55% 50%, black 35%, transparent 100%)',
@@ -155,11 +155,11 @@ export default function MethodPage() {
                 }}
               >
                 <Image
-                  src=â€/data-joule-flag.pngâ€
-                  alt=â€Data-Joule Grid Pirateâ€
+                  src="/data-joule-flag.png"
+                  alt="Data-Joule Grid Pirate"
                   width={600}
                   height={338}
-                  className=â€w-full object-coverâ€
+                  className="w-full object-cover"
                 />
               </div>
             </div>
@@ -167,7 +167,7 @@ export default function MethodPage() {
         </ScrollReveal>
       </section>
 
-      {/* Section 2 Ã¢â‚¬â€ Architecture Diagram */}
+      {/* Section 2 Ã¢â‚¬" Architecture Diagram */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -235,7 +235,7 @@ export default function MethodPage() {
                 <text x="600" y="232" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_meter}</text>
                 <text x="600" y="244" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_power}</text>
 
-                {/* VTN Ã¢â€ â€ mtl-ven-01: control plane */}
+                {/* VTN Ã¢â€ " mtl-ven-01: control plane */}
                 <line x1="100" y1="94" x2="100" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="100" y1="116" x2="140" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="140" y1="116" x2="140" y2="158" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
@@ -296,7 +296,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 3 Ã¢â‚¬â€ Signal Flow Walkthrough */}
+      {/* Section 3 Ã¢â‚¬" Signal Flow Walkthrough */}
       <section className="border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -331,7 +331,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 4 Ã¢â‚¬â€ Telemetry Chain */}
+      {/* Section 4 Ã¢â‚¬" Telemetry Chain */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -362,7 +362,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 5 Ã¢â‚¬â€ Response Ladder Deep-Dive */}
+      {/* Section 5 Ã¢â‚¬" Response Ladder Deep-Dive */}
       <section className="border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -414,7 +414,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 6 Ã¢â‚¬â€ Stack */}
+      {/* Section 6 Ã¢â‚¬" Stack */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
