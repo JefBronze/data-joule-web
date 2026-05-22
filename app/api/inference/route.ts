@@ -28,14 +28,13 @@ function buildChallenge(tier: number, priceUsdc: number) {
     payTo: process.env.INFERENCE_TREASURY_ADDRESS!,
     maxAmountRequired: String(priceUsdc),
     resource: 'https://data-joule.com/api/inference',
-    description: `AI inference on Data-Joule node — grid tier ${tier}`,
+    description: `AI inference on Data-Joule node - grid tier ${tier}`,
     maxTimeoutSeconds: 300,
     extra: { gridTier: tier, priceUsd: priceUsdc / 1_000_000 },
   }
 }
 
 export async function POST(request: NextRequest) {
-  try {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown'
   const { success } = await ratelimit.limit(ip)
   if (!success) {
@@ -118,11 +117,7 @@ export async function POST(request: NextRequest) {
       response: data,
       paid: { tx_hash: txHash, usdc: priceUsdc / 1_000_000, tier },
     })
-  } catch (llamaErr) {
+  } catch {
     return NextResponse.json({ error: 'inference timeout or unavailable' }, { status: 503 })
-  }
-  } catch (err) {
-    console.error('[inference] unhandled error:', err)
-    return NextResponse.json({ error: 'internal error', detail: String(err) }, { status: 500 })
   }
 }
