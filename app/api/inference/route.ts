@@ -35,6 +35,7 @@ function buildChallenge(tier: number, priceUsdc: number) {
 }
 
 export async function POST(request: NextRequest) {
+  try {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'unknown'
   const { success } = await ratelimit.limit(ip)
   if (!success) {
@@ -117,7 +118,11 @@ export async function POST(request: NextRequest) {
       response: data,
       paid: { tx_hash: txHash, usdc: priceUsdc / 1_000_000, tier },
     })
-  } catch {
+  } catch (llamaErr) {
     return NextResponse.json({ error: 'inference timeout or unavailable' }, { status: 503 })
+  }
+  } catch (err) {
+    console.error('[inference] unhandled error:', err)
+    return NextResponse.json({ error: 'internal error', detail: String(err) }, { status: 500 })
   }
 }
