@@ -547,8 +547,17 @@ export default function HomePage() {
       <section className="border-t border-neutral-800 py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
-            <div className="flex flex-col md:flex-row items-center gap-12">
-              <div className="max-w-2xl flex-1">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <div className="flex-shrink-0 flex justify-center w-full md:w-auto order-first md:order-last">
+                <Image
+                  src="/jp-joule.png"
+                  alt="James Prescott Joule — Data-Joule"
+                  width={400}
+                  height={400}
+                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity w-52 h-52 md:w-80 md:h-80"
+                />
+              </div>
+              <div className="max-w-2xl flex-1 order-last md:order-first">
                 <h2 className="text-2xl font-bold mb-6 text-neutral-100">{t.home.about_heading}</h2>
                 <p className="text-neutral-400 leading-relaxed mb-4">
                   {t.home.about_p1}
@@ -572,15 +581,6 @@ export default function HomePage() {
                     Contact
                   </a>
                 </div>
-              </div>
-              <div className="flex-shrink-0 flex justify-center w-full md:w-auto">
-                <Image
-                  src="/jp-joule.png"
-                  alt="James Prescott Joule — Data-Joule"
-                  width={400}
-                  height={400}
-                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity w-52 h-52 md:w-80 md:h-80"
-                />
               </div>
             </div>
           </ScrollReveal>
