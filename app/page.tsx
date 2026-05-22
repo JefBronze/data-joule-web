@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { LiveStatusHero } from './components/LiveStatus'
 import ScrollReveal from './components/ScrollReveal'
 import { SiteNav } from './components/SiteNav'
@@ -537,29 +538,40 @@ export default function HomePage() {
       <section className="border-t border-neutral-800 py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
-            <div className="max-w-2xl">
-              <h2 className="text-2xl font-bold mb-6 text-neutral-100">{t.home.about_heading}</h2>
-              <p className="text-neutral-400 leading-relaxed mb-4">
-                {t.home.about_p1}
-              </p>
-              <p className="text-neutral-400 leading-relaxed mb-8">
-                {t.home.about_p2}
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href="https://github.com/Data-Joule/data-joule-web"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="mailto:contact@data-joule.com"
-                  className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
-                >
-                  Contact
-                </a>
+            <div className="flex flex-col md:flex-row items-center gap-12">
+              <div className="max-w-2xl flex-1">
+                <h2 className="text-2xl font-bold mb-6 text-neutral-100">{t.home.about_heading}</h2>
+                <p className="text-neutral-400 leading-relaxed mb-4">
+                  {t.home.about_p1}
+                </p>
+                <p className="text-neutral-400 leading-relaxed mb-8">
+                  {t.home.about_p2}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://github.com/Data-Joule/data-joule-web"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
+                  >
+                    GitHub
+                  </a>
+                  <a
+                    href="mailto:contact@data-joule.com"
+                    className="inline-flex items-center gap-2 text-sm text-neutral-300 border border-neutral-700 hover:border-neutral-500 px-4 py-2 rounded transition-colors"
+                  >
+                    Contact
+                  </a>
+                </div>
+              </div>
+              <div className="flex-shrink-0">
+                <Image
+                  src="/jp-joule.png"
+                  alt="James Prescott Joule — Data-Joule"
+                  width={380}
+                  height={380}
+                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity"
+                />
               </div>
             </div>
           </ScrollReveal>
