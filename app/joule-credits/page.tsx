@@ -81,7 +81,7 @@ export default function JouleCreditsPage() {
                 'radial-gradient(ellipse 90% 60% at 50% -10%, rgba(168,85,247,0.10) 0%, transparent 65%)',
             }}
           />
-          <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-20">
+          <div className="relative max-w-7xl mx-auto px-6 pt-10 pb-10 md:pt-24 md:pb-20">
             <ScrollReveal>
               <div className="text-center mb-16">
                 <div className="inline-block mb-6">
@@ -163,7 +163,7 @@ export default function JouleCreditsPage() {
         </section>
 
         {/* ── Verification Chain ── */}
-        <section className="border-t border-neutral-800 py-24">
+        <section className="border-t border-neutral-800 py-12 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.jlc.chain_title}</h2>
@@ -268,7 +268,7 @@ export default function JouleCreditsPage() {
         </section>
 
         {/* ── Why This Is Different ── */}
-        <section className="bg-[#0d0914] border-t border-neutral-800 py-24">
+        <section className="bg-[#0d0914] border-t border-neutral-800 py-12 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-8 text-neutral-100">{t.jlc.why_title}</h2>
@@ -287,7 +287,7 @@ export default function JouleCreditsPage() {
         </section>
 
         {/* ── Event Log ── */}
-        <section className="border-t border-neutral-800 py-24">
+        <section className="border-t border-neutral-800 py-12 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.jlc.log_title}</h2>
@@ -376,7 +376,7 @@ export default function JouleCreditsPage() {
         </section>
 
         {/* ── Token Economics ── */}
-        <section className="bg-[#0d0914] border-t border-neutral-800 py-24">
+        <section className="bg-[#0d0914] border-t border-neutral-800 py-12 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.jlc.economics_title}</h2>
@@ -426,7 +426,7 @@ export default function JouleCreditsPage() {
         </section>
 
         {/* ── Contract Info ── */}
-        <section className="border-t border-neutral-800 py-24">
+        <section className="border-t border-neutral-800 py-12 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-8 text-neutral-100">{t.jlc.contract_title}</h2>

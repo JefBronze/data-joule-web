@@ -129,7 +129,7 @@ export default function MethodPage() {
 
       <main>
         {/* Section 1 — Header */}
-        <section className="max-w-7xl mx-auto px-6 pt-20 pb-12">
+        <section className="max-w-7xl mx-auto px-6 pt-10 pb-8 md:pt-20 md:pb-12">
           <ScrollReveal>
             <div>
               <div className="inline-block mb-4">
@@ -148,7 +148,7 @@ export default function MethodPage() {
         </section>
 
         {/* Section 2 Ã¢â‚¬" Architecture Diagram */}
-        <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
+        <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{m.architecture_heading}</h2>
@@ -277,7 +277,7 @@ export default function MethodPage() {
         </section>
 
         {/* Section 3 Ã¢â‚¬" Signal Flow Walkthrough */}
-        <section className="border-t border-neutral-800 py-20">
+        <section className="border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{m.signal_heading}</h2>
@@ -312,7 +312,7 @@ export default function MethodPage() {
         </section>
 
         {/* Section 4 Ã¢â‚¬" Telemetry Chain */}
-        <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
+        <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{m.telemetry_heading}</h2>
@@ -343,7 +343,7 @@ export default function MethodPage() {
         </section>
 
         {/* Section 5 Ã¢â‚¬" Response Ladder Deep-Dive */}
-        <section className="border-t border-neutral-800 py-20">
+        <section className="border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{m.ladder_heading}</h2>
@@ -395,7 +395,7 @@ export default function MethodPage() {
         </section>
 
         {/* Section 6 Ã¢â‚¬" Stack */}
-        <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
+        <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
               <h2 className="text-2xl font-bold mb-2 text-neutral-100">{m.stack_heading}</h2>

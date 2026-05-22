@@ -108,7 +108,7 @@ export default function HomePage() {
             backgroundSize: '24px 24px',
           }}
         />
-        <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-20">
+        <div className="relative max-w-7xl mx-auto px-6 pt-10 pb-10 md:pt-24 md:pb-20">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
@@ -196,7 +196,7 @@ export default function HomePage() {
       </div>
 
       {/* ── Problem ── */}
-      <section className="bg-[#0d0d18] py-28">
+      <section className="bg-[#0d0d18] py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -241,7 +241,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Mechanism / Signal Flow ── */}
-      <section className="border-t border-neutral-800 py-28">
+      <section className="border-t border-neutral-800 py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.home.mechanism_heading}</h2>
@@ -335,7 +335,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Response Ladder ── */}
-      <section className="bg-[#0d0d18] border-t border-neutral-800 py-28">
+      <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-2 text-neutral-100">{t.home.ladder_heading}</h2>
@@ -419,7 +419,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Joule Credits (JLC) ── */}
-      <section className="border-t border-neutral-800 py-28">
+      <section className="border-t border-neutral-800 py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -489,7 +489,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Live Snapshot CTA ── */}
-      <section className="border-t border-neutral-800 py-28">
+      <section className="border-t border-neutral-800 py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="rounded-lg border border-amber-900/50 bg-amber-950/10 p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
@@ -516,7 +516,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Why It Matters ── */}
-      <section className="bg-[#0d0d18] border-t border-neutral-800 py-28">
+      <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <h2 className="text-2xl font-bold mb-10 text-neutral-100">{t.home.why_heading}</h2>
