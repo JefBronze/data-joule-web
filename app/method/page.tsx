@@ -105,10 +105,10 @@ const STEPS = [
   {
     n: 7,
     code: `Settlement
-  event:report:{name} â†' written to Redis
+  event:report:{name} → written to Redis
   Chainlink DON fetches /api/events/{name}
-  source.js encodes kWh_reduced Ã— 1e9 â†' uint256
-  consensus fulfilled â†' fulfillRequest() fires
+  source.js encodes kWh_reduced Ã— 1e9 → uint256
+  consensus fulfilled → fulfillRequest() fires
   JouleCredit.sol mints kWh_reduced JLC on Polygon`,
   },
 ]
@@ -128,7 +128,7 @@ export default function MethodPage() {
       <SiteNav />
 
       <main>
-        {/* Section 1 â€" Header */}
+        {/* Section 1 — Header */}
         <section className="max-w-7xl mx-auto px-6 pt-20 pb-12">
           <ScrollReveal>
             <div>
@@ -242,7 +242,7 @@ export default function MethodPage() {
 
                   {/* SETTLEMENT LAYER */}
                   <rect x="20" y="300" width="680" height="108" rx="8" fill="none" stroke="#2d1b4e" strokeWidth="1.5" strokeDasharray="6 4" />
-                  <text x="36" y="318" fill="#4b3a7a" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">SETTLEMENT â€" POLYGON MAINNET</text>
+                  <text x="36" y="318" fill="#4b3a7a" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">SETTLEMENT — POLYGON MAINNET</text>
 
                   {/* Chainlink DON box */}
                   <rect x="40" y="325" width="210" height="72" rx="6" fill="#150920" stroke="#5b21b6" strokeWidth="1.2" />
@@ -258,12 +258,12 @@ export default function MethodPage() {
                   <text x="488" y="376" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- Mints kWh_reduced JLC tokens</text>
                   <text x="488" y="389" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- 0x14b90C2E...8470101</text>
 
-                  {/* Arrow Chainlink DON â†' JouleCredit.sol (full span) */}
+                  {/* Arrow Chainlink DON → JouleCredit.sol (full span) */}
                   <line x1="250" y1="361" x2="468" y2="361" stroke="#5b21b6" strokeWidth="1.2" strokeDasharray="3 3" />
                   <polygon points="468,358 474,361 468,364" fill="#5b21b6" />
                   <text x="359" y="356" textAnchor="middle" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">fulfillRequest()</text>
 
-                  {/* Vercel â†' Chainlink DON: oracle fetch, routes along left edge */}
+                  {/* Vercel → Chainlink DON: oracle fetch, routes along left edge */}
                   <line x1="280" y1="94" x2="280" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5" />
                   <line x1="280" y1="126" x2="12" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5" />
                   <line x1="12" y1="126" x2="12" y2="361" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5" />
@@ -438,7 +438,7 @@ export default function MethodPage() {
                   href="/joule-credits"
                   className="inline-flex items-center justify-center h-11 px-6 rounded border border-purple-800 hover:border-purple-600 text-purple-400 hover:text-purple-300 text-sm transition-colors"
                 >
-                  Joule Credits (JLC) â†'
+                  Joule Credits (JLC) →
                 </a>
                 <a
                   href="https://github.com/Data-Joule/data-joule-web"
