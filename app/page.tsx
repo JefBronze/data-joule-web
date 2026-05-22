@@ -559,10 +559,10 @@ export default function HomePage() {
               </div>
               <div className="max-w-2xl flex-1 order-last md:order-first">
                 <h2 className="text-2xl font-bold mb-6 text-neutral-100 text-center md:text-left">{t.home.about_heading}</h2>
-                <p className="text-neutral-400 leading-relaxed mb-4 text-justify">
+                <p className="text-neutral-400 leading-relaxed mb-4">
                   {t.home.about_p1}
                 </p>
-                <p className="text-neutral-400 leading-relaxed mb-8 text-justify">
+                <p className="text-neutral-400 leading-relaxed mb-8">
                   {t.home.about_p2}
                 </p>
                 <div className="flex flex-wrap gap-3">

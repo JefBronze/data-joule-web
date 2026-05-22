@@ -99,7 +99,10 @@ export default function JouleCreditsPage() {
                 </p>
 
                 <div className="flex justify-center mb-10">
-                  <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden drop-shadow-[0_0_40px_rgba(168,85,247,0.5)] shrink-0">
+                  <div
+                    className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shrink-0"
+                    style={{ boxShadow: '0 0 48px 8px rgba(168,85,247,0.45)' }}
+                  >
                     <Image
                       src="/jlc-coin.png"
                       alt="Joule Credits"
