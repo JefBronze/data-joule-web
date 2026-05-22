@@ -554,11 +554,11 @@ export default function HomePage() {
                   alt="James Prescott Joule — Data-Joule"
                   width={400}
                   height={400}
-                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity w-52 h-52 md:w-80 md:h-80"
+                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity w-40 h-40 md:w-80 md:h-80"
                 />
               </div>
               <div className="max-w-2xl flex-1 order-last md:order-first">
-                <h2 className="text-2xl font-bold mb-6 text-neutral-100">{t.home.about_heading}</h2>
+                <h2 className="text-2xl font-bold mb-6 text-neutral-100 text-center md:text-left">{t.home.about_heading}</h2>
                 <p className="text-neutral-400 leading-relaxed mb-4">
                   {t.home.about_p1}
                 </p>
