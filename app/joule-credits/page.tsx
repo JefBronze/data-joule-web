@@ -99,13 +99,15 @@ export default function JouleCreditsPage() {
                 </p>
 
                 <div className="flex justify-center mb-10">
-                  <Image
-                    src="/jlc-coin.png"
-                    alt="Joule Credits"
-                    width={300}
-                    height={300}
-                    className="w-40 h-40 md:w-56 md:h-56 rounded-full drop-shadow-[0_0_40px_rgba(168,85,247,0.45)]"
-                  />
+                  <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden drop-shadow-[0_0_40px_rgba(168,85,247,0.5)] shrink-0">
+                    <Image
+                      src="/jlc-coin.png"
+                      alt="Joule Credits"
+                      width={300}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
 
                 {/* Stat cards */}
