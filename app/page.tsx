@@ -564,13 +564,13 @@ export default function HomePage() {
                   </a>
                 </div>
               </div>
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 flex justify-center w-full md:w-auto">
                 <Image
                   src="/jp-joule.png"
                   alt="James Prescott Joule — Data-Joule"
-                  width={380}
-                  height={380}
-                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity"
+                  width={400}
+                  height={400}
+                  className="rounded-full opacity-90 hover:opacity-100 transition-opacity w-52 h-52 md:w-80 md:h-80"
                 />
               </div>
             </div>

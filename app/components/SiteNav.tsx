@@ -105,7 +105,11 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-(--background)/90 backdrop-blur-sm px-6 py-4">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg inline-flex items-center gap-1.5">
+        <Link
+          href="/"
+          onClick={() => { if (pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg inline-flex items-center gap-1.5"
+        >
           Data Joule
           {locale === 'fr' && <span className="text-base leading-none opacity-70">⚜</span>}
         </Link>
