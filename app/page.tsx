@@ -248,15 +248,6 @@ export default function HomePage() {
             <p className="text-neutral-500 text-sm font-mono mb-10">
               {t.home.mechanism_sub}
             </p>
-            <div className="flex justify-center mb-12">
-              <Image
-                src="/data-joule-flag.png"
-                alt="Data-Joule Grid Pirate"
-                width={960}
-                height={540}
-                className="w-full max-w-3xl rounded-lg opacity-85"
-              />
-            </div>
           </ScrollReveal>
 
           <ScrollReveal delay={150}>

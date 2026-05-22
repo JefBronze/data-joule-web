@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import ScrollReveal from '../components/ScrollReveal'
 import { SiteNav } from '../components/SiteNav'
 import { SiteFooter } from '../components/SiteFooter'
@@ -127,20 +128,42 @@ export default function MethodPage() {
       <SiteNav />
 
       <main>
-      {/* Section 1 â€” Header */}
-      <section className="max-w-7xl mx-auto px-6 pt-20 pb-12">
+      {/* Section 1 – Header */}
+      <section className=”max-w-7xl mx-auto px-6 pt-20 pb-12”>
         <ScrollReveal>
-          <div className="inline-block mb-4">
-            <span className="text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
-              {m.badge}
-            </span>
+          <div className=”flex flex-col md:flex-row items-center gap-8 md:gap-12”>
+            {/* Text */}
+            <div className=”flex-1 min-w-0”>
+              <div className=”inline-block mb-4”>
+                <span className=”text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full”>
+                  {m.badge}
+                </span>
+              </div>
+              <h1 className=”text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-4”>
+                {m.heading}
+              </h1>
+              <p className=”text-lg text-neutral-400 max-w-2xl leading-relaxed”>
+                {m.intro}
+              </p>
+            </div>
+            {/* Flag — fades into page background via mask */}
+            <div className=”w-full md:w-72 lg:w-96 shrink-0 order-first md:order-last”>
+              <div
+                style={{
+                  maskImage: 'radial-gradient(ellipse 80% 75% at 55% 50%, black 35%, transparent 100%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse 80% 75% at 55% 50%, black 35%, transparent 100%)',
+                }}
+              >
+                <Image
+                  src=”/data-joule-flag.png”
+                  alt=”Data-Joule Grid Pirate”
+                  width={600}
+                  height={338}
+                  className=”w-full object-cover”
+                />
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-4">
-            {m.heading}
-          </h1>
-          <p className="text-lg text-neutral-400 max-w-2xl leading-relaxed">
-            {m.intro}
-          </p>
         </ScrollReveal>
       </section>
 
