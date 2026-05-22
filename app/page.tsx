@@ -535,7 +535,7 @@ export default function HomePage() {
       </section>
 
       {/* ── About ── */}
-      <section className="border-t border-neutral-800 py-28">
+      <section className="border-t border-neutral-800 py-12 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12">
