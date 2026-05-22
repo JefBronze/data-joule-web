@@ -539,7 +539,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row items-start gap-8 md:gap-12">
-              <div className="flex-shrink-0 flex justify-center w-full md:w-auto order-first md:order-last md:pt-14 md:ml-auto">
+              <div className="flex-shrink-0 flex justify-center w-full md:w-auto order-first md:order-last md:pt-10 md:ml-24">
                 <Image
                   src="/jp-joule.png"
                   alt="James Prescott Joule — Data-Joule"
