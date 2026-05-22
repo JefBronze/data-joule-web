@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { SiteNav } from '../components/SiteNav'
 import { SiteFooter } from '../components/SiteFooter'
 import ScrollReveal from '../components/ScrollReveal'
@@ -93,9 +94,19 @@ export default function JouleCreditsPage() {
                   {t.jlc.hero_title}
                 </h1>
 
-                <p className="text-sm font-mono text-purple-400 mb-12">
+                <p className="text-sm font-mono text-purple-400 mb-10">
                   {t.jlc.hero_sub}
                 </p>
+
+                <div className="flex justify-center mb-10">
+                  <Image
+                    src="/jlc-coin.png"
+                    alt="Joule Credits"
+                    width={300}
+                    height={300}
+                    className="w-40 h-40 md:w-56 md:h-56 rounded-full drop-shadow-[0_0_40px_rgba(168,85,247,0.45)]"
+                  />
+                </div>
 
                 {/* Stat cards */}
                 <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
