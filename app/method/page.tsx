@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import Image from 'next/image'
@@ -105,10 +105,10 @@ const STEPS = [
   {
     n: 7,
     code: `Settlement
-  event:report:{name} → written to Redis
+  event:report:{name} â†' written to Redis
   Chainlink DON fetches /api/events/{name}
-  source.js encodes kWh_reduced × 1e9 → uint256
-  consensus fulfilled → fulfillRequest() fires
+  source.js encodes kWh_reduced Ã— 1e9 â†' uint256
+  consensus fulfilled â†' fulfillRequest() fires
   JouleCredit.sol mints kWh_reduced JLC on Polygon`,
   },
 ]
@@ -128,26 +128,26 @@ export default function MethodPage() {
       <SiteNav />
 
       <main>
-      {/* Section 1 – Header */}
-      <section className=”max-w-7xl mx-auto px-6 pt-20 pb-12”>
+      {/* Section 1 â€" Header */}
+      <section className=â€max-w-7xl mx-auto px-6 pt-20 pb-12â€>
         <ScrollReveal>
-          <div className=”flex flex-col md:flex-row items-center gap-8 md:gap-12”>
+          <div className=â€flex flex-col md:flex-row items-center gap-8 md:gap-12â€>
             {/* Text */}
-            <div className=”flex-1 min-w-0”>
-              <div className=”inline-block mb-4”>
-                <span className=”text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full”>
+            <div className=â€flex-1 min-w-0â€>
+              <div className=â€inline-block mb-4â€>
+                <span className=â€text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-fullâ€>
                   {m.badge}
                 </span>
               </div>
-              <h1 className=”text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-4”>
+              <h1 className=â€text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-4â€>
                 {m.heading}
               </h1>
-              <p className=”text-lg text-neutral-400 max-w-2xl leading-relaxed”>
+              <p className=â€text-lg text-neutral-400 max-w-2xl leading-relaxedâ€>
                 {m.intro}
               </p>
             </div>
-            {/* Flag — fades into page background via mask */}
-            <div className=”w-full md:w-72 lg:w-96 shrink-0 order-first md:order-last”>
+            {/* Flag â€" fades into page background via mask */}
+            <div className=â€w-full md:w-72 lg:w-96 shrink-0 order-first md:order-lastâ€>
               <div
                 style={{
                   maskImage: 'radial-gradient(ellipse 80% 75% at 55% 50%, black 35%, transparent 100%)',
@@ -155,11 +155,11 @@ export default function MethodPage() {
                 }}
               >
                 <Image
-                  src=”/data-joule-flag.png”
-                  alt=”Data-Joule Grid Pirate”
+                  src=â€/data-joule-flag.pngâ€
+                  alt=â€Data-Joule Grid Pirateâ€
                   width={600}
                   height={338}
-                  className=”w-full object-cover”
+                  className=â€w-full object-coverâ€
                 />
               </div>
             </div>
@@ -167,7 +167,7 @@ export default function MethodPage() {
         </ScrollReveal>
       </section>
 
-      {/* Section 2 â€” Architecture Diagram */}
+      {/* Section 2 Ã¢â‚¬â€ Architecture Diagram */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -202,7 +202,7 @@ export default function MethodPage() {
                 <text x="620" y="67" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">{m.browser_poll}</text>
                 <text x="620" y="81" textAnchor="middle" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">{m.browser_dashboard}</text>
 
-                {/* Vercel â†’ Browser arrow */}
+                {/* Vercel Ã¢â€ â€™ Browser arrow */}
                 <line x1="440" y1="62" x2="538" y2="62" stroke="#374151" strokeWidth="1.2" strokeDasharray="4 3"/>
                 <polygon points="538,59 544,62 538,65" fill="#374151"/>
 
@@ -235,34 +235,34 @@ export default function MethodPage() {
                 <text x="600" y="232" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_meter}</text>
                 <text x="600" y="244" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_power}</text>
 
-                {/* VTN â†” mtl-ven-01: control plane */}
+                {/* VTN Ã¢â€ â€ mtl-ven-01: control plane */}
                 <line x1="100" y1="94" x2="100" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="100" y1="116" x2="140" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="140" y1="116" x2="140" y2="158" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <text x="68" y="110" fill="#164e63" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS + OAuth2</text>
 
-                {/* mtl-edge-01 â†’ Vercel: telemetry */}
+                {/* mtl-edge-01 Ã¢â€ â€™ Vercel: telemetry */}
                 <line x1="380" y1="158" x2="380" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="380" y1="116" x2="360" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <line x1="360" y1="116" x2="360" y2="94" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <text x="385" y="110" fill="#78350f" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS POST 5s</text>
 
-                {/* mtl-ven-01 â†’ mtl-edge-01: control */}
+                {/* mtl-ven-01 Ã¢â€ â€™ mtl-edge-01: control */}
                 <line x1="240" y1="216" x2="280" y2="216" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <polygon points="280,213 286,216 280,219" fill="#374151"/>
                 <text x="248" y="210" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">HTTP</text>
 
-                {/* mtl-ven-01 â†’ Zigbee plug */}
+                {/* mtl-ven-01 Ã¢â€ â€™ Zigbee plug */}
                 <path d="M140,274 L140,284 L600,284 L600,256" fill="none" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <polygon points="597,256 600,250 603,256" fill="#374151"/>
                 <text x="555" y="280" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)" textAnchor="middle">Zigbee 3.0</text>
 
-                {/* Zigbee plug â†’ mtl-edge-01: powers */}
+                {/* Zigbee plug Ã¢â€ â€™ mtl-edge-01: powers */}
                 <line x1="520" y1="220" x2="482" y2="220" stroke="#f59e0b" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.4"/>
 
                 {/* SETTLEMENT LAYER */}
                 <rect x="20" y="300" width="680" height="108" rx="8" fill="none" stroke="#2d1b4e" strokeWidth="1.5" strokeDasharray="6 4"/>
-                <text x="36" y="318" fill="#4b3a7a" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">SETTLEMENT — POLYGON MAINNET</text>
+                <text x="36" y="318" fill="#4b3a7a" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">SETTLEMENT â€" POLYGON MAINNET</text>
 
                 {/* Chainlink DON box */}
                 <rect x="40" y="325" width="210" height="72" rx="6" fill="#150920" stroke="#5b21b6" strokeWidth="1.2"/>
@@ -274,16 +274,16 @@ export default function MethodPage() {
                 {/* JouleCredit.sol box */}
                 <rect x="470" y="325" width="210" height="72" rx="6" fill="#150920" stroke="#5b21b6" strokeWidth="1.2"/>
                 <text x="575" y="345" textAnchor="middle" fill="#a78bfa" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">JouleCredit.sol</text>
-                <text x="575" y="360" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">ERC-20 · Polygon Mainnet</text>
+                <text x="575" y="360" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">ERC-20 Â· Polygon Mainnet</text>
                 <text x="488" y="376" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- Mints kWh_reduced JLC tokens</text>
                 <text x="488" y="389" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">- 0x14b90C2E...8470101</text>
 
-                {/* Arrow Chainlink DON → JouleCredit.sol (full span) */}
+                {/* Arrow Chainlink DON â†' JouleCredit.sol (full span) */}
                 <line x1="250" y1="361" x2="468" y2="361" stroke="#5b21b6" strokeWidth="1.2" strokeDasharray="3 3"/>
                 <polygon points="468,358 474,361 468,364" fill="#5b21b6"/>
                 <text x="359" y="356" textAnchor="middle" fill="#5b21b6" fontSize="7" fontFamily="var(--font-mono)">fulfillRequest()</text>
 
-                {/* Vercel → Chainlink DON: oracle fetch, routes along left edge */}
+                {/* Vercel â†' Chainlink DON: oracle fetch, routes along left edge */}
                 <line x1="280" y1="94" x2="280" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
                 <line x1="280" y1="126" x2="12" y2="126" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
                 <line x1="12" y1="126" x2="12" y2="361" stroke="#5b21b6" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.5"/>
@@ -296,7 +296,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 3 â€” Signal Flow Walkthrough */}
+      {/* Section 3 Ã¢â‚¬â€ Signal Flow Walkthrough */}
       <section className="border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -331,7 +331,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 4 â€” Telemetry Chain */}
+      {/* Section 4 Ã¢â‚¬â€ Telemetry Chain */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -362,7 +362,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 5 â€” Response Ladder Deep-Dive */}
+      {/* Section 5 Ã¢â‚¬â€ Response Ladder Deep-Dive */}
       <section className="border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -414,7 +414,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Section 6 â€” Stack */}
+      {/* Section 6 Ã¢â‚¬â€ Stack */}
       <section className="bg-[#0d0d18] border-t border-neutral-800 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <ScrollReveal>
@@ -458,7 +458,7 @@ export default function MethodPage() {
                 href="/joule-credits"
                 className="inline-flex items-center justify-center h-11 px-6 rounded border border-purple-800 hover:border-purple-600 text-purple-400 hover:text-purple-300 text-sm transition-colors"
               >
-                Joule Credits (JLC) →
+                Joule Credits (JLC) â†'
               </a>
               <a
                 href="https://github.com/Data-Joule/data-joule-web"
@@ -479,4 +479,5 @@ export default function MethodPage() {
     </div>
   )
 }
+
 
