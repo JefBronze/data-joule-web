@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: 'local',
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 512,
+        max_tokens: 80,
         stream: false,
       }),
       signal: AbortSignal.timeout(45_000),
