@@ -106,6 +106,7 @@ export default function JouleCreditsPage() {
                     <Image
                       src="/jlc-coin.png"
                       alt="Joule Credits"
+                      priority
                       width={300}
                       height={300}
                       className="w-full h-full object-cover"
