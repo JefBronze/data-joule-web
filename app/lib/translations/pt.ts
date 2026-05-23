@@ -29,7 +29,7 @@ export const pt = {
     stats: [
       { stat: '+165%', desc: 'Crescimento projetado da carga de data centers no SIN até 2030, segundo a EPE.' },
       { stat: '1,7% → 3,9%', desc: 'Participação estimada dos data centers na demanda elétrica do Brasil, do nível atual à projeção para 2029.' },
-      { stat: '55 s', desc: 'Boot a frio até inferência ativa após corte de Nível 4 — medido em hardware real.' },
+      { stat: '55s', desc: 'Boot a frio até inferência ativa após corte de Nível 4 — medido em hardware real.' },
     ],
     sources_label: 'Fontes',
     sources: [

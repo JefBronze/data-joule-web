@@ -29,7 +29,7 @@ export const fr = {
     stats: [
       { stat: "~1 100 MW", desc: "Demande projetée des centres de données au Québec d'ici 2035 — contre 130 MW en 2024 (Hydro-Québec)" },
       { stat: "700 MW", desc: "Effacement de pointe atteint par les thermostats intelligents Hilo lors de l'hiver 2025-2026" },
-      { stat: "55 s", desc: "Redémarrage à froid jusqu'à l'inférence active après une coupure Palier 4 — mesuré sur matériel réel" },
+      { stat: "55s", desc: "Redémarrage à froid jusqu'à l'inférence active après une coupure Palier 4 — mesuré sur matériel réel" },
     ],
     sources_label: "Sources",
     sources: [

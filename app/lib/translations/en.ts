@@ -29,7 +29,7 @@ export const en = {
     stats: [
       { stat: '2×', desc: 'Projected data center power demand growth by 2030' },
       { stat: '4% → 9%', desc: 'U.S. electricity load share from data centers: 2023 actual to 2030 high estimate' },
-      { stat: '55 s', desc: 'Cold-boot to inference-ready after a Tier 4 hard cutoff — measured on real hardware' },
+      { stat: '55s', desc: 'Cold-boot to inference-ready after a Tier 4 hard cutoff — measured on real hardware' },
     ],
     sources_label: 'Sources',
     sources: [
