@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useRef } from 'react'
 import { useLocale, type Locale } from '@/app/lib/i18n'
@@ -109,11 +108,11 @@ export function SiteNav() {
         <Link
           href="/"
           onClick={() => { if (pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-          className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg inline-flex items-center gap-2"
+          className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg inline-flex items-center gap-1.5"
         >
-          <Image src="/golden_coin.png" alt="" width={20} height={20} className="rounded-full" priority />
           Data Joule
           {locale === 'fr' && <span className="text-base leading-none opacity-70">⚜</span>}
+          {(locale === 'en' || locale === 'pt') && <span className="text-base leading-none">🏴‍☠️</span>}
         </Link>
         <div className="flex items-center gap-4 sm:gap-6 text-sm">
           {NAV_LINKS.map(({ href, label, color, icon }) => (
