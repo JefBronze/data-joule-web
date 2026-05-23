@@ -108,11 +108,11 @@ export default function HomePage() {
             backgroundSize: '24px 24px',
           }}
         />
-        <div className="relative max-w-7xl mx-auto px-6 pt-10 pb-10 md:pt-24 md:pb-20">
+        <div className="relative max-w-7xl mx-auto px-6 pt-14 pb-12 md:pt-24 md:pb-20">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
-                <div className="inline-block mb-6">
+                <div className="inline-block mb-10 md:mb-6">
                   <span className="sm:hidden text-xs font-mono text-cyan-400 border border-cyan-900 bg-cyan-950/30 px-3 py-1 rounded-full">
                     {t.home.hero_badge_mobile}
                   </span>
@@ -122,13 +122,13 @@ export default function HomePage() {
                 </div>
               </ScrollReveal>
               <ScrollReveal delay={150}>
-                <h1 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-6">
+                <h1 className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-neutral-50 mb-8 md:mb-6">
                   {t.home.headline1}<br />
                   <span className="text-amber-400">{t.home.headline2}</span>
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={300}>
-                <p className="text-lg text-neutral-400 leading-relaxed mb-8 max-w-lg">
+                <p className="text-lg text-neutral-400 leading-relaxed mb-10 md:mb-8 max-w-lg">
                   {t.home.description}
                 </p>
               </ScrollReveal>
