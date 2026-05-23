@@ -84,10 +84,16 @@ export async function POST(request: NextRequest) {
 
   const inference_tok_s = payload.inference_tok_s != null ? Number(payload.inference_tok_s) : undefined
   const inference_status = payload.inference_status != null ? String(payload.inference_status) : undefined
+  const participant_id = typeof payload.participant_id === 'string' && /^[\w-]{1,64}$/.test(payload.participant_id)
+    ? payload.participant_id : 'pi-compute'
+  const source = typeof payload.source === 'string' && /^(grid|hilo)$/.test(payload.source)
+    ? payload.source : undefined
 
   const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp,
     ...(inference_tok_s != null && isFinite(inference_tok_s) ? { inference_tok_s } : {}),
     ...(inference_status ? { inference_status } : {}),
+    participant_id,
+    ...(source ? { source } : {}),
   }
   const hourTs = Math.floor(timestamp / 3600) * 3600
 
@@ -97,9 +103,8 @@ export async function POST(request: NextRequest) {
     const activeEvent = await redis.get<{
       tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
     }>('demo:event')
-    if (activeEvent && /^grid-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
+    if (activeEvent && /^(grid|hilo)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
       const { start_ts: evStart, end_ts: evEnd, event_name, tier: evTier, baseline_w } = activeEvent
-      // start_ts fallback: parse from event_name (format: "grid-tierN-TIMESTAMP")
       const resolvedStart = evStart ?? parseInt(event_name.split('-').pop() ?? '0', 10)
 
       const rawHistory = await redis.lrange<Record<string, unknown>>('telemetry:history', 0, -1)
@@ -111,12 +116,19 @@ export async function POST(request: NextRequest) {
       const durationS = evEnd - resolvedStart
       const kwhReduced = Math.max(0, (baseline_w - avgCurtailed) * durationS / 3_600_000)
 
-      await redis.set(`event:report:${event_name}`, {
+      const report = {
         event_name, tier: evTier, start_ts: resolvedStart, end_ts: evEnd,
         baseline_w, avg_curtailed_w: avgCurtailed,
         duration_s: durationS, kwh_reduced: kwhReduced,
         completed_at: Math.floor(Date.now() / 1000),
-      }, { ex: 86400 * 30 })
+        participant_id,
+        ...(source ? { source } : {}),
+      }
+      // Write to both namespaced key (new) and legacy key (backward compat for oracle)
+      await Promise.all([
+        redis.set(`event:report:${participant_id}:${event_name}`, report, { ex: 86400 * 30 }),
+        redis.set(`event:report:${event_name}`, report, { ex: 86400 * 30 }),
+      ])
     }
   }
 
