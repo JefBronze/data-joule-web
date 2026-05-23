@@ -218,7 +218,7 @@ export const pt = {
     economics_col_usd: '@$0,12/kWh',
     phase3: 'Fase 3',
     v2g_note: 'V2G é o desbloqueio econômico — mesmo token, mesmo contrato, mesmo oráculo, representando kWh injetados.',
-    economics_fleet: ['1 Pi (este nó)', '1.000 nós', '1M nós', 'V2G (Fase 3)'],
+    economics_fleet: ['1 Pi (este nó)', '1.000 nós', '1M nós', 'V2G'],
     why_labels: ['O Problema', 'O Mecanismo', 'O Resultado'],
   },
   method: {
