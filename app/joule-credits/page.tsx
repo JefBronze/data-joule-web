@@ -237,7 +237,7 @@ export default function JouleCreditsPage() {
                   <rect x="758" y="14" width="122" height="76" rx="8" fill="#0f0421" stroke="#7e22ce" strokeWidth="1.5" filter="url(#jlc-glow-purple)"/>
                   <circle cx="778" cy="36" r="4" fill="#a855f7" stroke="#a855f7" strokeWidth="1.5"/>
                   <text x="819" y="40" textAnchor="middle" fill="#d8b4fe" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">ERC-20 Mint</text>
-                  <text x="819" y="57" textAnchor="middle" fill="#6b21a8" fontSize="8.5" fontFamily="var(--font-mono)">JLC · Amoy</text>
+                  <text x="819" y="57" textAnchor="middle" fill="#6b21a8" fontSize="8.5" fontFamily="var(--font-mono)">JLC · Polygon</text>
                   <text x="819" y="72" textAnchor="middle" fill="#3b0764" fontSize="8" fontFamily="var(--font-mono)">kWh × 10¹⁸ wei</text>
                 </svg>
               </div>
@@ -468,7 +468,7 @@ export default function JouleCreditsPage() {
                       {t.jlc.polygonscan}
                     </div>
                     <div className="text-sm text-neutral-600 font-mono">Deploying…</div>
-                    <div className="text-xs text-neutral-700 mt-1 font-mono">Polygon Mainnet testnet</div>
+                    <div className="text-xs text-neutral-700 mt-1 font-mono">Polygon Mainnet</div>
                   </div>
                 )}
 
