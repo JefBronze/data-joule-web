@@ -193,6 +193,7 @@ export const pt = {
     log_col_curtailed: 'Reduzido',
     log_col_jlc: 'JLC emitido',
     log_col_tx: 'Tx',
+    log_col_source: 'Fonte',
     log_empty: 'Nenhum evento verificado ainda.',
     economics_title: 'Modelo do token',
     contract_title: 'Contrato',

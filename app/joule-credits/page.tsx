@@ -19,6 +19,7 @@ type EventReport = {
   kwh_reduced: number
   completed_at: number
   tx_hash?: string
+  source?: string
 }
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_JLC_CONTRACT_ADDRESS ?? null
@@ -309,6 +310,7 @@ export default function JouleCreditsPage() {
                         { label: t.jlc.log_col_curtailed, align: 'text-right'  },
                         { label: t.jlc.log_col_jlc,       align: 'text-right'  },
                         { label: t.jlc.log_col_tx,        align: 'text-center' },
+                        { label: t.jlc.log_col_source,    align: 'text-center' },
                       ].map(({ label, align }) => (
                         <th key={label} className={`${align} px-4 py-3 text-neutral-500 uppercase tracking-widest font-normal`}>
                           {label}
@@ -319,13 +321,13 @@ export default function JouleCreditsPage() {
                   <tbody>
                     {loading ? (
                       <tr>
-                        <td colSpan={6} className="px-4 py-10 text-center text-neutral-600">
+                        <td colSpan={7} className="px-4 py-10 text-center text-neutral-600">
                           {t.jlc.loading}
                         </td>
                       </tr>
                     ) : events.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="px-4 py-10 text-center text-neutral-600">
+                        <td colSpan={7} className="px-4 py-10 text-center text-neutral-600">
                           {t.jlc.log_empty}
                         </td>
                       </tr>
@@ -364,6 +366,17 @@ export default function JouleCreditsPage() {
                               </a>
                             ) : (
                               <span className="text-neutral-700">—</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            {ev.source === 'ons' && (
+                              <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-green-700 bg-green-950/40 text-green-400">ONS</span>
+                            )}
+                            {ev.source === 'hilo' && (
+                              <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-cyan-700 bg-cyan-950/40 text-cyan-400">HILO</span>
+                            )}
+                            {(!ev.source || ev.source === 'grid') && (
+                              <span className="text-neutral-600">—</span>
                             )}
                           </td>
                         </tr>

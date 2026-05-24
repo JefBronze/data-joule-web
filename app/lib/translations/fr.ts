@@ -193,6 +193,7 @@ export const fr = {
     log_col_curtailed: 'Effacé',
     log_col_jlc: 'JLC émis',
     log_col_tx: 'Tx',
+    log_col_source: 'Source',
     log_empty: 'Aucun événement vérifié.',
     economics_title: 'Économie du token',
     contract_title: 'Contrat',

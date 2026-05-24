@@ -193,6 +193,7 @@ export const en = {
     log_col_curtailed: 'Curtailed',
     log_col_jlc: 'JLC Minted',
     log_col_tx: 'Tx',
+    log_col_source: 'Source',
     log_empty: 'No verified events yet.',
     economics_title: 'Token Economics',
     contract_title: 'Contract',

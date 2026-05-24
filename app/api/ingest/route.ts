@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
   const inference_status = payload.inference_status != null ? String(payload.inference_status) : undefined
   const participant_id = typeof payload.participant_id === 'string' && /^[\w-]{1,64}$/.test(payload.participant_id)
     ? payload.participant_id : 'pi-compute'
-  const source = typeof payload.source === 'string' && /^(grid|hilo)$/.test(payload.source)
+  const source = typeof payload.source === 'string' && /^(grid|hilo|ons)$/.test(payload.source)
     ? payload.source : undefined
 
   const entry = { dr_tier, wattage_w, llm_status, openadr_status, timestamp,
