@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
     const activeEvent = await redis.get<{
       tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
     }>('demo:event')
-    if (activeEvent && /^(grid|hilo)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
+    if (activeEvent && /^(grid|hilo|ons)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
       const { start_ts: evStart, end_ts: evEnd, event_name, tier: evTier, baseline_w } = activeEvent
       const resolvedStart = evStart ?? parseInt(event_name.split('-').pop() ?? '0', 10)
 
@@ -116,13 +116,14 @@ export async function POST(request: NextRequest) {
       const durationS = evEnd - resolvedStart
       const kwhReduced = Math.max(0, (baseline_w - avgCurtailed) * durationS / 3_600_000)
 
+      const effectiveSource = source ?? (activeEvent as Record<string, unknown>).source as string | undefined
       const report = {
         event_name, tier: evTier, start_ts: resolvedStart, end_ts: evEnd,
         baseline_w, avg_curtailed_w: avgCurtailed,
         duration_s: durationS, kwh_reduced: kwhReduced,
         completed_at: Math.floor(Date.now() / 1000),
         participant_id,
-        ...(source ? { source } : {}),
+        ...(effectiveSource ? { source: effectiveSource } : {}),
       }
       // Write to both namespaced key (new) and legacy key (backward compat for oracle)
       await Promise.all([

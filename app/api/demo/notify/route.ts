@@ -37,6 +37,8 @@ export async function POST(request: NextRequest) {
   const event_name  = String(body.event_name ?? '')
   const start_ts    = Number(body.start_ts)
   const grid_signal = body.grid_signal ?? null
+  const source      = typeof body.source === 'string' && /^(grid|hilo|ons)$/.test(body.source)
+    ? body.source : undefined
 
   if (!Number.isInteger(tier) || tier < 0 || tier > 4) {
     return NextResponse.json({ error: 'invalid tier' }, { status: 422 })
@@ -70,6 +72,7 @@ export async function POST(request: NextRequest) {
     const baseline_w = latest?.wattage_w ?? 13.5
     pipeline.set('demo:event', {
       tier, end_ts: start_ts + duration_s, event_name, start_ts, baseline_w,
+      ...(source ? { source } : {}),
     }, { ex: duration_s + 120 })
   }
 
