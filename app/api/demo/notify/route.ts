@@ -76,6 +76,42 @@ export async function POST(request: NextRequest) {
     }, { ex: duration_s + 120 })
   }
 
+  // When the bridge explicitly closes an event (tier=0), write the event report
+  // immediately. This is resilient to Pi control-agent failures where the Pi's
+  // telemetry never reflects dr_tier≥1, which would otherwise block the ingest
+  // trigger from ever firing.
+  if (tier === 0) {
+    const activeEvent = await redis.get<{
+      tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
+    }>('demo:event')
+    if (activeEvent && /^(grid|hilo|ons)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
+      const { start_ts: evStart, end_ts: evEnd, event_name: evName, tier: evTier, baseline_w } = activeEvent
+      const rawHistory = await redis.lrange<Record<string, unknown>>('telemetry:history', 0, -1)
+      const history = rawHistory.map(h =>
+        (typeof h === 'string' ? JSON.parse(h) : h) as { timestamp: number; wattage_w: number }
+      )
+      const eventEntries = history.filter(h => h.timestamp >= evStart && h.timestamp <= evEnd)
+      const avgCurtailed = eventEntries.length > 0
+        ? eventEntries.reduce((s, h) => s + h.wattage_w, 0) / eventEntries.length
+        : baseline_w
+      const durationS = evEnd - evStart
+      const kwhReduced = Math.max(0, (baseline_w - avgCurtailed) * durationS / 3_600_000)
+      const effectiveSource = source ?? (activeEvent as Record<string, unknown>).source as string | undefined
+      const report = {
+        event_name: evName, tier: evTier, start_ts: evStart, end_ts: evEnd,
+        baseline_w, avg_curtailed_w: avgCurtailed,
+        duration_s: durationS, kwh_reduced: kwhReduced,
+        completed_at: Math.floor(Date.now() / 1000),
+        participant_id: 'pi-compute',
+        ...(effectiveSource ? { source: effectiveSource } : {}),
+      }
+      await Promise.all([
+        redis.set(`event:report:pi-compute:${evName}`, report, { ex: 86400 * 30 }),
+        redis.set(`event:report:${evName}`, report, { ex: 86400 * 30 }),
+      ])
+    }
+  }
+
   await pipeline.exec()
 
   return NextResponse.json({ ok: true, event: tier >= 1 })
