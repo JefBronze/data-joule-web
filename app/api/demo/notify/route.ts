@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     pipeline.set('demo:event', {
       tier, end_ts: start_ts + duration_s, event_name, start_ts, baseline_w,
       ...(source ? { source } : {}),
-    }, { ex: duration_s + 120 })
+    }, { ex: duration_s * 2 + 300 })
   }
 
   // When the bridge explicitly closes an event (tier=0), write the event report
