@@ -110,6 +110,7 @@ export default function JouleCreditsPage() {
                       width={300}
                       height={300}
                       className="w-full h-full object-cover scale-105"
+                      style={{ objectPosition: 'center 38%' }}
                     />
                   </div>
                 </div>
