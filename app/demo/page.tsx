@@ -5,7 +5,7 @@ import { LocaleSwitcher } from '@/app/components/SiteNav'
 import { useFlexState } from '@/app/hooks/useFlexState'
 import type { DemoEvent, GridSignal } from '@/app/hooks/useFlexState'
 import { GridMonitorCard } from '@/app/demo/GridMonitorCard'
-import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
+import { TIER_CONFIG } from '@/app/lib/telemetry'
 import { useLocale, type Locale } from '@/app/lib/i18n'
 
 const BASELINE_W = 4.8
@@ -17,27 +17,8 @@ function fmtCountdown(secs: number): string {
   return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
 }
 
-function fmtMW(mw: number): string {
-  return mw >= 1000
-    ? `${(mw / 1000).toFixed(1)} GW`
-    : `${Math.round(mw).toLocaleString()} MW`
-}
 
-function updatedAgo(updated: string, now: number, tUpdated: string, tMinAgo: string, tJustNow: string): string {
-  if (!updated) return ''
-  try {
-    const ts = new Date(updated).getTime()
-    if (isNaN(ts)) return ''
-    const diffMin = Math.floor((now - ts) / 60000)
-    if (diffMin < 1) return tJustNow
-    return `${tUpdated} ${diffMin} ${tMinAgo}`
-  } catch {
-    return ''
-  }
-}
-
-
-// ── Grid signal panel ─────────────────────────────────────────────────────────
+// ── Source label map ───────────────────────────────────────────────────────────
 
 const SOURCE_LABELS: Record<string, { key: keyof ReturnType<typeof useLocale>['t']['grid'] }> = {
   hydroquebec: { key: 'source_hq' },
