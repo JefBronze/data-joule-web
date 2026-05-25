@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useRef } from 'react'
 import { useLocale, type Locale } from '@/app/lib/i18n'
-import { FleurEmoji } from '@/app/components/FleurEmoji'
 
 const LOCALES: { code: Locale; label: string }[] = [
   { code: 'pt', label: 'PT' },
@@ -112,7 +111,7 @@ export function SiteNav() {
           className="whitespace-nowrap font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg inline-flex items-center gap-1.5"
         >
           Data Joule
-          {locale === 'fr' && <FleurEmoji className="h-4 sm:h-6 w-auto" />}
+          {locale === 'fr' && <span className="text-base leading-none opacity-70">⚜</span>}
           {(locale === 'en' || locale === 'pt') && <span className="text-base leading-none">🏴‍☠️</span>}
         </Link>
         <div className="flex items-center gap-4 sm:gap-6 text-sm">
