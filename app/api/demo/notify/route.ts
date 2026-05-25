@@ -68,12 +68,26 @@ export async function POST(request: NextRequest) {
     if (duration_s < 30 || duration_s > 3600 || !event_name) {
       return NextResponse.json({ error: 'invalid event payload' }, { status: 422 })
     }
-    const latest = await redis.get<{ wattage_w?: number }>('telemetry:latest')
+    const [latest, existingEvent] = await Promise.all([
+      redis.get<{ wattage_w?: number }>('telemetry:latest'),
+      redis.get<{ source?: string; end_ts: number }>('demo:event'),
+    ])
     const baseline_w = latest?.wattage_w ?? 13.5
-    pipeline.set('demo:event', {
+    const nowSec = Math.floor(Date.now() / 1000)
+    const SOURCE_PRIORITY: Record<string, number> = { ons: 2, hilo: 1, grid: 0 }
+    const incomingPrio = SOURCE_PRIORITY[source ?? ''] ?? -1
+    const existingPrio = SOURCE_PRIORITY[existingEvent?.source ?? ''] ?? -1
+    const existingExpired = !existingEvent || existingEvent.end_ts <= nowSec
+    const eventPayload = {
       tier, end_ts: start_ts + duration_s, event_name, start_ts, baseline_w,
       ...(source ? { source } : {}),
-    }, { ex: duration_s * 2 + 300 })
+    }
+    if (source) {
+      pipeline.set(`demo:event:${source}`, eventPayload, { ex: duration_s * 2 + 300 })
+    }
+    if (existingExpired || incomingPrio >= existingPrio) {
+      pipeline.set('demo:event', eventPayload, { ex: duration_s * 2 + 300 })
+    }
   }
 
   // When the bridge explicitly closes an event (tier=0), write the event report
@@ -81,9 +95,12 @@ export async function POST(request: NextRequest) {
   // telemetry never reflects dr_tier≥1, which would otherwise block the ingest
   // trigger from ever firing.
   if (tier === 0) {
-    const activeEvent = await redis.get<{
-      tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
-    }>('demo:event')
+    let activeEvent = source
+      ? await redis.get<{ tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number }>(`demo:event:${source}`)
+      : null
+    if (!activeEvent) {
+      activeEvent = await redis.get<{ tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number }>('demo:event')
+    }
     if (activeEvent && /^(grid|hilo|ons)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
       const { start_ts: evStart, end_ts: evEnd, event_name: evName, tier: evTier, baseline_w } = activeEvent
       const rawHistory = await redis.lrange<Record<string, unknown>>('telemetry:history', 0, -1)

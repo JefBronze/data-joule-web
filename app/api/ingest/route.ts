@@ -100,9 +100,12 @@ export async function POST(request: NextRequest) {
   // Detect tier drop (≥1 → 0): write event completion report for Chainlink oracle
   const prevEntry = await redis.get<{ dr_tier: number }>('telemetry:latest')
   if (prevEntry && prevEntry.dr_tier >= 1 && dr_tier === 0) {
-    const activeEvent = await redis.get<{
-      tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number
-    }>('demo:event')
+    let activeEvent = source
+      ? await redis.get<{ tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number }>(`demo:event:${source}`)
+      : null
+    if (!activeEvent) {
+      activeEvent = await redis.get<{ tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number }>('demo:event')
+    }
     if (activeEvent && /^(grid|hilo|ons)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
       const { start_ts: evStart, end_ts: evEnd, event_name, tier: evTier, baseline_w } = activeEvent
       const resolvedStart = evStart ?? parseInt(event_name.split('-').pop() ?? '0', 10)
