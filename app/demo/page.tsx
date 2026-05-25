@@ -177,7 +177,7 @@ export default function DemoPage() {
     return `${Math.floor(diff / 60)} ${gridT.min_ago}`
   }
   const g = t.grid
-  const { data, history, hourly, demoEvent, nextEventTs, gridSignal, loading, now, connectionStatus } = useFlexState()
+  const { data, history, hourly, demoEvent, nextEventTs, gridSignal, gridCurrent, loading, now, connectionStatus } = useFlexState()
 
   const tier     = data?.dr_tier ?? 0
   const tierCfg  = TIER_CONFIG[tier] ?? TIER_CONFIG[0]
@@ -337,7 +337,7 @@ export default function DemoPage() {
             })()}
 
             {/* Grid monitor card */}
-            <GridMonitorCard signal={gridSignal} locale={locale} g={g} d={d} />
+            <GridMonitorCard current={gridCurrent} locale={locale} g={g} d={d} />
           </div>
         )}
 

@@ -24,6 +24,26 @@ export type GridSignal = {
   fetched_at?: number
 }
 
+/** Per-source live snapshot written by the VPS bridges every poll cycle. */
+export type GridSnapshot = {
+  source: 'hq' | 'ons' | 'nyiso'
+  demand_mw: number
+  demand_pct: number
+  tier: number
+  updated: string
+  capacity_mw?: number
+  ref_peak_mw?: number
+  area?: string
+  peak_event_active?: boolean
+  peak_event_name?: string | null
+}
+
+export type GridCurrent = {
+  hq:    GridSnapshot | null
+  ons:   GridSnapshot | null
+  nyiso: GridSnapshot | null
+}
+
 export type { HourlyEntry }
 
 type ApiResponse = {
@@ -33,6 +53,7 @@ type ApiResponse = {
   demoEvent: DemoEvent | null
   nextEventTs: number | null
   gridSignal: GridSignal | null
+  gridCurrent?: GridCurrent
 }
 
 export type ConnectionStatus = 'ok' | 'stale' | 'error'
@@ -48,6 +69,7 @@ export function useFlexState() {
   const [demoEvent,   setDemoEvent]   = useState<DemoEvent | null>(null)
   const [nextEventTs, setNextEventTs] = useState<number | null>(null)
   const [gridSignal,  setGridSignal]  = useState<GridSignal | null>(null)
+  const [gridCurrent, setGridCurrent] = useState<GridCurrent>({ hq: null, ons: null, nyiso: null })
   const [loading,           setLoading]           = useState(true)
   const [now,               setNow]               = useState(() => Date.now())
   const [lastSuccessTime,   setLastSuccessTime]   = useState<number | null>(null)
@@ -64,6 +86,7 @@ export function useFlexState() {
       setDemoEvent(json.demoEvent ?? null)
       setNextEventTs(json.nextEventTs ?? null)
       setGridSignal(json.gridSignal ?? null)
+      setGridCurrent(json.gridCurrent ?? { hq: null, ons: null, nyiso: null })
       setLastSuccessTime(Date.now())
       setConsecutiveErrors(0)
     } catch {
@@ -89,5 +112,5 @@ export function useFlexState() {
     lastSuccessTime !== null && now - lastSuccessTime > STALE_THRESHOLD ? 'stale' :
     'ok'
 
-  return { data, history, hourly, demoEvent, nextEventTs, gridSignal, loading, now, connectionStatus }
+  return { data, history, hourly, demoEvent, nextEventTs, gridSignal, gridCurrent, loading, now, connectionStatus }
 }

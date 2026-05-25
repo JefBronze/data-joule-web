@@ -1,6 +1,6 @@
 'use client'
 
-import type { GridSignal } from '@/app/hooks/useFlexState'
+import type { GridCurrent, GridSnapshot } from '@/app/hooks/useFlexState'
 import type { Translations, Locale } from '@/app/lib/i18n'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -18,14 +18,11 @@ function getTierColor(tier: number): string {
   return '#4ade80'                  // green-400
 }
 
-/** Return the signal only when its triggered_by_source matches the locale's expected operator. */
-function getLocaleSignal(signal: GridSignal | null, locale: Locale): GridSignal | null {
-  if (!signal) return null
-  const src = signal.triggered_by_source
-  if (locale === 'fr' && src === 'hq')    return signal
-  if (locale === 'pt' && src === 'ons')   return signal
-  if (locale === 'en' && src === 'nyiso') return signal
-  return null
+function getSnapshotForLocale(current: GridCurrent | undefined, locale: Locale): GridSnapshot | null {
+  if (!current) return null
+  if (locale === 'fr') return current.hq
+  if (locale === 'pt') return current.ons
+  return current.nyiso
 }
 
 // ── Logo components ──────────────────────────────────────────────────────────
@@ -116,14 +113,14 @@ function OnsLogo() {
 // ── Component ────────────────────────────────────────────────────────────────
 
 interface GridMonitorCardProps {
-  signal: GridSignal | null
+  current: GridCurrent | undefined
   locale: Locale
   g: Translations['grid']
   d: Translations['demo']
 }
 
-export function GridMonitorCard({ signal, locale, g, d }: GridMonitorCardProps) {
-  const source = getLocaleSignal(signal, locale)
+export function GridMonitorCard({ current, locale, g, d }: GridMonitorCardProps) {
+  const source = getSnapshotForLocale(current, locale)
   const tier = source?.tier ?? 0
   const tierColor = getTierColor(tier)
   const mwParts = source ? fmtMWParts(source.demand_mw) : null
