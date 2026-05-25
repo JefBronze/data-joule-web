@@ -10,32 +10,32 @@ import { useLocale } from '../lib/i18n'
 const RESPONSE_LADDER = [
   {
     tier: 0,
-    power: '~14 W',
+    power: '~10 W',
     reduction: '-',
     color: '#4ade80',
   },
   {
     tier: 1,
-    power: '~11 W',
-    reduction: '-21%',
+    power: '~8 W',
+    reduction: '-20%',
     color: '#facc15',
   },
   {
     tier: 2,
-    power: '~8 W',
-    reduction: '-43%',
+    power: '~6 W',
+    reduction: '-40%',
     color: '#fb923c',
   },
   {
     tier: 3,
-    power: '~4 W',
-    reduction: '-71%',
+    power: '~3 W',
+    reduction: '-70%',
     color: '#f87171',
   },
   {
     tier: 4,
-    power: '~2 W',
-    reduction: '-86%',
+    power: '~0.5 W',
+    reduction: '-95%',
     color: '#991b1b',
   },
 ]
@@ -43,11 +43,12 @@ const RESPONSE_LADDER = [
 const STACK = [
   { layer: 'VEN daemon', tech: 'Python 3.13', detail: 'openleadr3 library, stdlib-only constraints, systemd service' },
   { layer: 'VTN (server)', tech: 'OpenADR 3.0 RI', detail: 'Docker on Hetzner VPS, Caddy reverse proxy + Let\'s Encrypt' },
+  { layer: 'Grid signal bridges', tech: 'Python 3.13 (stdlib)', detail: 'hq_bridge.py · ons_bridge.py · nyiso_bridge.py — poll HQ / ONS / NYISO every 300s, write grid:current:{source} snapshot to Redis, fire VTN events on tier transitions' },
   { layer: 'Control agent', tech: 'Python 3.13 http.server', detail: 'Private LAN service with constrained actions and no public ingress' },
   { layer: 'Zigbee stack', tech: 'Zigbee2MQTT + Mosquitto', detail: 'ConBee II coordinator on mtl-ven-01, MQTT pub/sub for plug control' },
   { layer: 'Telemetry pusher', tech: 'Python 3.13 urllib', detail: 'Authenticated HTTPS telemetry with exponential backoff' },
   { layer: 'Data store', tech: 'Upstash Redis (serverless)', detail: 'lpush + ltrim rolling 360-entry list, REST API' },
-  { layer: 'Web / API', tech: 'Next.js 16.2.4', detail: 'App Router, TypeScript, Vercel serverless functions' },
+  { layer: 'Web / API', tech: 'Next.js 16.2.6', detail: 'App Router, TypeScript, Vercel serverless functions' },
   { layer: 'Styling', tech: 'Tailwind CSS v4', detail: '@theme inline, no tailwind.config.js, CSS-first config' },
   { layer: 'LLM runtime', tech: 'llama.cpp', detail: 'Llama 3.2-3B-Instruct Q4_K_M, 28.5 tok/s prompt, 6.1 tok/s gen' },
   { layer: 'Settlement', tech: 'Chainlink Functions + ERC-20', detail: 'Decentralized oracle verifies curtailment kWh; JouleCredit.sol mints JLC on Polygon Mainnet' },
@@ -164,11 +165,19 @@ export default function MethodPage() {
                   {/* Internet / Public */}
                   <text x="360" y="18" textAnchor="middle" fill="#374151" fontSize="9" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="3">{m.public_internet}</text>
 
-                  {/* VTN box */}
-                  <rect x="20" y="30" width="160" height="64" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1.2" />
-                  <text x="100" y="52" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">VTN</text>
-                  <text x="100" y="67" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">vtn.data-joule.com</text>
-                  <text x="100" y="81" textAnchor="middle" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">Caddy + Docker - Hetzner</text>
+                  {/* VTN box (extended to include Grid Bridges sub-section) */}
+                  <rect x="20" y="30" width="160" height="92" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1.2" />
+                  <text x="100" y="46" textAnchor="middle" fill="#22d3ee" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">VTN</text>
+                  <text x="100" y="60" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">vtn.data-joule.com</text>
+                  <text x="100" y="73" textAnchor="middle" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">Caddy + Docker - Hetzner</text>
+
+                  {/* Divider line between VTN and Bridges sub-section */}
+                  <line x1="32" y1="82" x2="168" y2="82" stroke="#164e63" strokeWidth="0.5" strokeOpacity="0.5" />
+
+                  {/* Grid Bridges sub-section (lives on same VPS as VTN) */}
+                  <text x="100" y="95" textAnchor="middle" fill="#22d3ee" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600">Grid Bridges</text>
+                  <text x="100" y="107" textAnchor="middle" fill="#6b7280" fontSize="7" fontFamily="var(--font-mono)">hq · ons · nyiso (300s)</text>
+                  <text x="100" y="117" textAnchor="middle" fill="#374151" fontSize="7" fontFamily="var(--font-mono)">→ /api/grid/snapshot</text>
 
                   {/* Vercel box */}
                   <rect x="280" y="30" width="160" height="64" rx="6" fill="#0f0f1a" stroke="#4b5563" strokeWidth="1.2" />
@@ -216,10 +225,13 @@ export default function MethodPage() {
                   <text x="600" y="244" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_power}</text>
 
                   {/* VTN Ã¢â€ " mtl-ven-01: control plane */}
-                  <line x1="100" y1="94" x2="100" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3" />
-                  <line x1="100" y1="116" x2="140" y2="116" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3" />
-                  <line x1="140" y1="116" x2="140" y2="158" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3" />
-                  <text x="68" y="110" fill="#164e63" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS + OAuth2</text>
+                  <line x1="140" y1="122" x2="140" y2="158" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3" />
+                  <text x="146" y="142" fill="#164e63" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS + OAuth2</text>
+
+                  {/* Bridges → Vercel: snapshot POST every 300s */}
+                  <line x1="180" y1="100" x2="278" y2="100" stroke="#22d3ee" strokeWidth="1" strokeDasharray="3 3" strokeOpacity="0.55" />
+                  <polygon points="278,97 284,100 278,103" fill="#22d3ee" fillOpacity="0.55" />
+                  <text x="229" y="96" textAnchor="middle" fill="#22d3ee" fontSize="6.5" fontFamily="var(--font-mono)" fillOpacity="0.7">snapshot POST</text>
 
                   {/* mtl-edge-01 Ã¢â€ â€™ Vercel: telemetry */}
                   <line x1="380" y1="158" x2="380" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3" />

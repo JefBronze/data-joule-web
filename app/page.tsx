@@ -11,11 +11,11 @@ import { useLocale } from './lib/i18n'
 
 
 const TIER_STATIC = [
-  { tier: 0, power: '~14 W', reduction: '—',    color: '#4ade80' },
-  { tier: 1, power: '~11 W', reduction: '−21%', color: '#facc15' },
-  { tier: 2, power: '~8 W',  reduction: '−43%', color: '#fb923c' },
-  { tier: 3, power: '~4 W',  reduction: '−71%', color: '#f87171' },
-  { tier: 4, power: '~2 W',  reduction: '−86%', color: '#991b1b' },
+  { tier: 0, power: '~10 W',  reduction: '—',    color: '#4ade80' },
+  { tier: 1, power: '~8 W',   reduction: '−20%', color: '#facc15' },
+  { tier: 2, power: '~6 W',   reduction: '−40%', color: '#fb923c' },
+  { tier: 3, power: '~3 W',   reduction: '−70%', color: '#f87171' },
+  { tier: 4, power: '~0.5 W', reduction: '−95%', color: '#991b1b' },
 ]
 
 const PROOF_ICONS = [
