@@ -137,6 +137,7 @@ export const en = {
     llm_offline: 'OFFLINE',
     ven_ready: 'READY',
     ven_offline: 'OFFLINE',
+    grid_label:  'POWER GRID',
   },
   grid: {
     panel_title: 'Grid Conditions',
@@ -168,6 +169,8 @@ export const en = {
     sec_ago:      's ago',
     just_now:     'Just now',
     demand_note:  'Electrical load consumed by the grid — homes, industry, everything connected. Higher % = more stress.',
+    load_unit:    'load',
+    peak_short:   'PEAK',
   },
   jlc: {
     hero_title: 'Joule Credits',

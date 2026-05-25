@@ -137,6 +137,7 @@ export const fr = {
     llm_offline: "OFFLINE",
     ven_ready: "PRÊT",
     ven_offline: "OFFLINE",
+    grid_label:  "RÉSEAU ÉLECTRIQUE",
   },
   grid: {
     panel_title: "État du réseau",
@@ -168,6 +169,8 @@ export const fr = {
     sec_ago:      "s",
     just_now:     "À l'instant",
     demand_note:  "Puissance appelée sur le réseau d'HQ — résidences, industries et tout ce qui est branché. % élevé = signal de pointe hivernale imminente.",
+    load_unit:    "charge",
+    peak_short:   "POINTE",
   },
   jlc: {
     hero_title: 'Crédits Joule',

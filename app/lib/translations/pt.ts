@@ -137,6 +137,7 @@ export const pt = {
     llm_offline: 'OFFLINE',
     ven_ready: 'PRONTO',
     ven_offline: 'OFFLINE',
+    grid_label:  'REDE ELÉTRICA',
   },
   grid: {
     panel_title: 'Condições do Sistema',
@@ -168,6 +169,8 @@ export const pt = {
     sec_ago: 's atrás',
     just_now: 'Agora mesmo',
     demand_note: 'Carga elétrica atendida no SIN (Sistema Interligado Nacional) — residências, indústria e demais consumidores conectados. Percentual alto indica maior solicitação do sistema.',
+    load_unit:   'carga',
+    peak_short:  'PONTA',
   },
   jlc: {
     hero_title: 'Créditos Joule',
