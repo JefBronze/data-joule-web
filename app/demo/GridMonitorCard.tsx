@@ -103,10 +103,14 @@ function NyisoLogo() {
 
 /** ONS Brasil — text fallback until an SVG brand file is obtained. */
 function OnsLogo() {
+  // PNG is black-on-transparent; invert to white for the dark theme.
   return (
-    <span className="text-sm font-bold font-mono tracking-widest text-green-400">
-      ONS
-    </span>
+    <img
+      src="/logos/ons-logo.png"
+      alt="ONS — Operador Nacional do Sistema Elétrico"
+      height={24}
+      style={{ height: 24, width: 'auto', filter: 'brightness(0) invert(1)' }}
+    />
   )
 }
 
@@ -126,23 +130,15 @@ export function GridMonitorCard({ current, locale, g, d }: GridMonitorCardProps)
   const mwParts = source ? fmtMWParts(source.demand_mw) : null
   const isPeak = source?.peak_event_active ?? false
 
-  let operatorName: string
-  let subLabel: string
   const Logo =
     locale === 'fr' ? HqLogo :
     locale === 'pt' ? OnsLogo :
     NyisoLogo
 
-  if (locale === 'fr') {
-    operatorName = g.source_hq
-    subLabel = 'Québec · 40 GW cap.'
-  } else if (locale === 'pt') {
-    operatorName = g.source_ons
-    subLabel = source?.area ?? 'Sistema Interligado Nacional'
-  } else {
-    operatorName = g.source_nyiso
-    subLabel = 'New York · NYISO'
-  }
+  const subLabel =
+    locale === 'fr' ? 'Québec · 40 GW cap.' :
+    locale === 'pt' ? (source?.area ?? 'Sistema Interligado Nacional') :
+    'New York · NYISO'
 
   return (
     <div
@@ -154,11 +150,10 @@ export function GridMonitorCard({ current, locale, g, d }: GridMonitorCardProps)
         {d.grid_label}
       </div>
 
-      {/* Logo + operator name */}
-      <div className="flex items-center gap-2 mb-0.5">
+      {/* Logo */}
+      <div className="flex items-center gap-2 mb-1">
         <Logo />
       </div>
-      <div className="text-xs font-mono text-blue-300 mb-0.5">{operatorName}</div>
       <div className="text-xs font-mono text-neutral-600 mb-3">{subLabel}</div>
 
       {/* Hero: demand value */}
