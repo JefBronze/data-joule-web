@@ -1,0 +1,691 @@
+# Grid Monitor Card Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Add a 4th metric card to the demo dashboard showing live grid operator demand data, locale-switched (HQ → fr, ONS → pt, NYISO → en), replacing the complex GridSignalPanel.
+
+**Architecture:** New `app/demo/GridMonitorCard.tsx` containing three inline SVG logo components, helper functions, and the card component. `demo/page.tsx` gains the import, grid class change, and card usage; `GridSignalPanel`, `SourceCard`, `DemandBar`, and `tierStatusLabel` are removed as dead code. Three translation keys added across all locale files.
+
+**Tech Stack:** React 19, Next.js 16, TypeScript 5, Tailwind v4. No new dependencies.
+
+---
+
+## File Structure
+
+| File | Action | Responsibility |
+|------|--------|----------------|
+| `app/demo/GridMonitorCard.tsx` | **Create** | Card component + HQ / NYISO / ONS logos + helpers |
+| `app/demo/page.tsx` | **Modify** | Import card; change grid to 4-col; remove GridSignalPanel cluster |
+| `app/lib/translations/en.ts` | **Modify** | Add `demo.grid_label`, `grid.load_unit`, `grid.peak_short` |
+| `app/lib/translations/fr.ts` | **Modify** | Same keys, French values |
+| `app/lib/translations/pt.ts` | **Modify** | Same keys, Portuguese values |
+
+---
+
+### Task 1: Add translation keys
+
+**Files:**
+- Modify: `app/lib/translations/en.ts:139` (demo section)
+- Modify: `app/lib/translations/en.ts:170` (grid section)
+- Modify: `app/lib/translations/fr.ts:139`
+- Modify: `app/lib/translations/fr.ts:170`
+- Modify: `app/lib/translations/pt.ts:139`
+- Modify: `app/lib/translations/pt.ts:170`
+
+- [ ] **Step 1.1 — en.ts: add `demo.grid_label`**
+
+  In `app/lib/translations/en.ts`, find the end of the `demo` block and add one line:
+
+  Replace:
+  ```ts
+      ven_offline: 'OFFLINE',
+    },
+    grid: {
+  ```
+  With:
+  ```ts
+      ven_offline: 'OFFLINE',
+      grid_label:  'POWER GRID',
+    },
+    grid: {
+  ```
+
+- [ ] **Step 1.2 — en.ts: add `grid.load_unit` and `grid.peak_short`**
+
+  In `app/lib/translations/en.ts`, find the end of the `grid` block and add two lines:
+
+  Replace:
+  ```ts
+      demand_note:  'Electrical load consumed by the grid — homes, industry, everything connected. Higher % = more stress.',
+    },
+  ```
+  With:
+  ```ts
+      demand_note:  'Electrical load consumed by the grid — homes, industry, everything connected. Higher % = more stress.',
+      load_unit:    'load',
+      peak_short:   'PEAK',
+    },
+  ```
+
+- [ ] **Step 1.3 — fr.ts: add `demo.grid_label`**
+
+  Replace:
+  ```ts
+      ven_offline: "OFFLINE",
+    },
+    grid: {
+  ```
+  With:
+  ```ts
+      ven_offline: "OFFLINE",
+      grid_label:  "RÉSEAU ÉLECTRIQUE",
+    },
+    grid: {
+  ```
+
+- [ ] **Step 1.4 — fr.ts: add `grid.load_unit` and `grid.peak_short`**
+
+  Replace:
+  ```ts
+      demand_note:  "Puissance appelée sur le réseau d'HQ — résidences, industries et tout ce qui est branché. % élevé = signal de pointe hivernale imminente.",
+    },
+  ```
+  With:
+  ```ts
+      demand_note:  "Puissance appelée sur le réseau d'HQ — résidences, industries et tout ce qui est branché. % élevé = signal de pointe hivernale imminente.",
+      load_unit:    "charge",
+      peak_short:   "POINTE",
+    },
+  ```
+
+- [ ] **Step 1.5 — pt.ts: add `demo.grid_label`**
+
+  Replace:
+  ```ts
+      ven_offline: 'OFFLINE',
+    },
+    grid: {
+  ```
+  With:
+  ```ts
+      ven_offline: 'OFFLINE',
+      grid_label:  'REDE ELÉTRICA',
+    },
+    grid: {
+  ```
+
+- [ ] **Step 1.6 — pt.ts: add `grid.load_unit` and `grid.peak_short`**
+
+  Replace:
+  ```ts
+      demand_note: 'Carga elétrica atendida no SIN (Sistema Interligado Nacional) — residências, indústria e demais consumidores conectados. Percentual alto indica maior solicitação do sistema.',
+    },
+  ```
+  With:
+  ```ts
+      demand_note: 'Carga elétrica atendida no SIN (Sistema Interligado Nacional) — residências, indústria e demais consumidores conectados. Percentual alto indica maior solicitação do sistema.',
+      load_unit:   'carga',
+      peak_short:  'PONTA',
+    },
+  ```
+
+- [ ] **Step 1.7 — TypeScript check**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  npx tsc --noEmit 2>&1 | Select-String "translations"
+  ```
+
+  Expected: no output (no type errors in translation files). If errors appear, check that all three locale files have the same keys in the same order.
+
+- [ ] **Step 1.8 — Commit**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  git add app/lib/translations/en.ts app/lib/translations/fr.ts app/lib/translations/pt.ts
+  git commit -m "feat(i18n): add grid_label, load_unit, peak_short translation keys"
+  ```
+
+---
+
+### Task 2: Create `app/demo/GridMonitorCard.tsx`
+
+**Files:**
+- Create: `app/demo/GridMonitorCard.tsx`
+
+- [ ] **Step 2.1 — Write the file**
+
+  Create `app/demo/GridMonitorCard.tsx` with the following content.
+
+  **Logo notes:**
+  - `HqLogo`: Hydro-Québec SVG from Wikimedia Commons. Original navy `#003366` → `#e2e8f0` (light slate); orange `#ff9900` kept.
+  - `NyisoLogo`: NYISO SVG from nyiso.com. Original dark gray `#333` → `#e2e8f0`; cyan `#2baadd` kept. CSS classes renamed `a`→`ny-a`, `b`→`ny-b` to avoid global collision.
+  - `OnsLogo`: Text fallback — ONS does not expose a machine-readable SVG URL. Replace with an embedded SVG if you obtain their brand file.
+
+  ```tsx
+  'use client'
+
+  import type { GridSignal, GridSource } from '@/app/hooks/useFlexState'
+  import type { Translations } from '@/app/lib/i18n'
+  import type { Locale } from '@/app/lib/i18n'
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+
+  /** Split MW value from unit for hero layout (mirrors fmtMW in page.tsx but returns parts). */
+  function fmtMWParts(mw: number): { value: string; unit: string } {
+    if (mw >= 1000) return { value: (mw / 1000).toFixed(1), unit: 'GW' }
+    return { value: Math.round(mw).toLocaleString(), unit: 'MW' }
+  }
+
+  function getTierColor(tier: number): string {
+    if (tier >= 3) return '#ef4444'   // red-500
+    if (tier === 2) return '#f97316'  // orange-500
+    if (tier === 1) return '#eab308'  // yellow-500
+    return '#4ade80'                  // green-400
+  }
+
+  function getGridSource(
+    signal: GridSignal | null,
+    locale: Locale,
+  ): GridSource | null | undefined {
+    if (!signal) return null
+    if (locale === 'fr') return signal.fr?.hq
+    if (locale === 'pt') return signal.pt?.ons
+    return signal.en?.nyiso
+  }
+
+  // ── Logo components ──────────────────────────────────────────────────────────
+
+  /** Hydro-Québec wordmark — colours adapted for dark background. */
+  function HqLogo() {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="18"
+        viewBox="-1.228725 -1.228725 131.06495 43.41495"
+        aria-label="Hydro-Québec"
+      >
+        {/* Orange H symbol */}
+        <path style={{ fill: '#ff9900' }} d="M 28.12875,31.45125 C 25.1825,33.6975 21.50625,35.0325 17.51625,35.0325 7.84125,35.0325 0,27.19 0,17.5175 0,7.8425 7.84125,0 17.51625,0 27.19,0 35.0325,7.8425 35.0325,17.5175 c 0,3.99875 -1.34,7.6825 -3.5975,10.63125 l 0,0.0012 c 0.88375,0.6575 4.85875,3.6075 5.2825,4.1275 -0.16,-1.45375 -0.65375,-6.1 -0.65375,-6.1 l 14.66625,10.975 0.03625,0.32125 -10.84,-4.77 0.89125,8.25375 -12.69125,-9.50375 0.0025,-0.0025 z m -4.1575,-3.28875 c -2.02,-1.51 -9.91625,-7.25 -9.91625,-7.25 l 7.7125,0 c 0.445,0.34375 3.89625,2.915 5.5775,4.17375 l -0.0038,0.0038 c 1.59125,-2.10125 2.535,-4.72875 2.535,-7.5775 0,-6.8975 -5.53375,-12.485 -12.36,-12.485 -6.8275,0 -12.36125,5.5875 -12.36125,12.485 0,6.895 5.53375,12.48375 12.36125,12.48375 2.365,0 4.57375,-0.67125 6.4525,-1.8325 l 0.0025,-0.0012" />
+        {/* HYDRO text — navy → light slate */}
+        <path style={{ fill: '#e2e8f0' }} d="M 76.41,1.22 74.36875,11.935 C 74.1225,13.23875 73.94,14.695 73.8825,15.9025 l -2.69875,0 0.16,-1.7125 -0.0425,0 c -0.9125,1.385 -2.19,1.945 -3.42875,1.945 -1.7825,0 -3.2,-1.41125 -3.2,-3.90375 0,-3.61875 2.61125,-6.9475 6.5175,-6.9475 0.44375,0 1.0075,0.0825 1.44875,0.26 L 73.47375,1.22 76.41,1.22 z M 72.22125,7.905 C 71.96125,7.7 71.495,7.53875 70.97,7.53875 c -1.88375,0 -3.23125,2.15625 -3.23125,4.2125 0,1.25375 0.535,2.0075 1.475,2.0075 0.92,0 2.0475,-0.9825 2.45125,-2.9975 L 72.22125,7.905 m 15.82375,8.23 c -2.63875,0 -4.3775,-1.725 -4.3775,-4.29 0,-3.5775 2.50375,-6.56125 6.1625,-6.56125 2.7925,0 4.3775,1.92625 4.3775,4.28375 0,3.73875 -2.57875,6.5675 -6.14125,6.5675 l -0.02125,0 z m 0.3925,-2.25375 c 1.6925,0 2.695,-2.47375 2.695,-4.29125 0,-0.98625 -0.43,-2.05125 -1.6975,-2.05125 -1.8025,0 -2.74,2.57375 -2.735,4.24375 0,1.255 0.63375,2.09875 1.715,2.09875 l 0.0225,0 m -12.36375,2.02113 1.18,-6.22375 c 0.2875,-1.54375 0.42125,-3.26 0.53,-4.1625 l 2.55625,0 c -0.05625,0.70375 -0.11375,1.405 -0.1975,2.13875 l 0.06625,0 c 0.72875,-1.3825 1.87875,-2.37125 3.2975,-2.37125 0.19125,0 0.39,0.00875 0.565,0.0225 l -0.575,2.87875 c -0.1325,-0.0125 -0.30125,-0.02125 -0.47,-0.02125 -1.91,0 -2.865,1.7475 -3.2525,3.82125 l -0.7375,3.9175 -2.9625,0 m -29.59,-14.315 -1.06875,5.6075 5.30875,0 1.0675,-5.6075 2.9625,0 -2.715,14.315 -2.96125,0 1.1475,-6.08 -5.3125,0 -1.1425,6.08 -2.95,0 2.71375,-14.315 2.95,0 z m 10.7725,13.57637 -2.09875,-9.6475 3.10625,0 0.6525,4.535 c 0.1575,1.0775 0.295,1.91875 0.37375,2.5775 l 0.0425,0 c 0.225,-0.6325 0.525,-1.41625 0.9775,-2.545 l 1.89375,-4.5675 3.11,0 -6.7525,13.60625 -3.47375,0.0025 2.16875,-3.96125" />
+        {/* QUÉBEC text — navy → light slate */}
+        <path style={{ fill: '#e2e8f0' }} d="m 96.885,18.71113 -2.65875,3.10375 -2.1275,0 1.945,-3.10375 2.84125,0 z m -0.08875,9.705 c 0.43125,-1.95625 0.4025,-5.5875 -3.52875,-5.5875 -3.83875,0 -6.05125,3.33125 -6.05125,6.47875 0,2.6475 1.44625,4.355 4.475,4.355 1.19125,0 2.66625,-0.235 3.81125,-0.8175 L 95.28,30.69738 c -0.77625,0.515 -5.1275,1.74 -5.2325,-1.31125 l 6.74875,-0.97 z m -6.55125,-0.955 c 0.09,-0.72125 0.82375,-2.3075 2.305,-2.47125 1.36625,-0.1525 1.8875,1.015 1.67625,1.8975 L 90.245,27.46113 m -23.11375,6.23512 c -2.4425,0.0038 -5.71875,-1.4925 -5.71875,-6.0525 0,-4.3375 2.74375,-8.76 7.8325,-8.76 3.9525,0 5.73875,2.85625 5.73875,5.95625 0,3.30375 -2.085,5.8625 -3.39,6.57125 l 0,0.02875 c 0.115,-0.0063 1.15,-0.2975 2.22875,-0.2975 0,0 0.56375,0.0013 0.91875,0.0013 L 74.26,33.4288 c -0.22125,0.0025 -1.68375,0 -3.595,0 -1.525,0 -1.5525,0.265 -3.53375,0.2675 m 0.4625,-2.49875 c 2.61375,0 4.25875,-3.575 4.26375,-6.3425 0,-1.64 -0.62625,-3.515 -2.94875,-3.515 -2.67375,0 -4.36125,3.62125 -4.36125,6.3075 0,2.0325 0.93125,3.55 3.025,3.55 l 0.02125,0 m 51.1825,-2.78125 c 0.43,-1.95625 0.40125,-5.5875 -3.53125,-5.5875 -3.8375,0 -6.05125,3.33125 -6.05125,6.47875 0,2.6475 1.44625,4.355 4.475,4.355 1.19125,0 2.66625,-0.235 3.81125,-0.8175 l -0.2225,-2.1475 c -0.77625,0.515 -5.1275,1.74 -5.2325,-1.31125 l 6.75125,-0.97 z m -6.5525,-0.955 c 0.0888,-0.72125 0.8225,-2.3075 2.30375,-2.47125 1.36625,-0.1525 1.8875,1.015 1.67625,1.8975 l -3.98,0.57375 m -14.92625,5.53363 2.6725,-14.2775 2.93375,0.0038 -1.0775,5.665 0.0425,0.0038 c 0.57,-0.95375 1.93125,-1.65125 3.21375,-1.67125 2.17375,-0.03125 3.205,1.6525 3.2,3.64125 -0.0175,5.80375 -5.06875,8.825 -10.985,6.635 m 3.235,-1.68 c 2.71,1.185 4.6725,-1.905 4.66875,-4.33375 -0.001,-1.0639 -0.50125,-1.8564 -1.40125,-1.8439 -1.2025,0.015 -2.335,1.15375 -2.73625,3.33125 l -0.53125,2.84625 m 26.51625,1.78887 c -0.65125,0.315 -1.7,0.5575 -2.955,0.5575 -2.56875,0 -4.3375,-1.59125 -4.3375,-4.24625 0,-3.67 2.8075,-6.58875 6.74125,-6.58875 0.8875,0 1.65625,0.175 2.11,0.36125 l -0.7325,2.26625 c -0.3675,-0.1525 -0.80375,-0.26875 -1.4325,-0.26875 -2.2175,0 -3.59875,1.91625 -3.59875,3.9025 0,1.46125 0.905,2.205 2.085,2.205 0.9,0 1.555,-0.22 2.08,-0.4425 l 0.04,2.25375 m -40.3175,-10.0525 -1.3275,7.0325 c -0.255,1.3025 -0.415,2.42875 -0.54875,3.3525 l -2.61125,0 0.1975,-1.71 -0.0425,-0.0087 c -1.05125,1.3525 -2.32125,1.95375 -3.58,1.95375 -1.635,0 -2.67375,-0.92 -2.67375,-2.91375 0,-0.565 0.07125,-1.1875 0.2075,-1.89875 l 1.10375,-5.8075 2.95,0 -1.0575,5.58 C 79.26,29.11875 79.1925,29.6275 79.1925,30.015 c 0,0.69875 0.28625,1.25 1.09625,1.25 1.055,0 2.17625,-1.2725 2.575,-3.3575 l 0.9175,-4.85625 2.95,0" />
+      </svg>
+    )
+  }
+
+  /** NYISO wordmark — dark gray #333 → #e2e8f0; cyan #2baadd kept. */
+  function NyisoLogo() {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="16"
+        viewBox="0 0 249 44"
+        aria-label="NYISO"
+      >
+        <defs><style>{'.ny-a{fill:#e2e8f0}.ny-b{fill:#2baadd}'}</style></defs>
+        <path className="ny-a" d="M52.2681,39.9961H50.8862V29h1.3818Z"/>
+        <path className="ny-a" d="M55.13,31.8252l.0381.8828a2.3851,2.3851,0,0,1,1.9863-1.0342q2.1672,0,2.1973,2.8926v5.43H58.0229V34.627a2.2277,2.2277,0,0,0-.3208-1.3633,1.1557,1.1557,0,0,0-.9629-.4043,1.36,1.36,0,0,0-.895.332,2.4,2.4,0,0,0-.6382.8691v5.9355H53.87V31.8252Z"/>
+        <path className="ny-a" d="M60.7026,35.54a4.9235,4.9235,0,0,1,.7061-2.877,2.3407,2.3407,0,0,1,2.0278-.9893,2.1,2.1,0,0,1,1.8276.9512V28.3965h1.3369v11.6H65.3774L65.31,39.12a2.1043,2.1043,0,0,1-1.88,1.0273,2.33,2.33,0,0,1-1.99-.9863,4.7163,4.7163,0,0,1-.7363-2.7822Zm1.3369.7588a3.8728,3.8728,0,0,0,.4077,2.0176,1.4517,1.4517,0,0,0,1.3291.6455,1.5822,1.5822,0,0,0,1.4878-1.0039V33.84a1.6077,1.6077,0,0,0-1.48-.98,1.4526,1.4526,0,0,0-1.3291.6445,3.8256,3.8256,0,0,0-.4155,1.98Z"/>
+        <path className="ny-a" d="M71.0366,40.1475a2.9821,2.9821,0,0,1-2.3413-.91,3.9365,3.9365,0,0,1-.8306-2.67v-.9893a4.6051,4.6051,0,0,1,.7969-2.8662,2.6433,2.6433,0,0,1,2.2241-1.0381,2.5462,2.5462,0,0,1,2.1445.9141,4.6968,4.6968,0,0,1,.7251,2.8467v.876H69.1938V36.5a2.98,2.98,0,0,0,.4946,1.91,1.7462,1.7462,0,0,0,1.4238.5967,2.3083,2.3083,0,0,0,1.0381-.2227,2.5752,2.5752,0,0,0,.8423-.7061l.6948.8457A3.0335,3.0335,0,0,1,71.0366,40.1475Zm-.1509-7.3262a1.4014,1.4014,0,0,0-1.231.57,3.3846,3.3846,0,0,0-.4531,1.7715h3.2168v-.1816A3.12,3.12,0,0,0,72,33.32,1.2924,1.2924,0,0,0,70.8857,32.8213Z"/>
+        <path className="ny-a" d="M80.9521,36.3027a4.8909,4.8909,0,0,1-.6982,2.8926,2.3057,2.3057,0,0,1-1.9751.9521,2.1891,2.1891,0,0,1-1.8955-.93v3.92H75.0542V31.8252h1.2085l.0679.9062a2.15,2.15,0,0,1,1.9258-1.0576,2.3008,2.3008,0,0,1,2.0088.9365,4.9541,4.9541,0,0,1,.687,2.8018ZM79.623,35.54A3.8113,3.8113,0,0,0,79.2,33.5127a1.4986,1.4986,0,0,0-1.3594-.6533,1.5749,1.5749,0,0,0-1.4575.959V38.07a1.5769,1.5769,0,0,0,1.4727.9365,1.4787,1.4787,0,0,0,1.333-.6533,3.7519,3.7519,0,0,0,.4341-1.9971Z"/>
+        <path className="ny-a" d="M85.38,40.1475a2.9821,2.9821,0,0,1-2.3413-.91,3.9365,3.9365,0,0,1-.8306-2.67v-.9893a4.6051,4.6051,0,0,1,.7969-2.8662,2.6433,2.6433,0,0,1,2.2241-1.0381,2.5462,2.5462,0,0,1,2.1445.9141,4.6968,4.6968,0,0,1,.7251,2.8467v.876H83.5376V36.5a2.98,2.98,0,0,0,.4946,1.91,1.7462,1.7462,0,0,0,1.4238.5967,2.3083,2.3083,0,0,0,1.0381-.2227,2.5752,2.5752,0,0,0,.8423-.7061l.6948.8457A3.0335,3.0335,0,0,1,85.38,40.1475Zm-.1509-7.3262a1.4014,1.4014,0,0,0-1.231.57,3.3846,3.3846,0,0,0-.4531,1.7715h3.2168v-.1816a3.12,3.12,0,0,0-.4189-1.6611A1.2924,1.2924,0,0,0,85.2295,32.8213Z"/>
+        <path className="ny-a" d="M90.9614,31.8252L91,32.708a2.3851,2.3851,0,0,1,1.9863-1.0342q2.1672,0,2.1973,2.8926v5.43H93.854V34.627a2.2277,2.2277,0,0,0-.3208-1.3633,1.1557,1.1557,0,0,0-.9629-.4043,1.36,1.36,0,0,0-.895.332,2.4,2.4,0,0,0-.6382.8691v5.9355H89.7007V31.8252Z"/>
+        <path className="ny-a" d="M96.5024,35.54a4.9235,4.9235,0,0,1,.7061-2.877,2.3407,2.3407,0,0,1,2.0278-.9893,2.1,2.1,0,0,1,1.8276.9512V28.3965h1.3369v11.6h-1.2236l-.0679-.876a2.1043,2.1043,0,0,1-1.88,1.0273,2.33,2.33,0,0,1-1.99-.9863,4.7163,4.7163,0,0,1-.7363-2.7822Zm1.3369.7588a3.8728,3.8728,0,0,0,.4077,2.0176,1.4517,1.4517,0,0,0,1.3291.6455,1.5822,1.5822,0,0,0,1.4878-1.0039V33.84a1.6077,1.6077,0,0,0-1.48-.98,1.4526,1.4526,0,0,0-1.3291.6445,3.8256,3.8256,0,0,0-.4155,1.98Z"/>
+        <path className="ny-a" d="M106.9292,40.1475a2.9821,2.9821,0,0,1-2.3413-.91,3.9365,3.9365,0,0,1-.8306-2.67v-.9893a4.6051,4.6051,0,0,1,.7969-2.8662,2.6433,2.6433,0,0,1,2.2241-1.0381,2.5462,2.5462,0,0,1,2.1445.9141,4.6968,4.6968,0,0,1,.7251,2.8467v.876h-4.5615V36.5a2.98,2.98,0,0,0,.4946,1.91,1.7462,1.7462,0,0,0,1.4238.5967,2.3083,2.3083,0,0,0,1.0381-.2227,2.5752,2.5752,0,0,0,.8423-.7061l.6948.8457A3.0335,3.0335,0,0,1,106.9292,40.1475Zm-.1509-7.3262a1.4014,1.4014,0,0,0-1.231.57,3.3846,3.3846,0,0,0-.4531,1.7715h3.2168v-.1816a3.12,3.12,0,0,0-.4189-1.6611A1.2924,1.2924,0,0,0,106.7783,32.8213Z"/>
+        <path className="ny-a" d="M112.3706,31.8252l.0381.8828a2.3851,2.3851,0,0,1,1.9863-1.0342q2.1672,0,2.1973,2.8926v5.43h-1.3291V34.627a2.2277,2.2277,0,0,0-.3208-1.3633,1.1557,1.1557,0,0,0-.9629-.4043,1.36,1.36,0,0,0-.895.332,2.4,2.4,0,0,0-.6382.8691v5.9355H111.11V31.8252Z"/>
+        <path className="ny-a" d="M120.2837,29.8467v1.9785h1.231v1.0791h-1.231v5.0742a1.3771,1.3771,0,0,0,.1587.7334.5938.5938,0,0,0,.5435.25,1.6843,1.6843,0,0,0,.5361-.0908l-.0151,1.126a2.9451,2.9451,0,0,1-.9287.15,1.407,1.407,0,0,1-1.2085-.5664,2.671,2.671,0,0,1-.415-1.6016V32.9043h-1.2461V31.8252h1.2461V29.8467Z"/>
+        <path className="ny-a" d="M131.2939,37.2168a1.6894,1.6894,0,0,0-.4453-1.2607,4.5592,4.5592,0,0,0-1.6094-.8535,6.9806,6.9806,0,0,1-1.7773-.8721,3.0813,3.0813,0,0,1-.9219-1.043,3.0911,3.0911,0,0,1,.5664-3.4922,3.147,3.147,0,0,1,2.2852-.8457,3.401,3.401,0,0,1,1.7207.4316,2.95,2.95,0,0,1,1.1641,1.2,3.5552,3.5552,0,0,1,.4063,1.69h-1.3887a2.32,2.32,0,0,0-.49-1.5781,1.7832,1.7832,0,0,0-1.4121-.5586,1.7391,1.7391,0,0,0-1.3.4688,1.7968,1.7968,0,0,0-.46,1.3164,1.5352,1.5352,0,0,0,.498,1.165,4.4164,4.4164,0,0,0,1.541.84,5.3162,5.3162,0,0,1,2.3223,1.3223,2.9819,2.9819,0,0,1,.6973,2.0547,2.78,2.78,0,0,1-.8672,2.1406,3.3468,3.3468,0,0,1-2.3652.8047,3.789,3.789,0,0,1-1.77-.42,3.1625,3.1625,0,0,1-1.2764-1.1777,3.2666,3.2666,0,0,1-.4648-1.74h1.39a2.1334,2.1334,0,0,0,.57,1.5859,2.1048,2.1048,0,0,0,1.5508.5664,1.8465,1.8465,0,0,0,1.375-.4687A1.743,1.743,0,0,0,131.2939,37.2168Z"/>
+        <path className="ny-a" d="M136.55,37.7754l1.4873-5.95h1.42l-2.6729,9.3262a3.6332,3.6332,0,0,1-.8535,1.5977,1.7341,1.7341,0,0,1-1.2539.5469,2.6468,2.6468,0,0,1-.6943-.12V42.043l.2939.03a1.37,1.37,0,0,0,.91-.2764,1.9606,1.9606,0,0,0,.5322-.9551l.2646-.9141-2.4014-8.1025h1.457Z"/>
+        <path className="ny-a" d="M144.48,37.9043a.9852.9852,0,0,0-.3242-.74,4.81,4.81,0,0,0-1.2539-.7246,8.2376,8.2376,0,0,1-1.5215-.7627,2.1758,2.1758,0,0,1-.6611-.7217,1.9975,1.9975,0,0,1-.2187-.9629,2.1446,2.1446,0,0,1,.7285-1.6572,2.975,2.975,0,0,1,3.78.0332,2.3609,2.3609,0,0,1,.7246,1.7822h-1.3291a1.311,1.311,0,0,0-.37-.9395,1.2439,1.2439,0,0,0-.9434-.39,1.3282,1.3282,0,0,0-.9258.3057,1.05,1.05,0,0,0-.3359.8164a.8941.8941,0,0,0,.2451.6553,4.379,4.379,0,0,0,1.1826.6553,5.9419,5.9419,0,0,1,2.0234,1.1377,1.95,1.95,0,0,1,.5361,1.4111,2.1493,2.1493,0,0,1-.7324,1.7051,2.8779,2.8779,0,0,1-1.9639.64,2.9266,2.9266,0,0,1-2.0684-.7324,2.4185,2.4185,0,0,1-.793-1.8584h1.3438a1.6027,1.6027,0,0,0,2.53,1.1514A1.0042,1.0042,0,0,0,144.48,37.9043Z"/>
+        <path className="ny-a" d="M149.292,29.8467v1.9785h1.23v1.0791h-1.23v5.0742a1.3821,1.3821,0,0,0,.1582.7334.5957.5957,0,0,0,.5439.25,1.6843,1.6843,0,0,0,.5361-.0908l-.0146,1.126a2.9556,2.9556,0,0,1-.93.15,1.4072,1.4072,0,0,1-1.208-.5664,2.6745,2.6745,0,0,1-.415-1.6016V32.9043h-1.2461V31.8252h1.2461V29.8467Z"/>
+        <path className="ny-a" d="M154.9082,40.1475a2.9824,2.9824,0,0,1-2.3418-.91,3.9314,3.9314,0,0,1-.83-2.67v-.9893a4.605,4.605,0,0,1,.7959-2.8662,2.6448,2.6448,0,0,1,2.2246-1.0381,2.5474,2.5474,0,0,1,2.1445.9141,4.6966,4.6966,0,0,1,.7256,2.8467v.876h-4.5615V36.5a2.9772,2.9772,0,0,0,.4941,1.91,1.7462,1.7462,0,0,0,1.4238.5967,2.31,2.31,0,0,0,1.0381-.2227,2.5739,2.5739,0,0,0,.8418-.7061l.6953.8457A3.0332,3.0332,0,0,1,154.9082,40.1475Zm-.1514-7.3262a1.404,1.404,0,0,0-1.2314.57,3.3892,3.3892,0,0,0-.4531,1.7715H156.29v-.1816a3.12,3.12,0,0,0-.4189-1.6611A1.2951,1.2951,0,0,0,154.7568,32.8213Z"/>
+        <path className="ny-a" d="M160.333,31.8252l.03.7549a2.43,2.43,0,0,1,1.9717-.9062,1.9334,1.9334,0,0,1,1.91,1.1855,2.4248,2.4248,0,0,1,2.1445-1.1855q2.2588,0,2.3115,2.8164v5.5059h-1.3291v-5.377a2.254,2.254,0,0,0-.3174-1.3252,1.24,1.24,0,0,0-1.0723-.4346,1.2026,1.2026,0,0,0-.9824.4688,2.1332,2.1332,0,0,0-.4375,1.1924v5.4756h-1.3447V34.5586q-.022-1.6992-1.3818-1.6992a1.4526,1.4526,0,0,0-1.4268,1.0117v6.125H159.08V31.8252Z"/>
+        <path className="ny-a" d="M180.7422,35.4648a5.4849,5.4849,0,0,1-.96,3.4668,3.2686,3.2686,0,0,1-2.7256,1.2158,3.3094,3.3094,0,0,1-2.6846-1.1826,5.2192,5.2192,0,0,1-1.0234-3.3418V33.5547a5.4893,5.4893,0,0,1,.9736-3.4551,3.25,3.25,0,0,1,2.7188-1.25,3.2924,3.2924,0,0,1,2.708,1.1963,5.4035,5.4035,0,0,1,.9932,3.418Zm-1.3828-1.9258a4.7043,4.7043,0,0,0-.57-2.5937,2.1915,2.1915,0,0,0-3.4736.0107,4.5663,4.5663,0,0,0-.5928,2.5381v1.9707a4.661,4.661,0,0,0,.585,2.5674,2.1981,2.1981,0,0,0,3.4707.0684,4.5841,4.5841,0,0,0,.5811-2.5Z"/>
+        <path className="ny-a" d="M188.1475,36.3027a4.8873,4.8873,0,0,1-.6982,2.8926,2.3054,2.3054,0,0,1-1.9746.9521,2.1879,2.1879,0,0,1-1.8955-.93v3.92H182.25V31.8252h1.208l.0674.9062a2.1517,2.1517,0,0,1,1.9258-1.0576,2.299,2.299,0,0,1,2.0088.9365,4.946,4.946,0,0,1,.6875,2.8018Zm-1.3291-.7627a3.8067,3.8067,0,0,0-.4229-2.0273,1.5,1.5,0,0,0-1.3594-.6533,1.5732,1.5732,0,0,0-1.457.959V38.07a1.5759,1.5759,0,0,0,1.4727.9365,1.477,1.477,0,0,0,1.332-.6533,3.7422,3.7422,0,0,0,.4346-1.9971Z"/>
+        <path className="ny-a" d="M192.4834,40.1475a2.9824,2.9824,0,0,1-2.3418-.91,3.9314,3.9314,0,0,1-.83-2.67v-.9893a4.605,4.605,0,0,1,.7959-2.8662,2.6448,2.6448,0,0,1,2.2246-1.0381,2.5474,2.5474,0,0,1,2.1445.9141,4.6966,4.6966,0,0,1,.7256,2.8467v.876h-4.5615V36.5a2.9772,2.9772,0,0,0,.4941,1.91,1.7462,1.7462,0,0,0,1.4238.5967,2.31,2.31,0,0,0,1.0381-.2227,2.5739,2.5739,0,0,0,.8418-.7061l.6953.8457A3.0332,3.0332,0,0,1,192.4834,40.1475Zm-.1514-7.3262a1.404,1.404,0,0,0-1.2314.57,3.3892,3.3892,0,0,0-.4531,1.7715h3.2178v-.1816a3.12,3.12,0,0,0-.4189-1.6611A1.2951,1.2951,0,0,0,192.332,32.8213Z"/>
+        <path className="ny-a" d="M200.0391,33.0781a3.27,3.27,0,0,0-.6045-.0527A1.4661,1.4661,0,0,0,198,34.15v5.8457h-1.3369V31.8252h1.2988l.0225.83a1.6629,1.6629,0,0,1,1.5176-.9814,1.1829,1.1829,0,0,1,.5293.1055Z"/>
+        <path className="ny-a" d="M205.1875,39.9961a2.9508,2.9508,0,0,1-.1738-.8916,2.1212,2.1212,0,0,1-1.8125,1.043,2.3429,2.3429,0,0,1-1.7324-.623,2.3732,2.3732,0,0,1-.623-1.7559,2.4809,2.4809,0,0,1,.8457-1.9785,3.4774,3.4774,0,0,1,2.3184-.748h.9814v-.8682a1.1459,1.1459,0,0,0-1.3135-1.3525,1.3679,1.3679,0,0,0-.9824.3594,1.1993,1.1993,0,0,0-.377.91h-1.3369a2.1622,2.1622,0,0,1,.37-1.1973,2.5789,2.5789,0,0,1,.9971-.8955,2.9937,2.9937,0,0,1,1.3965-.3242,2.6623,2.6623,0,0,1,1.9072.623,2.4361,2.4361,0,0,1,.668,1.8164v4.123a4.971,4.971,0,0,0,.2568,1.6387v.1211Zm-1.7822-1.0645a1.7679,1.7679,0,0,0,.9365-.2725,1.669,1.669,0,0,0,.6494-.68V36.0313h-.7549a2.5259,2.5259,0,0,0-1.5029.4268,1.3557,1.3557,0,0,0-.5518,1.1514,1.4931,1.4931,0,0,0,.28,1.0088A1.2109,1.2109,0,0,0,203.4053,38.9316Z"/>
+        <path className="ny-a" d="M209.94,29.8467v1.9785h1.23v1.0791h-1.23v5.0742a1.3821,1.3821,0,0,0,.1582.7334.5957.5957,0,0,0,.5439.25,1.6843,1.6843,0,0,0,.5361-.0908l-.0146,1.126a2.9556,2.9556,0,0,1-.93.15,1.4072,1.4072,0,0,1-1.208-.5664,2.6745,2.6745,0,0,1-.415-1.6016V32.9043h-1.2461V31.8252h1.2461V29.8467Z"/>
+        <path className="ny-a" d="M212.2158,35.5332a4.2755,4.2755,0,0,1,.8643-2.8213,2.8246,2.8246,0,0,1,2.2842-1.0381,2.8576,2.8576,0,0,1,2.2852,1.0117,4.1928,4.1928,0,0,1,.8867,2.7568v.86a4.2551,4.2551,0,0,1-.86,2.81,3.0732,3.0732,0,0,1-4.5732.03,4.1635,4.1635,0,0,1-.8867-2.7187Zm1.3359.77a3.4592,3.4592,0,0,0,.4951,1.9824,1.5387,1.5387,0,0,0,1.333.7217q1.7666,0,1.82-2.5527v-.9209a3.4648,3.4648,0,0,0-.499-1.9824,1.5429,1.5429,0,0,0-1.3369-.7295,1.5214,1.5214,0,0,0-1.3174.7295,3.4642,3.4642,0,0,0-.4951,1.9746Z"/>
+        <path className="ny-a" d="M223.2939,33.0781a3.27,3.27,0,0,0-.6045-.0527,1.4661,1.4661,0,0,0-1.4346,1.125v5.8457H219.918V31.8252h1.2988l.0225.83a1.6629,1.6629,0,0,1,1.5176-.9814,1.1829,1.1829,0,0,1,.5293.1055Z"/>
+        <path className="ny-a" d="M67.4048,25.1582H64.187L53.9907,6.5093V25.1582H50.7725V.9575h3.2183L64.2217,19.69V.9575h3.1831Z"/>
+        <path className="ny-a" d="M78.1694,25.49a7.0916,7.0916,0,0,1-5.4214-2.0029,8.3732,8.3732,0,0,1-1.9238-5.875V15.4346A9.7741,9.7741,0,0,1,72.6694,9.127a6.249,6.249,0,0,1,5.15-2.2852,6.04,6.04,0,0,1,4.9668,2.0107q1.6443,2.012,1.6792,6.2666v1.9277H73.9023v.4155a6.3232,6.3232,0,0,0,1.1455,4.2056,4.14,4.14,0,0,0,3.2969,1.313,5.5871,5.5871,0,0,0,2.4048-.49,5.9257,5.9257,0,0,0,1.95-1.5542l1.6094,1.8613Q82.2966,25.49,78.1694,25.49ZM77.82,9.3682a3.3107,3.3107,0,0,0-2.8506,1.2549A7.1647,7.1647,0,0,0,73.92,14.5205h7.45v-.3989a6.6146,6.6146,0,0,0-.9707-3.6567A3.0573,3.0573,0,0,0,77.82,9.3682Z"/>
+        <path className="ny-a" d="M101.7856,19.9888l2.8682-12.8149h3.0605L103.08,25.1582h-2.4663l-3.69-12.8647-3.603,12.8647H90.8374l-4.6-17.9844h3.043l2.9385,12.5,3.5151-12.5h2.4487Z"/>
+        <path className="ny-a" d="M122.4932,13.1079l5.2109-12.15h3.6211l-7.24,15.1753v9.0254h-3.2007V16.1328L113.644.9575h3.6377Z"/>
+        <path className="ny-a" d="M129.8018,15.335a9.0929,9.0929,0,0,1,2.0029-6.208,6.6908,6.6908,0,0,1,5.29-2.2852,6.7715,6.7715,0,0,1,5.291,2.2271,8.9331,8.9331,0,0,1,2.0547,6.0669V17.03a9.0614,9.0614,0,0,1-1.9932,6.1836,7.3713,7.3713,0,0,1-10.59.0664,8.8813,8.8813,0,0,1-2.0557-5.9839Zm3.0957,1.6953a7.3314,7.3314,0,0,0,1.1455,4.3633A3.6155,3.6155,0,0,0,137.13,22.981q4.0928,0,4.2148-5.6182V15.335a7.3348,7.3348,0,0,0-1.1543-4.3628,3.625,3.625,0,0,0-3.0957-1.604,3.5723,3.5723,0,0,0-3.0518,1.604,7.3454,7.3454,0,0,0-1.1455,4.3462Z"/>
+        <path className="ny-a" d="M155.3506,9.9331a7.9506,7.9506,0,0,0-1.3984-.1162,3.373,3.373,0,0,0-3.3232,2.4766V25.1582h-3.0957V7.1738h3.0078l.0527,1.8286a3.8709,3.8709,0,0,1,3.5156-2.1606,2.85,2.85,0,0,1,1.2236.2324Z"/>
+        <path className="ny-a" d="M163.1855,17.3423l-1.6436,1.7051v6.1108h-3.0957V.9043h3.0957V15.4155l5.8936-7.3423h3.708L165.127,15.21l6.8037,9.9478h-3.6035Z"/>
+        <path className="ny-a" d="M184.0078,25.1582h-3.2V.9575h3.2Z"/>
+        <path className="ny-a" d="M199.707,19.0415a3.6166,3.6166,0,0,0-1.0322-2.7759,10.757,10.757,0,0,0-3.7246-1.8779,16.4986,16.4986,0,0,1-4.1191-1.92,6.9192,6.9192,0,0,1-2.1338-2.2935,6.0283,6.0283,0,0,1-.708-2.95,6.16,6.16,0,0,1,2.02-4.7373A7.5006,7.5006,0,0,1,195.3.6255a8.219,8.219,0,0,1,3.9873.95A6.6412,6.6412,0,0,1,201.98,4.2178a7.5066,7.5066,0,0,1,.9443,3.7207H199.707A4.9293,4.9293,0,0,0,198.57,4.4648a4.2354,4.2354,0,0,0-3.2705-1.23,4.1507,4.1507,0,0,0-3.0088,1.0322,3.8455,3.8455,0,0,0-1.0664,2.897,3.3016,3.3016,0,0,0,1.1543,2.5645,10.404,10.404,0,0,0,3.5674,1.8481,12.4342,12.4342,0,0,1,5.3779,2.9106,6.3481,6.3481,0,0,1,1.6182,4.521,5.9677,5.9677,0,0,1-2.0117,4.7124,7.995,7.995,0,0,1-5.4736,1.77,9.1835,9.1835,0,0,1-4.1016-.9219A7.21,7.21,0,0,1,188.4,21.9751a6.9143,6.9143,0,0,1-1.0762-3.8311h3.2188a4.5653,4.5653,0,0,0,1.32,3.49,5.022,5.022,0,0,0,3.5938,1.2466,4.4145,4.4145,0,0,0,3.1826-1.03A3.7242,3.7242,0,0,0,199.707,19.0415Z"/>
+        <path className="ny-a" d="M223.1289,15.1855q0,4.9534-2.2207,7.6289a7.7424,7.7424,0,0,1-6.3135,2.6758,7.8452,7.8452,0,0,1-6.2178-2.6011q-2.2822-2.6008-2.3691-7.3545V10.98q0-4.8538,2.2559-7.6045A7.6913,7.6913,0,0,1,214.56.6255a7.7953,7.7953,0,0,1,6.27,2.6343q2.2471,2.6345,2.3,7.521Zm-3.2-4.2383a9.9608,9.9608,0,0,0-1.32-5.7095,5.2385,5.2385,0,0,0-8.0449.0249,9.6488,9.6488,0,0,0-1.373,5.5845v4.3384a9.8515,9.8515,0,0,0,1.3555,5.6514,5.2549,5.2549,0,0,0,8.0361.1494,9.6894,9.6894,0,0,0,1.3467-5.5015Z"/>
+        <path className="ny-b" d="M22.4578.69l-.0023,9.7273,18.47-.0014A21.7355,21.7355,0,0,0,22.4578.69Z"/>
+        <path className="ny-b" d="M41.8107,11.885h-20.1a.7746.7746,0,0,1-.7259-.8391V.775a20.9757,20.9757,0,0,0-9.35,3.0175l-.0229,11.5443h31.73A20.2323,20.2323,0,0,0,41.8107,11.885Z"/>
+        <path className="ny-b" d="M44.4914,21.4162a20.99,20.99,0,0,0-.667-4.4537l-33.0079-.007a.8141.8141,0,0,1-.8115-.6858V4.8969A21.4874,21.4874,0,0,0,1.17,21.4133Z"/>
+        <path className="ny-b" d="M22.4578,43.6657A21.7354,21.7354,0,0,0,40.9256,33.94l-18.47-.0014Z"/>
+        <path className="ny-b" d="M11.6354,40.5635a20.9757,20.9757,0,0,0,9.35,3.0175V33.31a.7746.7746,0,0,1,.7259-.8391h20.1a20.2323,20.2323,0,0,0,1.5316-3.4519h-31.73Z"/>
+        <path className="ny-b" d="M10.0051,39.4592V28.0863a.8141.8141,0,0,1,.8115-.6858l33.0079-.007a20.99,20.99,0,0,0,.667-4.4537L1.17,22.9428A21.4874,21.4874,0,0,0,10.0051,39.4592Z"/>
+      </svg>
+    )
+  }
+
+  /** ONS Brasil — text fallback until an SVG brand file is obtained. */
+  function OnsLogo() {
+    return (
+      <span className="text-sm font-bold font-mono tracking-widest text-green-400">
+        ONS
+      </span>
+    )
+  }
+
+  // ── Component ────────────────────────────────────────────────────────────────
+
+  interface GridMonitorCardProps {
+    signal: GridSignal | null
+    locale: Locale
+    g: Translations['grid']
+    d: Translations['demo']
+  }
+
+  export function GridMonitorCard({ signal, locale, g, d }: GridMonitorCardProps) {
+    const source = getGridSource(signal, locale)
+    const tier = source?.tier ?? 0
+    const tierColor = getTierColor(tier)
+    const mwParts = source ? fmtMWParts(source.demand_mw) : null
+    const isPeak = source?.peak_event_active ?? false
+
+    let operatorName: string
+    let subLabel: string
+    const Logo =
+      locale === 'fr' ? HqLogo :
+      locale === 'pt' ? OnsLogo :
+      NyisoLogo
+
+    if (locale === 'fr') {
+      operatorName = g.source_hq
+      subLabel = 'Québec · 40 GW cap.'
+    } else if (locale === 'pt') {
+      operatorName = g.source_ons
+      subLabel = source?.area ?? 'Sistema Interligado Nacional'
+    } else {
+      operatorName = g.source_nyiso
+      subLabel = 'New York · NYISO'
+    }
+
+    return (
+      <div
+        className="rounded-lg border p-5"
+        style={{ borderColor: 'rgba(30,58,138,0.6)', background: 'rgba(30,58,138,0.04)' }}
+      >
+        {/* Header label */}
+        <div className="text-xs text-blue-500 uppercase tracking-widest mb-2 font-mono">
+          {d.grid_label}
+        </div>
+
+        {/* Logo + operator name */}
+        <div className="flex items-center gap-2 mb-0.5">
+          <Logo />
+        </div>
+        <div className="text-xs font-mono text-blue-300 mb-0.5">{operatorName}</div>
+        <div className="text-xs font-mono text-neutral-600 mb-3">{subLabel}</div>
+
+        {/* Hero: demand value */}
+        <div className="flex items-baseline gap-2 mb-1">
+          <span className="text-5xl font-bold font-mono" style={{ color: tierColor }}>
+            {mwParts ? mwParts.value : '—'}
+          </span>
+          <span className="text-xl font-mono" style={{ color: tierColor + 'aa' }}>
+            {mwParts ? mwParts.unit : 'GW'}
+          </span>
+        </div>
+
+        {/* Sub-stats row */}
+        <div className="text-xs font-mono mt-1">
+          {source ? (
+            <span>
+              <span style={{ color: tierColor }}>
+                {source.demand_pct.toFixed(1)}% {g.load_unit}
+              </span>
+              <span className="text-neutral-700"> · </span>
+              <span style={{ color: tierColor }}>T{tier}</span>
+              <span className="text-neutral-700"> · </span>
+              {isPeak ? (
+                <span className="text-red-400">⚡ {g.peak_short}</span>
+              ) : (
+                <span style={{ color: tierColor }}>✓ OK</span>
+              )}
+            </span>
+          ) : (
+            <span className="text-neutral-700">— · — · —</span>
+          )}
+        </div>
+      </div>
+    )
+  }
+  ```
+
+- [ ] **Step 2.2 — TypeScript check**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  npx tsc --noEmit 2>&1 | Select-String "GridMonitorCard"
+  ```
+
+  Expected: no output. If you see errors about `g.load_unit` or `g.peak_short` not existing, Task 1 was not completed first.
+
+- [ ] **Step 2.3 — Commit**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  git add app/demo/GridMonitorCard.tsx
+  git commit -m "feat(demo): add GridMonitorCard component with HQ/NYISO/ONS logos"
+  ```
+
+---
+
+### Task 3: Integrate into `app/demo/page.tsx`
+
+**Files:**
+- Modify: `app/demo/page.tsx`
+
+- [ ] **Step 3.1 — Add import**
+
+  At the top of `app/demo/page.tsx`, add the import after the existing `useFlexState` import line:
+
+  Replace:
+  ```ts
+  import type { DemoEvent, GridSignal, GridSource } from '@/app/hooks/useFlexState'
+  ```
+  With:
+  ```ts
+  import type { DemoEvent, GridSignal } from '@/app/hooks/useFlexState'
+  import { GridMonitorCard } from '@/app/demo/GridMonitorCard'
+  ```
+
+  (`GridSource` is removed because it is only used by `SourceCard`, which we delete in Step 3.4.)
+
+- [ ] **Step 3.2 — Change loading skeleton to 4 items**
+
+  Replace:
+  ```tsx
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            {[0, 1, 2].map(i => (
+  ```
+  With:
+  ```tsx
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            {[0, 1, 2, 3].map(i => (
+  ```
+
+- [ ] **Step 3.3 — Change loaded grid to 4 columns and add card**
+
+  Replace:
+  ```tsx
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+  ```
+  With:
+  ```tsx
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  ```
+
+  Then, inside that same grid, after the closing `})()}` of the Inference card (around line 531), add the new card before the closing `</div>`:
+
+  Replace:
+  ```tsx
+              )
+            })()}
+          </div>
+        )}
+  ```
+  With:
+  ```tsx
+              )
+            })()}
+
+            {/* Grid monitor card */}
+            <GridMonitorCard signal={gridSignal} locale={locale} g={g} d={d} />
+          </div>
+        )}
+  ```
+
+- [ ] **Step 3.4 — Remove GridSignalPanel JSX call and its comment**
+
+  Replace:
+  ```tsx
+          {/* Grid signal panel — always visible */}
+          <GridSignalPanel signal={gridSignal} locale={locale} demoEvent={demoEvent} now={now} g={g} />
+  ```
+  With:
+  ```tsx
+  ```
+  (delete both lines entirely)
+
+- [ ] **Step 3.5 — Remove GridSignalPanel function definition**
+
+  **Do NOT remove `SOURCE_LABELS`** — it is used by `EventBanner` at line ~237 and must stay.
+
+  Remove only the `GridSignalPanel` function body (lines ~134–213). The `SOURCE_LABELS` constant above it (lines 126–132) stays in place.
+
+  Replace this exact block (from `function GridSignalPanel` through its closing brace and the blank line after):
+  ```tsx
+  function GridSignalPanel({
+    signal, locale, demoEvent, now, g,
+  }: {
+    signal: GridSignal | null
+    locale: Locale
+    demoEvent: DemoEvent | null
+    now: number
+    g: ReturnType<typeof useLocale>['t']['grid']
+  }) {
+    if (!signal) return null
+
+    const activeEvent = demoEvent && demoEvent.end_ts > Math.floor(now / 1000)
+    const triggeredLocale = signal.triggered_by_locale
+    const isCrossLocale = activeEvent && triggeredLocale && triggeredLocale !== locale && !signal.is_synthetic
+
+    const fr = signal.fr
+    const en = signal.en
+    const pt = signal.pt
+
+    return (
+      <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-5 mb-6">
+        <div className="text-xs text-neutral-500 uppercase tracking-widest font-mono mb-4">
+          {g.panel_title}
+        </div>
+
+        {/* Locale-appropriate sources */}
+        {locale === 'fr' && (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <SourceCard label={g.source_hq}   source={fr?.hq}   highlight={fr?.triggered_by === 'hydroquebec' && !!activeEvent} now={now} g={g} />
+            <SourceCard label={g.source_isne} source={fr?.isne} highlight={fr?.triggered_by === 'isne' && !!activeEvent}        now={now} g={g} />
+          </div>
+        )}
+        {locale === 'en' && (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <SourceCard label={g.source_caiso} source={en?.caiso} highlight={en?.triggered_by === 'caiso' && !!activeEvent} now={now} g={g} />
+            <SourceCard label={g.source_nyiso} source={en?.nyiso} highlight={en?.triggered_by === 'nyiso' && !!activeEvent} now={now} g={g} />
+          </div>
+        )}
+        {locale === 'pt' && (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <SourceCard label={`${g.source_ons}${pt?.ons?.area ? ` (${pt.ons.area})` : ''}`} source={pt?.ons} highlight={pt?.triggered_by === 'ons' && !!activeEvent} now={now} g={g} />
+          </div>
+        )}
+
+        {/* Cross-locale event source card */}
+        {isCrossLocale && (
+          <>
+            <div className="flex items-center gap-2 my-4">
+              <span className="text-xs font-mono text-amber-500">{g.event_source}</span>
+              <div className="flex-1 h-px bg-amber-900/40" />
+            </div>
+            {triggeredLocale === 'fr' && (
+              <div className="flex flex-col sm:flex-row gap-3">
+                {signal.triggered_by_source === 'hydroquebec'
+                  ? <SourceCard label={g.source_hq}   source={fr?.hq}   highlight now={now} g={g} />
+                  : <SourceCard label={g.source_isne} source={fr?.isne} highlight now={now} g={g} />}
+              </div>
+            )}
+            {triggeredLocale === 'en' && (
+              <div className="flex flex-col sm:flex-row gap-3">
+                {signal.triggered_by_source === 'caiso'
+                  ? <SourceCard label={g.source_caiso} source={en?.caiso} highlight now={now} g={g} />
+                  : <SourceCard label={g.source_nyiso} source={en?.nyiso} highlight now={now} g={g} />}
+              </div>
+            )}
+            {triggeredLocale === 'pt' && (
+              <SourceCard label={`${g.source_ons}${pt?.ons?.area ? ` (${pt.ons.area})` : ''}`} source={pt?.ons} highlight now={now} g={g} />
+            )}
+            <p className="text-xs font-mono text-neutral-500 mt-4 leading-relaxed border-l-2 border-amber-900/40 pl-3">
+              {g.cross_locale_note}
+            </p>
+          </>
+        )}
+
+        <div className="text-xs text-neutral-600 font-mono mt-4 leading-relaxed">
+          {g.demand_note}
+        </div>
+      </div>
+    )
+  }
+  ```
+
+  With: *(nothing — delete the entire block)*
+
+- [ ] **Step 3.6 — Remove `tierStatusLabel`, `DemandBar`, and `SourceCard`**
+
+  These three helpers are only called from `GridSignalPanel`, which was removed in Step 3.5. Remove them in a single Edit.
+
+  Replace this exact block (from `function tierStatusLabel` through the closing `}` of `SourceCard`):
+  ```tsx
+  function tierStatusLabel(tier: number, g: ReturnType<typeof useLocale>['t']['grid']): string {
+    if (tier >= 3) return g.status.critical
+    if (tier === 2) return g.status.high
+    if (tier === 1) return g.status.moderate
+    return g.status.normal
+  }
+
+  // ── Demand bar ────────────────────────────────────────────────────────────────
+
+  function DemandBar({ pct }: { pct: number }) {
+    const color =
+      pct >= 90 ? '#f87171' :
+      pct >= 80 ? '#fb923c' :
+      pct >= 70 ? '#facc15' : '#4ade80'
+    return (
+      <div className="w-full bg-neutral-800 rounded-full h-1 my-1.5">
+        <div
+          className="h-1 rounded-full transition-all duration-700"
+          style={{ width: `${Math.min(100, pct)}%`, backgroundColor: color }}
+        />
+      </div>
+    )
+  }
+
+  // ── Source card ───────────────────────────────────────────────────────────────
+
+  function SourceCard({
+    label, source, highlight, now, g,
+  }: {
+    label: string
+    source: GridSource | null | undefined
+    highlight: boolean
+    now: number
+    g: ReturnType<typeof useLocale>['t']['grid']
+  }) {
+    const tierColor = TIER_CONFIG[source?.tier ?? 0]?.color ?? '#6b7280'
+    const borderColor = highlight
+      ? (source?.tier ? tierColor : '#f59e0b')
+      : 'rgba(55,65,81,0.6)'
+
+    if (!source) {
+      return (
+        <div
+          className="rounded-lg border p-4 flex-1 min-w-0"
+          style={{ borderColor, opacity: 0.5 }}
+        >
+          <div className="text-xs text-neutral-500 font-mono uppercase tracking-widest mb-1">{label}</div>
+          <div className="text-sm text-neutral-600 font-mono">{g.unavailable}</div>
+        </div>
+      )
+    }
+
+    const statusLabel = tierStatusLabel(source.tier, g)
+    const updStr = updatedAgo(source.updated, now, g.updated, g.min_ago, g.just_now)
+
+    return (
+      <div
+        className="rounded-lg border p-4 flex-1 min-w-0"
+        style={{ borderColor, background: highlight ? `${tierColor}09` : 'transparent' }}
+      >
+        <div
+          className="text-xs font-mono uppercase tracking-widest mb-1"
+          style={{ color: highlight ? tierColor : '#6b7280' }}
+        >
+          {label}
+        </div>
+        <div className="text-xl font-bold font-mono text-neutral-100 mb-0.5">
+          {fmtMW(source.demand_mw)}
+        </div>
+        <DemandBar pct={source.demand_pct} />
+        <div className="flex items-center justify-between text-xs font-mono">
+          <span style={{ color: tierColor }}>● {statusLabel}</span>
+          <span className="text-neutral-600">{source.demand_pct.toFixed(1)}%</span>
+        </div>
+        {'peak_event_active' in source && source.peak_event_active ? (
+          <div className="mt-1 text-xs font-mono text-red-400">{g.peak_alert}</div>
+        ) : 'peak_event_active' in source ? (
+          <div className="mt-1 text-xs font-mono text-neutral-700">{g.no_peak}</div>
+        ) : null}
+        {updStr && (
+          <div className="mt-1 text-xs text-neutral-700 font-mono">{updStr}</div>
+        )}
+      </div>
+    )
+  }
+  ```
+
+  With: *(nothing — delete the entire block)*
+
+- [ ] **Step 3.7 — TypeScript check**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  npx tsc --noEmit
+  ```
+
+  Expected: no output (exit 0). Common errors and fixes:
+  - `GridSource not found` → you removed it from the import correctly in Step 3.1; check if any remaining code references it
+  - `g.load_unit does not exist` → Task 1 translation keys were not added
+  - `GridMonitorCard not found` → check the import path in Step 3.1
+
+- [ ] **Step 3.8 — Browser verify**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  npm run dev
+  ```
+
+  Open http://localhost:3000/demo in each locale and verify:
+  - **FR locale:** 4 cards in a row; 4th card shows Hydro-Québec HQ logo (orange H + white text), demand in GW, load %, tier, status
+  - **PT locale:** 4th card shows "ONS" green text, ONS Brasil demand, carga %
+  - **EN locale:** 4th card shows NYISO logo (white/cyan), New York demand
+  - The old "Grid Conditions" panel is gone
+  - On mobile (DevTools → responsive 390px): cards stack 1-per-row cleanly
+
+- [ ] **Step 3.9 — Commit**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  git add app/demo/page.tsx
+  git commit -m "feat(demo): replace GridSignalPanel with GridMonitorCard 4th metric card"
+  ```
+
+- [ ] **Step 3.10 — Push to both remotes**
+
+  ```powershell
+  cd "C:\Users\Jeferson\Documents\data-joule-web"
+  git push origin dev
+  git push data-joule dev
+  ```
