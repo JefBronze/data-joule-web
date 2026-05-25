@@ -100,7 +100,7 @@ export default function HomePage() {
 
       <main>
       {/* ── Hero + Proof + Signal — fills viewport on lg+ so the next section sits below the fold ── */}
-      <div className="lg:flex lg:flex-col lg:h-[calc(100svh-65px)] lg:min-h-[640px]">
+      <div className="lg:flex lg:flex-col lg:h-[calc(100svh-65px)]">
       {/* ── Hero ── */}
       <section className="relative overflow-hidden lg:flex-1 lg:flex lg:items-center">
         <div
