@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   const event_name  = String(body.event_name ?? '')
   const start_ts    = Number(body.start_ts)
   const grid_signal = body.grid_signal ?? null
-  const source      = typeof body.source === 'string' && /^(grid|hilo|ons)$/.test(body.source)
+  const source      = typeof body.source === 'string' && /^(grid|hilo|ons|nyiso)$/.test(body.source)
     ? body.source : undefined
 
   if (!Number.isInteger(tier) || tier < 0 || tier > 4) {
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     if (!activeEvent) {
       activeEvent = await redis.get<{ tier: number; end_ts: number; event_name: string; start_ts: number; baseline_w: number }>('demo:event')
     }
-    if (activeEvent && /^(grid|hilo|ons)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
+    if (activeEvent && /^(grid|hilo|ons|nyiso)-tier[1-4]-\d{10}$/.test(activeEvent.event_name)) {
       const { start_ts: evStart, end_ts: evEnd, event_name: evName, tier: evTier, baseline_w } = activeEvent
       const rawHistory = await redis.lrange<Record<string, unknown>>('telemetry:history', 0, -1)
       const history = rawHistory.map(h =>
