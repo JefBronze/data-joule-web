@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { LocaleSwitcher } from '@/app/components/SiteNav'
+import { FleurEmoji } from '@/app/components/FleurEmoji'
 import { useFlexState } from '@/app/hooks/useFlexState'
 import type { DemoEvent, GridSignal } from '@/app/hooks/useFlexState'
 import { GridMonitorCard } from '@/app/demo/GridMonitorCard'
@@ -247,7 +248,7 @@ export default function DemoPage() {
       <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between gap-4">
         <Link href="/" className="font-[family-name:var(--font-display)] font-bold text-amber-400 tracking-tight text-lg shrink-0 inline-flex items-center gap-1.5">
           Data Joule
-          {locale === 'fr' && <span className="text-base sm:text-2xl leading-none opacity-80">⚜</span>}
+          {locale === 'fr' && <FleurEmoji className="h-4 sm:h-6 w-auto" />}
         </Link>
         <div className="flex items-center gap-3">
           {connectionStatus === 'stale' && (
