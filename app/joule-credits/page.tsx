@@ -30,10 +30,9 @@ export default function JouleCreditsPage() {
   const { t } = useLocale()
   const fleet = t.jlc.economics_fleet as readonly string[]
   const ECONOMICS = [
-    { fleet: fleet[0], events: '100',          jlc: '0.0375 JLC',    usd: '$0.005'   },
-    { fleet: fleet[1], events: '100 each',     jlc: '37.5 JLC',      usd: '$4.50'    },
-    { fleet: fleet[2], events: '100 each',     jlc: '37,500 JLC',    usd: '$4,500'   },
-    { fleet: fleet[3], events: '100 × 10 kWh', jlc: '1,000,000 JLC', usd: '$120,000' },
+    { fleet: fleet[0], events: '100',      jlc: '0.0375 JLC', usd: '$0.005' },
+    { fleet: fleet[1], events: '100 each', jlc: '37.5 JLC',   usd: '$4.50'  },
+    { fleet: fleet[2], events: '100 each', jlc: '37,500 JLC', usd: '$4,500' },
   ]
   const WHY_LABELS = t.jlc.why_labels as readonly string[]
   const [events, setEvents] = useState<EventReport[]>([])
@@ -375,7 +374,10 @@ export default function JouleCreditsPage() {
                             {ev.source === 'hilo' && (
                               <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-cyan-700 bg-cyan-950/40 text-cyan-400">HILO</span>
                             )}
-                            {(!ev.source || ev.source === 'grid') && (
+                            {ev.source === 'grid' && (
+                              <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-blue-800 bg-blue-950/40 text-blue-400">HQ</span>
+                            )}
+                            {!ev.source && (
                               <span className="text-neutral-600">—</span>
                             )}
                           </td>
@@ -414,27 +416,17 @@ export default function JouleCreditsPage() {
                     {ECONOMICS.map((row, i) => (
                       <tr
                         key={i}
-                        className={`border-b border-neutral-800/50 ${i === ECONOMICS.length - 1 ? 'bg-purple-950/10' : ''}`}
+                        className="border-b border-neutral-800/50"
                       >
-                        <td className={`px-4 py-3 ${i === ECONOMICS.length - 1 ? 'text-purple-300 font-bold' : 'text-neutral-300'}`}>
-                          {row.fleet}
-                          {i === ECONOMICS.length - 1 && (
-                            <span className="ml-2 text-purple-700 text-xs font-normal">{t.jlc.phase3}</span>
-                          )}
-                        </td>
+                        <td className="px-4 py-3 text-neutral-300">{row.fleet}</td>
                         <td className="px-4 py-3 text-right text-neutral-400">{row.events}</td>
-                        <td className={`px-4 py-3 text-right font-bold ${i === ECONOMICS.length - 1 ? 'text-purple-300' : 'text-amber-400'}`}>
-                          {row.jlc}
-                        </td>
+                        <td className="px-4 py-3 text-right font-bold text-amber-400">{row.jlc}</td>
                         <td className="px-4 py-3 text-right text-neutral-400">{row.usd}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs font-mono text-neutral-700 mt-3">
-                {t.jlc.v2g_note}
-              </p>
             </ScrollReveal>
           </div>
         </section>
