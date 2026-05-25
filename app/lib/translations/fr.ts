@@ -95,7 +95,7 @@ export const fr = {
     about_p2:
       "Le matériel roule 24h/24. La télémétrie est réelle. Les signaux OpenADR viennent d'une implémentation de référence VTN de niveau production. Quand un événement d'effacement se termine, la réduction mesurée est réglée sur chaîne : le réseau d'oracles Chainlink vérifie la baisse en kWh et frappe un Joule Credit sur Polygon. Rien n'est simulé ni déclaré — c'est mesuré, enregistré et vérifiable.",
     tier_label: 'PALIER',
-    live_node: 'Nœud en direct',
+    live_node: 'Edge en direct',
     waiting_telemetry: 'En attente de télémétrie…',
     proof_tiers_value: 'Chainlink · Polygon',
     signal_read: 'Lire →',
