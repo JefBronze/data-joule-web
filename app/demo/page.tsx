@@ -21,6 +21,7 @@ function fmtCountdown(secs: number): string {
 // ── Source label map ───────────────────────────────────────────────────────────
 
 const SOURCE_LABELS: Record<string, { key: keyof ReturnType<typeof useLocale>['t']['grid'] }> = {
+  hq:          { key: 'source_hq' },
   hydroquebec: { key: 'source_hq' },
   isne:        { key: 'source_isne' },
   caiso:       { key: 'source_caiso' },
@@ -53,19 +54,7 @@ function EventBanner({
   if (!isSynthetic && signal?.triggered_by_source) {
     const srcKey = SOURCE_LABELS[signal.triggered_by_source]?.key
     const srcLabel = srcKey ? (g[srcKey] as string) : signal.triggered_by_source
-
-    // Find demand_pct from the triggering source
-    let demandPct: number | null = null
-    const tbl = signal.triggered_by_locale
-    if (tbl === 'fr') {
-      const src = signal.triggered_by_source === 'hydroquebec' ? signal.fr?.hq : signal.fr?.isne
-      demandPct = src?.demand_pct ?? null
-    } else if (tbl === 'en') {
-      const src = signal.triggered_by_source === 'caiso' ? signal.en?.caiso : signal.en?.nyiso
-      demandPct = src?.demand_pct ?? null
-    } else if (tbl === 'pt') {
-      demandPct = signal.pt?.ons?.demand_pct ?? null
-    }
+    const demandPct = signal.demand_pct ?? null
 
     triggerLine = demandPct !== null
       ? `${g.triggered_by} ${srcLabel} · ${demandPct.toFixed(1)}% ${g.capacity}`

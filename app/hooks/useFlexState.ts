@@ -9,43 +9,22 @@ type HourlyEntry = { timestamp: number; wattage_w: number }
 
 export type DemoEvent = { tier: number; end_ts: number; event_name: string }
 
-type GridSource = {
-  demand_mw: number
-  demand_pct: number
-  tier: number
-  updated: string
-  // HQ-specific
-  capacity_mw?: number
-  peak_event_active?: boolean
-  peak_event_name?: string | null
-  // ISNE/CAISO/NYISO-specific
-  ref_peak_mw?: number
-  // ONS-specific
-  area?: string
-}
-
-type GridLocale = {
-  tier: number
-  triggered_by: string | null
-  hq?: GridSource | null
-  isne?: GridSource | null
-  caiso?: GridSource | null
-  nyiso?: GridSource | null
-  ons?: GridSource | null
-}
-
 export type GridSignal = {
   tier: number
-  triggered_by_locale: 'fr' | 'en' | 'pt' | null
-  triggered_by_source: string | null
   is_synthetic: boolean
-  fetched_at: number
-  fr: GridLocale | null
-  en: GridLocale | null
-  pt: GridLocale | null
+  triggered_by_source: string  // 'hq' | 'ons' | 'nyiso' | 'hilo' | 'grid' | ...
+  triggered_by_locale: string  // 'FR' | 'PT' | 'BR' | 'EN' | ...
+  demand_pct: number
+  demand_mw: number
+  capacity_mw?: number
+  ref_peak_mw?: number
+  area?: string
+  peak_event_active?: boolean
+  peak_event_name?: string | null
+  fetched_at?: number
 }
 
-export type { HourlyEntry, GridSource, GridLocale }
+export type { HourlyEntry }
 
 type ApiResponse = {
   latest: TelemetryEntry | null

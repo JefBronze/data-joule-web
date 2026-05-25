@@ -1,15 +1,14 @@
 'use client'
 
-import type { GridSignal, GridSource } from '@/app/hooks/useFlexState'
-import type { Translations } from '@/app/lib/i18n'
-import type { Locale } from '@/app/lib/i18n'
+import type { GridSignal } from '@/app/hooks/useFlexState'
+import type { Translations, Locale } from '@/app/lib/i18n'
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Split MW value from unit for hero layout (mirrors fmtMW in page.tsx but returns parts). */
+/** Split MW value from unit for hero layout. Uses fr-CA locale for space-thousands separator. */
 function fmtMWParts(mw: number): { value: string; unit: string } {
   if (mw >= 1000) return { value: (mw / 1000).toFixed(1), unit: 'GW' }
-  return { value: Math.round(mw).toLocaleString(), unit: 'MW' }
+  return { value: Math.round(mw).toLocaleString('fr-CA'), unit: 'MW' }
 }
 
 function getTierColor(tier: number): string {
@@ -19,14 +18,14 @@ function getTierColor(tier: number): string {
   return '#4ade80'                  // green-400
 }
 
-function getGridSource(
-  signal: GridSignal | null,
-  locale: Locale,
-): GridSource | null | undefined {
+/** Return the signal only when its triggered_by_source matches the locale's expected operator. */
+function getLocaleSignal(signal: GridSignal | null, locale: Locale): GridSignal | null {
   if (!signal) return null
-  if (locale === 'fr') return signal.fr?.hq
-  if (locale === 'pt') return signal.pt?.ons
-  return signal.en?.nyiso
+  const src = signal.triggered_by_source
+  if (locale === 'fr' && src === 'hq')    return signal
+  if (locale === 'pt' && src === 'ons')   return signal
+  if (locale === 'en' && src === 'nyiso') return signal
+  return null
 }
 
 // ── Logo components ──────────────────────────────────────────────────────────
@@ -124,7 +123,7 @@ interface GridMonitorCardProps {
 }
 
 export function GridMonitorCard({ signal, locale, g, d }: GridMonitorCardProps) {
-  const source = getGridSource(signal, locale)
+  const source = getLocaleSignal(signal, locale)
   const tier = source?.tier ?? 0
   const tierColor = getTierColor(tier)
   const mwParts = source ? fmtMWParts(source.demand_mw) : null
