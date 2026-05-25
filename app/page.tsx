@@ -99,8 +99,10 @@ export default function HomePage() {
       <SiteNav />
 
       <main>
+      {/* ── Hero + Proof + Signal — fills viewport on lg+ so the next section sits below the fold ── */}
+      <div className="lg:flex lg:flex-col lg:h-[calc(100svh-65px)] lg:min-h-[640px]">
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden lg:flex-1 lg:flex lg:items-center">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -108,7 +110,7 @@ export default function HomePage() {
             backgroundSize: '24px 24px',
           }}
         />
-        <div className="relative max-w-7xl mx-auto px-6 pt-14 pb-12 md:pt-24 md:pb-20">
+        <div className="relative w-full max-w-7xl mx-auto px-6 pt-14 pb-12 md:pt-24 md:pb-20 lg:py-8">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             <div className="flex-1">
               <ScrollReveal>
@@ -157,7 +159,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Proof strip ── */}
-      <section className="border-y border-neutral-800 bg-neutral-900/40 py-6">
+      <section className="border-y border-neutral-800 bg-neutral-900/40 py-6 lg:py-4 lg:shrink-0">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-6 text-center">
             {PROOF_ITEMS.map((item) => (
@@ -176,7 +178,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Industry signal strip ── */}
-      <div className="border-b border-amber-900/20 bg-neutral-950 py-2.5 px-6">
+      <div className="border-b border-amber-900/20 bg-neutral-950 py-2.5 px-6 lg:shrink-0">
         <div
           className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-mono transition-opacity duration-300"
           style={{ opacity: signalVisible ? 1 : 0 }}
@@ -193,6 +195,7 @@ export default function HomePage() {
             {t.home.signal_read}
           </a>
         </div>
+      </div>
       </div>
 
       {/* ── Problem ── */}

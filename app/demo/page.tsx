@@ -254,6 +254,7 @@ export default function DemoPage() {
               <QcFlag className="hidden sm:block h-4 w-auto rounded-sm" />
             </>
           )}
+          {(locale === 'en' || locale === 'pt') && <span className="text-base leading-none">🏴‍☠️</span>}
         </Link>
         <div className="flex items-center gap-3">
           {connectionStatus === 'stale' && (
