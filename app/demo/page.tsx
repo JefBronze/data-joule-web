@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { LocaleSwitcher } from '@/app/components/SiteNav'
 import { useFlexState } from '@/app/hooks/useFlexState'
-import type { DemoEvent, GridSignal, GridSource } from '@/app/hooks/useFlexState'
+import type { DemoEvent, GridSignal } from '@/app/hooks/useFlexState'
+import { GridMonitorCard } from '@/app/demo/GridMonitorCard'
 import { TIER_CONFIG, secondsAgo } from '@/app/lib/telemetry'
 import { useLocale, type Locale } from '@/app/lib/i18n'
 
@@ -35,91 +36,6 @@ function updatedAgo(updated: string, now: number, tUpdated: string, tMinAgo: str
   }
 }
 
-function tierStatusLabel(tier: number, g: ReturnType<typeof useLocale>['t']['grid']): string {
-  if (tier >= 3) return g.status.critical
-  if (tier === 2) return g.status.high
-  if (tier === 1) return g.status.moderate
-  return g.status.normal
-}
-
-// ── Demand bar ────────────────────────────────────────────────────────────────
-
-function DemandBar({ pct }: { pct: number }) {
-  const color =
-    pct >= 90 ? '#f87171' :
-    pct >= 80 ? '#fb923c' :
-    pct >= 70 ? '#facc15' : '#4ade80'
-  return (
-    <div className="w-full bg-neutral-800 rounded-full h-1 my-1.5">
-      <div
-        className="h-1 rounded-full transition-all duration-700"
-        style={{ width: `${Math.min(100, pct)}%`, backgroundColor: color }}
-      />
-    </div>
-  )
-}
-
-// ── Source card ───────────────────────────────────────────────────────────────
-
-function SourceCard({
-  label, source, highlight, now, g,
-}: {
-  label: string
-  source: GridSource | null | undefined
-  highlight: boolean
-  now: number
-  g: ReturnType<typeof useLocale>['t']['grid']
-}) {
-  const tierColor = TIER_CONFIG[source?.tier ?? 0]?.color ?? '#6b7280'
-  const borderColor = highlight
-    ? (source?.tier ? tierColor : '#f59e0b')
-    : 'rgba(55,65,81,0.6)'
-
-  if (!source) {
-    return (
-      <div
-        className="rounded-lg border p-4 flex-1 min-w-0"
-        style={{ borderColor, opacity: 0.5 }}
-      >
-        <div className="text-xs text-neutral-500 font-mono uppercase tracking-widest mb-1">{label}</div>
-        <div className="text-sm text-neutral-600 font-mono">{g.unavailable}</div>
-      </div>
-    )
-  }
-
-  const statusLabel = tierStatusLabel(source.tier, g)
-  const updStr = updatedAgo(source.updated, now, g.updated, g.min_ago, g.just_now)
-
-  return (
-    <div
-      className="rounded-lg border p-4 flex-1 min-w-0"
-      style={{ borderColor, background: highlight ? `${tierColor}09` : 'transparent' }}
-    >
-      <div
-        className="text-xs font-mono uppercase tracking-widest mb-1"
-        style={{ color: highlight ? tierColor : '#6b7280' }}
-      >
-        {label}
-      </div>
-      <div className="text-xl font-bold font-mono text-neutral-100 mb-0.5">
-        {fmtMW(source.demand_mw)}
-      </div>
-      <DemandBar pct={source.demand_pct} />
-      <div className="flex items-center justify-between text-xs font-mono">
-        <span style={{ color: tierColor }}>● {statusLabel}</span>
-        <span className="text-neutral-600">{source.demand_pct.toFixed(1)}%</span>
-      </div>
-      {'peak_event_active' in source && source.peak_event_active ? (
-        <div className="mt-1 text-xs font-mono text-red-400">{g.peak_alert}</div>
-      ) : 'peak_event_active' in source ? (
-        <div className="mt-1 text-xs font-mono text-neutral-700">{g.no_peak}</div>
-      ) : null}
-      {updStr && (
-        <div className="mt-1 text-xs text-neutral-700 font-mono">{updStr}</div>
-      )}
-    </div>
-  )
-}
 
 // ── Grid signal panel ─────────────────────────────────────────────────────────
 
@@ -131,86 +47,6 @@ const SOURCE_LABELS: Record<string, { key: keyof ReturnType<typeof useLocale>['t
   ons:         { key: 'source_ons' },
 }
 
-function GridSignalPanel({
-  signal, locale, demoEvent, now, g,
-}: {
-  signal: GridSignal | null
-  locale: Locale
-  demoEvent: DemoEvent | null
-  now: number
-  g: ReturnType<typeof useLocale>['t']['grid']
-}) {
-  if (!signal) return null
-
-  const activeEvent = demoEvent && demoEvent.end_ts > Math.floor(now / 1000)
-  const triggeredLocale = signal.triggered_by_locale
-  const isCrossLocale = activeEvent && triggeredLocale && triggeredLocale !== locale && !signal.is_synthetic
-
-  const fr = signal.fr
-  const en = signal.en
-  const pt = signal.pt
-
-  return (
-    <div className="rounded-lg border border-neutral-800 bg-neutral-900/50 p-5 mb-6">
-      <div className="text-xs text-neutral-500 uppercase tracking-widest font-mono mb-4">
-        {g.panel_title}
-      </div>
-
-      {/* Locale-appropriate sources */}
-      {locale === 'fr' && (
-        <div className="flex flex-col sm:flex-row gap-3">
-          <SourceCard label={g.source_hq}   source={fr?.hq}   highlight={fr?.triggered_by === 'hydroquebec' && !!activeEvent} now={now} g={g} />
-          <SourceCard label={g.source_isne} source={fr?.isne} highlight={fr?.triggered_by === 'isne' && !!activeEvent}        now={now} g={g} />
-        </div>
-      )}
-      {locale === 'en' && (
-        <div className="flex flex-col sm:flex-row gap-3">
-          <SourceCard label={g.source_caiso} source={en?.caiso} highlight={en?.triggered_by === 'caiso' && !!activeEvent} now={now} g={g} />
-          <SourceCard label={g.source_nyiso} source={en?.nyiso} highlight={en?.triggered_by === 'nyiso' && !!activeEvent} now={now} g={g} />
-        </div>
-      )}
-      {locale === 'pt' && (
-        <div className="flex flex-col sm:flex-row gap-3">
-          <SourceCard label={`${g.source_ons}${pt?.ons?.area ? ` (${pt.ons.area})` : ''}`} source={pt?.ons} highlight={pt?.triggered_by === 'ons' && !!activeEvent} now={now} g={g} />
-        </div>
-      )}
-
-      {/* Cross-locale event source card */}
-      {isCrossLocale && (
-        <>
-          <div className="flex items-center gap-2 my-4">
-            <span className="text-xs font-mono text-amber-500">{g.event_source}</span>
-            <div className="flex-1 h-px bg-amber-900/40" />
-          </div>
-          {triggeredLocale === 'fr' && (
-            <div className="flex flex-col sm:flex-row gap-3">
-              {signal.triggered_by_source === 'hydroquebec'
-                ? <SourceCard label={g.source_hq}   source={fr?.hq}   highlight now={now} g={g} />
-                : <SourceCard label={g.source_isne} source={fr?.isne} highlight now={now} g={g} />}
-            </div>
-          )}
-          {triggeredLocale === 'en' && (
-            <div className="flex flex-col sm:flex-row gap-3">
-              {signal.triggered_by_source === 'caiso'
-                ? <SourceCard label={g.source_caiso} source={en?.caiso} highlight now={now} g={g} />
-                : <SourceCard label={g.source_nyiso} source={en?.nyiso} highlight now={now} g={g} />}
-            </div>
-          )}
-          {triggeredLocale === 'pt' && (
-            <SourceCard label={`${g.source_ons}${pt?.ons?.area ? ` (${pt.ons.area})` : ''}`} source={pt?.ons} highlight now={now} g={g} />
-          )}
-          <p className="text-xs font-mono text-neutral-500 mt-4 leading-relaxed border-l-2 border-amber-900/40 pl-3">
-            {g.cross_locale_note}
-          </p>
-        </>
-      )}
-
-      <div className="text-xs text-neutral-600 font-mono mt-4 leading-relaxed">
-        {g.demand_note}
-      </div>
-    </div>
-  )
-}
 
 // ── Event banner ──────────────────────────────────────────────────────────────
 
@@ -468,8 +304,8 @@ export default function DemoPage() {
 
         {/* Primary metrics */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            {[0, 1, 2].map(i => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            {[0, 1, 2, 3].map(i => (
               <div key={i} className="rounded-lg border border-neutral-800 p-5 animate-pulse">
                 <div className="h-3 w-24 bg-neutral-800 rounded mb-4" />
                 <div className="h-12 w-32 bg-neutral-800 rounded mb-3" />
@@ -478,7 +314,7 @@ export default function DemoPage() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {/* Wattage */}
             <div className="rounded-lg border p-5"
               style={{ borderColor: 'rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.05)' }}>
@@ -529,11 +365,11 @@ export default function DemoPage() {
                 </div>
               )
             })()}
+
+            {/* Grid monitor card */}
+            <GridMonitorCard signal={gridSignal} locale={locale} g={g} d={d} />
           </div>
         )}
-
-        {/* Grid signal panel — always visible */}
-        <GridSignalPanel signal={gridSignal} locale={locale} demoEvent={demoEvent} now={now} g={g} />
 
         {/* Active DR event banner */}
         {demoEvent && demoEvent.end_ts > Math.floor(now / 1000) && (
