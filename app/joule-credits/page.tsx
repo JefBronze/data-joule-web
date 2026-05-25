@@ -109,7 +109,7 @@ export default function JouleCreditsPage() {
                       priority
                       width={300}
                       height={300}
-                      className="w-full h-full object-cover scale-110"
+                      className="w-full h-full object-cover scale-105"
                     />
                   </div>
                 </div>
