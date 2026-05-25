@@ -108,7 +108,7 @@ const STEPS = [
     code: `Settlement
   event:report:{name} → written to Redis
   Chainlink DON fetches /api/events/{name}
-  source.js encodes kWh_reduced Ã— 1e9 → uint256
+  source.js encodes kWh_reduced × 1e9 → uint256
   consensus fulfilled → fulfillRequest() fires
   JouleCredit.sol mints kWh_reduced JLC on Polygon`,
   },
@@ -148,7 +148,7 @@ export default function MethodPage() {
           </ScrollReveal>
         </section>
 
-        {/* Section 2 Ã¢â‚¬" Architecture Diagram */}
+        {/* Section 2 — Architecture Diagram */}
         <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
@@ -191,13 +191,13 @@ export default function MethodPage() {
                   <text x="620" y="67" textAnchor="middle" fill="#4b5563" fontSize="8" fontFamily="var(--font-mono)">{m.browser_poll}</text>
                   <text x="620" y="81" textAnchor="middle" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">{m.browser_dashboard}</text>
 
-                  {/* Vercel Ã¢â€ â€™ Browser arrow */}
+                  {/* Vercel → Browser arrow */}
                   <line x1="440" y1="62" x2="538" y2="62" stroke="#374151" strokeWidth="1.2" strokeDasharray="4 3" />
                   <polygon points="538,59 544,62 538,65" fill="#374151" />
 
                   {/* HOME LAB boundary */}
                   <rect x="20" y="130" width="680" height="158" rx="8" fill="none" stroke="#1e1e2e" strokeWidth="1.5" strokeDasharray="6 4" />
-                  <text x="36" y="148" fill="#374151" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">{m.home_lab}</text>
+                  <text x="684" y="148" textAnchor="end" fill="#374151" fontSize="8.5" fontFamily="var(--font-mono)" fontWeight="600" letterSpacing="2">{m.home_lab}</text>
 
                   {/* mtl-ven-01 box */}
                   <rect x="40" y="158" width="200" height="116" rx="6" fill="#091420" stroke="#164e63" strokeWidth="1.2" />
@@ -224,7 +224,7 @@ export default function MethodPage() {
                   <text x="600" y="232" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_meter}</text>
                   <text x="600" y="244" textAnchor="middle" fill="#6b7280" fontSize="8" fontFamily="var(--font-mono)">{m.smart_plug_power}</text>
 
-                  {/* VTN Ã¢â€ " mtl-ven-01: control plane */}
+                  {/* VTN → mtl-ven-01: control plane */}
                   <line x1="140" y1="122" x2="140" y2="158" stroke="#164e63" strokeWidth="1.2" strokeDasharray="3 3" />
                   <text x="146" y="142" fill="#164e63" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS + OAuth2</text>
 
@@ -233,23 +233,23 @@ export default function MethodPage() {
                   <polygon points="278,97 284,100 278,103" fill="#22d3ee" fillOpacity="0.55" />
                   <text x="229" y="96" textAnchor="middle" fill="#22d3ee" fontSize="6.5" fontFamily="var(--font-mono)" fillOpacity="0.7">snapshot POST</text>
 
-                  {/* mtl-edge-01 Ã¢â€ â€™ Vercel: telemetry */}
+                  {/* mtl-edge-01 → Vercel: telemetry */}
                   <line x1="380" y1="158" x2="380" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3" />
                   <line x1="380" y1="116" x2="360" y2="116" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3" />
                   <line x1="360" y1="116" x2="360" y2="94" stroke="#78350f" strokeWidth="1.2" strokeDasharray="3 3" />
                   <text x="385" y="110" fill="#78350f" fontSize="7.5" fontFamily="var(--font-mono)">HTTPS POST 5s</text>
 
-                  {/* mtl-ven-01 Ã¢â€ â€™ mtl-edge-01: control */}
+                  {/* mtl-ven-01 → mtl-edge-01: control */}
                   <line x1="240" y1="216" x2="280" y2="216" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3" />
                   <polygon points="280,213 286,216 280,219" fill="#374151" />
                   <text x="248" y="210" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)">HTTP</text>
 
-                  {/* mtl-ven-01 Ã¢â€ â€™ Zigbee plug */}
+                  {/* mtl-ven-01 → Zigbee plug */}
                   <path d="M140,274 L140,284 L600,284 L600,256" fill="none" stroke="#374151" strokeWidth="1.2" strokeDasharray="3 3" />
                   <polygon points="597,256 600,250 603,256" fill="#374151" />
                   <text x="555" y="280" fill="#374151" fontSize="7.5" fontFamily="var(--font-mono)" textAnchor="middle">Zigbee 3.0</text>
 
-                  {/* Zigbee plug Ã¢â€ â€™ mtl-edge-01: powers */}
+                  {/* Zigbee plug → mtl-edge-01: powers */}
                   <line x1="520" y1="220" x2="482" y2="220" stroke="#f59e0b" strokeWidth="1" strokeDasharray="2 2" strokeOpacity="0.4" />
 
                   {/* SETTLEMENT LAYER */}
@@ -288,7 +288,7 @@ export default function MethodPage() {
           </div>
         </section>
 
-        {/* Section 3 Ã¢â‚¬" Signal Flow Walkthrough */}
+        {/* Section 3 — Signal Flow Walkthrough */}
         <section className="border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
@@ -323,7 +323,7 @@ export default function MethodPage() {
           </div>
         </section>
 
-        {/* Section 4 Ã¢â‚¬" Telemetry Chain */}
+        {/* Section 4 — Telemetry Chain */}
         <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
@@ -354,7 +354,7 @@ export default function MethodPage() {
           </div>
         </section>
 
-        {/* Section 5 Ã¢â‚¬" Response Ladder Deep-Dive */}
+        {/* Section 5 — Response Ladder Deep-Dive */}
         <section className="border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
@@ -406,7 +406,7 @@ export default function MethodPage() {
           </div>
         </section>
 
-        {/* Section 6 Ã¢â‚¬" Stack */}
+        {/* Section 6 — Stack */}
         <section className="bg-[#0d0d18] border-t border-neutral-800 py-12 md:py-20">
           <div className="max-w-7xl mx-auto px-6">
             <ScrollReveal>
