@@ -251,7 +251,7 @@ export default function DemoPage() {
           {locale === 'fr' && (
             <>
               <span className="text-base leading-none opacity-70 sm:hidden">⚜</span>
-              <QcFlag className="hidden sm:block h-5 w-auto rounded-sm" />
+              <QcFlag className="hidden sm:block h-4 w-auto rounded-sm" />
             </>
           )}
         </Link>
