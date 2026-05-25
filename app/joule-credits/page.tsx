@@ -101,7 +101,7 @@ export default function JouleCreditsPage() {
                 <div className="flex justify-center mb-10">
                   <div
                     className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shrink-0"
-                    style={{ boxShadow: '0 0 48px 8px rgba(168,85,247,0.45)' }}
+                    style={{ boxShadow: '0 0 56px 10px rgba(168,85,247,0.55)' }}
                   >
                     <Image
                       src="/jlc-coin.png"
@@ -109,7 +109,7 @@ export default function JouleCreditsPage() {
                       priority
                       width={300}
                       height={300}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover scale-110"
                     />
                   </div>
                 </div>
