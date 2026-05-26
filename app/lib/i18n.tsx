@@ -24,9 +24,20 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>('en')
 
   useEffect(() => {
+    // 1. Manual user choice in localStorage takes highest priority
     const saved = localStorage.getItem('dj-locale') as Locale | null
     if (saved && saved in translations) {
-      queueMicrotask(() => setLocaleState(saved))
+      queueMicrotask(() => setLocaleState(saved as Locale))
+      return
+    }
+
+    // 2. Locale cookie set by edge middleware (domain-based or Accept-Language)
+    const cookie = document.cookie
+      .split('; ')
+      .find(r => r.startsWith('dj-locale='))
+      ?.split('=')[1] as Locale | undefined
+    if (cookie && cookie in translations) {
+      queueMicrotask(() => setLocaleState(cookie))
     }
   }, [])
 
