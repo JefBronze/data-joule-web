@@ -18,7 +18,7 @@ export async function GET() {
 
   if (keys.length === 0) {
     return NextResponse.json([], {
-      headers: { 'Cache-Control': 's-maxage=30, stale-while-revalidate=60' },
+      headers: { 'Cache-Control': 'no-store' },
     })
   }
 
@@ -32,6 +32,6 @@ export async function GET() {
     })
 
   return NextResponse.json(valid, {
-    headers: { 'Cache-Control': 's-maxage=30, stale-while-revalidate=60' },
+    headers: { 'Cache-Control': 'no-store' },
   })
 }
