@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Joule × COPEL — Pitch Deck 2026</title>
+<style>
+  :root {
+    --bg:       #0d1117;
+    --bg2:      #161b22;
+    --bg3:      #1c2333;
+    --gold:     #f0a500;
+    --cyan:     #00e5ff;
+    --text:     #e6edf3;
+    --muted:    #8b949e;
+    --border:   #30363d;
+    --green:    #3fb950;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  .slide {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 80px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    page-break-after: always;
+  }
+
+  .slide-number {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .slide-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; }
+  h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 700; line-height: 1.2; }
+  h3 { font-size: 1.1rem; font-weight: 600; color: var(--cyan); margin-bottom: 6px; }
+  p  { font-size: 1rem; line-height: 1.7; color: var(--text); }
+
+  .subtitle {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--muted);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .highlight { color: var(--gold); }
+  .cyan      { color: var(--cyan); }
+  .green     { color: var(--green); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 40px; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .card.gold-border  { border-color: var(--gold); }
+  .card.cyan-border  { border-color: var(--cyan); }
+  .card.green-border { border-color: var(--green); }
+
+  .stat {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 0.85rem; color: var(--muted); }
+
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .flow-step {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 120px;
+    flex: 1;
+  }
+  .flow-step .icon  { font-size: 1.5rem; margin-bottom: 6px; }
+  .flow-step .label { font-size: 0.78rem; font-weight: 600; color: var(--text); }
+  .flow-step .sub   { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+  .flow-arrow { color: var(--gold); font-size: 1.4rem; padding: 0 8px; flex-shrink: 0; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .tag-gold  { background: rgba(240,165,0,0.15);  color: var(--gold);  border: 1px solid rgba(240,165,0,0.3); }
+  .tag-cyan  { background: rgba(0,229,255,0.10);  color: var(--cyan);  border: 1px solid rgba(0,229,255,0.3); }
+  .tag-green { background: rgba(63,185,80,0.12);  color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+  .tag-muted { background: rgba(139,148,158,0.12);color: var(--muted); border: 1px solid rgba(139,148,158,0.2); }
+
+  .timeline { margin-top: 36px; display: flex; flex-direction: column; gap: 20px; }
+  .tl-item  { display: flex; gap: 20px; align-items: flex-start; }
+  .tl-dot   { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 5px; }
+  .tl-dot.cyan  { background: var(--cyan); }
+  .tl-dot.green { background: var(--green); }
+  .tl-period { font-size: 0.75rem; font-weight: 700; color: var(--gold); min-width: 80px; padding-top: 2px; }
+  .tl-text   { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+
+  .accent-line {
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--cyan));
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  #nav {
+    position: fixed; right: 20px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 8px; z-index: 100;
+  }
+  .nav-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--border); cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-dot:hover, .nav-dot.active { background: var(--gold); transform: scale(1.4); }
+
+  #s1 {
+    background: radial-gradient(ellipse at 70% 50%, rgba(240,165,0,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(0,229,255,0.05) 0%, transparent 50%),
+                var(--bg);
+  }
+
+  @media print {
+    #nav { display: none; }
+    .slide { min-height: 100vh; page-break-after: always; border: none; }
+    body { background: var(--bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media (max-width: 768px) {
+    .slide { padding: 40px 24px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-dot active" onclick="goTo(0)" title="Capa"></div>
+  <div class="nav-dot" onclick="goTo(1)" title="Oportunidade"></div>
+  <div class="nav-dot" onclick="goTo(2)" title="Mercado"></div>
+  <div class="nav-dot" onclick="goTo(3)" title="Solução"></div>
+  <div class="nav-dot" onclick="goTo(4)" title="Como funciona"></div>
+  <div class="nav-dot" onclick="goTo(5)" title="Em produção"></div>
+  <div class="nav-dot" onclick="goTo(6)" title="Fit COPEL"></div>
+  <div class="nav-dot" onclick="goTo(7)" title="Modelo"></div>
+  <div class="nav-dot" onclick="goTo(8)" title="Roadmap"></div>
+  <div class="nav-dot" onclick="goTo(9)" title="Time"></div>
+  <div class="nav-dot" onclick="goTo(10)" title="O Pedido"></div>
+</nav>
+
+<section class="slide" id="s1">
+  <div class="slide-number">01 / 11</div>
+  <div style="max-width:720px;">
+    <div class="slide-label">Proposta de Parceria · Conexão COPEL 2026</div>
+    <h1>Data<span class="highlight">Joule</span></h1>
+    <p class="subtitle" style="font-size:1.5rem;margin-top:8px;color:var(--text);">
+      A camada de inteligência<br>da Rede Elétrica Inteligente.
+    </p>
+    <p class="subtitle" style="margin-top:24px;">
+      Conectamos a infraestrutura de medição da COPEL<br>
+      ao mercado de Resposta à Demanda da CCEE — sem instalar nada em campo.
+    </p>
+    <div style="margin-top:40px;display:flex;gap:12px;flex-wrap:wrap;">
+      <span class="tag tag-gold">OpenADR 3.0</span>
+      <span class="tag tag-cyan">Blockchain Settlement</span>
+      <span class="tag tag-green">ONS Bridge em produção</span>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s2">
+  <div class="slide-number">02 / 11</div>
+  <div class="slide-label">A Oportunidade</div>
+  <div class="accent-line"></div>
+  <h2>A COPEL construiu a<br><span class="highlight">infraestrutura.</span><br>Falta a camada de inteligência.</h2>
+  <div class="grid-3">
+    <div class="card gold-border">
+      <div class="stat">R$ 820M</div>
+      <div class="stat-label">investidos na Rede Elétrica Inteligente</div>
+      <p style="margin-top:12px;font-size:0.85rem;color:var(--muted);">151 municípios, ADMS em operação, CIDIS integrado.</p>
+    </div>
+    <div class="card">
+      <div class="stat cyan">500k+</div>
+      <div class="stat-label">medidores Wi-SUN instalados</div>
+      <p style="margin-top:12px;font-size:0.85rem;color:var(--muted);">Dados de consumo por UC disponíveis em tempo real no MDMS.</p>
+    </div>
+    <div class="card">
+      <div class="stat" style="color:var(--muted);">0</div>
+      <div class="stat-label">plataformas de agregação DER ativas</div>
+      <p style="margin-top:12px;font-size:0.85rem;color:var(--muted);">O mercado de Resposta à Demanda da CCEE/ONS está aberto — mas sem um agregador, a COPEL não participa.</p>
+    </div>
+  </div>
+  <p style="margin-top:36px;font-size:1rem;color:var(--muted);max-width:700px;">
+    A Data Joule é o software que transforma os 500 mil medidores da COPEL em ativos negociáveis no mercado de flexibilidade — sem nova infraestrutura, sem intervenção nas unidades consumidoras.
+  </p>
+</section>
+
+<section class="slide" id="s3">
+  <div class="slide-number">03 / 11</div>
+  <div class="slide-label">O Mercado</div>
+  <div class="accent-line"></div>
+  <h2>O Brasil criou o mercado.<br><span class="highlight">Agora precisa dos agregadores.</span></h2>
+  <div class="grid-2" style="margin-top:36px;">
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card cyan-border">
+        <h3>Lei 15.269/2025</h3>
+        <p style="font-size:0.9rem;color:var(--muted);">Marco legal para agregadores de recursos energéticos distribuídos. 90 milhões de consumidores elegíveis até novembro de 2028.</p>
+      </div>
+      <div class="card">
+        <h3>Mecanismo Competitivo ONS</h3>
+        <p style="font-size:0.9rem;color:var(--muted);">Publicado em abril de 2025. Primeiro leilão de Resposta à Demanda por disponibilidade — distribuidoras e agregadores podem participar.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card">
+        <h3>Pressão de Demanda</h3>
+        <p style="font-size:0.9rem;color:var(--muted);">26,3 GW de pedidos de data centers de IA na fila do ONS. Crise de curtailment projetada sem resposta de demanda estruturada.</p>
+      </div>
+      <div class="card gold-border">
+        <h3>Janela de entrada</h3>
+        <p style="font-size:0.9rem;color:var(--muted);">O framework regulatório acabou de ser criado. Grandes integradores de sistemas ainda não se posicionaram. <span class="highlight">Esta é a janela de first-mover.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s4">
+  <div class="slide-number">04 / 11</div>
+  <div class="slide-label">A Solução</div>
+  <div class="accent-line"></div>
+  <h2>Uma plataforma de agregação DR<br><span class="highlight">construída sobre padrões abertos.</span></h2>
+  <div class="grid-3" style="margin-top:36px;">
+    <div class="card gold-border">
+      <div style="font-size:2rem;margin-bottom:12px;">⚡</div>
+      <h3>OpenADR 3.0 VTN/VEN</h3>
+      <p style="font-size:0.87rem;color:var(--muted);">Protocolo internacional de Resposta à Demanda. Interoperável com qualquer infraestrutura ANEEL/ONS. Já em operação com sinal do ONS.</p>
+    </div>
+    <div class="card cyan-border">
+      <div style="font-size:2rem;margin-bottom:12px;">🔗</div>
+      <h3>Verificação on-chain</h3>
+      <p style="font-size:0.87rem;color:var(--muted);">Cada evento DR verificado por oráculo Chainlink e registrado em contrato inteligente imutável. Auditabilidade nativa para compliance ANEEL.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:2rem;margin-bottom:12px;">🌐</div>
+      <h3>Bridge COPEL (copel_bridge.py)</h3>
+      <p style="font-size:0.87rem;color:var(--muted);">A ser desenvolvido em parceria. Lê dados do MDMS COPEL via API parceiro → alimenta o VTN com consumo por UC em tempo real.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:24px;background:var(--bg3);display:flex;align-items:center;gap:16px;">
+    <span style="font-size:1.4rem;">💡</span>
+    <p style="font-size:0.9rem;color:var(--muted);">A Data Joule não substitui o ADMS da COPEL — ela se conecta a ele. O MDMS continua sendo a fonte de verdade de faturamento; nós usamos esses dados para orquestrar o mercado de flexibilidade.</p>
+  </div>
+</section>
+
+<section class="slide" id="s5">
+  <div class="slide-number">05 / 11</div>
+  <div class="slide-label">Como Funciona</div>
+  <div class="accent-line"></div>
+  <h2>Do sinal do ONS ao crédito do consumidor.<br><span class="highlight">100% automatizado.</span></h2>
+  <div class="flow">
+    <div class="flow-step" style="border-color:var(--gold);">
+      <div class="icon">📡</div><div class="label">ONS</div><div class="sub">Carga da rede<br>em tempo real</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="icon">🌉</div><div class="label">copel_bridge</div><div class="sub">Lê MDMS COPEL<br>consumo por UC</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-color:var(--gold);">
+      <div class="icon">⚙️</div><div class="label">VTN Data Joule</div><div class="sub">Detecta threshold<br>Dispara evento DR</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="icon">🔔</div><div class="label">Notificação / AMI</div><div class="sub">Consumidor reduz<br>carga (fase 1/2)</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-color:var(--cyan);">
+      <div class="icon">✅</div><div class="label">Verificação</div><div class="sub">Chainlink oracle<br>confirma redução</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step" style="border-color:var(--green);">
+      <div class="icon">🪙</div><div class="label">JLC Mint</div><div class="sub">Crédito ao<br>consumidor</div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top:32px;">
+    <div class="card">
+      <h3>Fase 1 — Notificação</h3>
+      <p style="font-size:0.85rem;color:var(--muted);">Requer apenas API de leitura do MDMS. Consumidor reduz voluntariamente. Validação do fluxo end-to-end.</p>
+    </div>
+    <div class="card cyan-border">
+      <h3>Fase 2 — Curtailment automatizado</h3>
+      <p style="font-size:0.85rem;color:var(--muted);">API de controle COPEL AMI. Nenhuma intervenção física nas UCs. COPEL executa o curtailment via infraestrutura própria.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s6">
+  <div class="slide-number">06 / 11</div>
+  <div class="slide-label">Tração</div>
+  <div class="accent-line"></div>
+  <h2>Não é uma proposta.<br><span class="highlight">É uma stack em operação.</span></h2>
+  <div class="grid-2" style="margin-top:36px;">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card green-border" style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="tag tag-green">LIVE</span>
+        <div><h3>ONS Bridge</h3><p style="font-size:0.85rem;color:var(--muted);">Monitorando subsistema SECO (dados abertos ONS) a cada 5 min. Em produção desde maio/2026.</p></div>
+      </div>
+      <div class="card green-border" style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="tag tag-green">LIVE</span>
+        <div><h3>VTN OpenADR 3.0</h3><p style="font-size:0.85rem;color:var(--muted);">Servidor de eventos DR operacional. Eventos end-to-end testados e validados.</p></div>
+      </div>
+      <div class="card green-border" style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="tag tag-green">LIVE</span>
+        <div><h3>Contrato Polygon Mainnet</h3><p style="font-size:0.85rem;color:var(--muted);">JouleCredit (JLC) ERC-20 implantado. Primeira liquidação on-chain confirmada — bloco 86.992.621.</p></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card green-border" style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="tag tag-green">LIVE</span>
+        <div><h3>HQ Bridge (Hydro-Québec)</h3><p style="font-size:0.85rem;color:var(--muted);">Monitorando grid de Québec em tempo real. Prova de arquitetura multi-mercado.</p></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="tag tag-gold">JUN/26</span>
+        <div><h3>Hilo Bridge</h3><p style="font-size:0.85rem;color:var(--muted);">Código pronto. Go-live após instalação do hardware Hilo em 05/junho/2026.</p></div>
+      </div>
+      <div class="card" style="display:flex;gap:14px;align-items:flex-start;">
+        <span class="tag tag-cyan">A DESENVOLVER</span>
+        <div><h3>copel_bridge.py</h3><p style="font-size:0.85rem;color:var(--muted);">Módulo análogo ao hilo_bridge. Requer acesso ao sandbox MDMS da COPEL.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s7">
+  <div class="slide-number">07 / 11</div>
+  <div class="slide-label">Fit com a COPEL</div>
+  <div class="accent-line"></div>
+  <h2>Três caminhos de entrada.<br><span class="highlight">Um parceiro de longo prazo.</span></h2>
+  <div class="grid-3" style="margin-top:36px;">
+    <div class="card gold-border">
+      <div style="font-size:1.8rem;margin-bottom:12px;">🤝</div>
+      <h3>Conexão COPEL</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">Programa de startups maduras. PoC → contrato de fornecedor. Caminho comercial mais rápido.</p>
+      <span class="tag tag-gold">Inscrito</span>
+    </div>
+    <div class="card cyan-border">
+      <div style="font-size:1.8rem;margin-bottom:12px;">🔬</div>
+      <h3>P&amp;D ANEEL — COPEL DIS</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">Desenvolvimento do copel_bridge.py como projeto P&amp;D co-financiado. ~R$ 95M disponíveis. Tema: agregação DER + DR.</p>
+      <span class="tag tag-cyan">Chamada aberta</span>
+    </div>
+    <div class="card">
+      <div style="font-size:1.8rem;margin-bottom:12px;">💼</div>
+      <h3>COPEL Ventures I</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">Fundo CVC de R$150M co-gerido com Vox Capital. Ticket R$ 2–10M. Foco em Energy-as-a-Service e smart cities.</p>
+      <span class="tag tag-muted">Pitch em preparação</span>
+    </div>
+  </div>
+  <div class="card" style="margin-top:24px;background:var(--bg3);">
+    <p style="font-size:0.9rem;color:var(--muted);"><span class="highlight">Sponsor natural:</span> Diretoria de Distribuição (COPEL DIS) — área de Redes Inteligentes e Operação, com co-patrocínio da área de Inovação.</p>
+  </div>
+</section>
+
+<section class="slide" id="s8">
+  <div class="slide-number">08 / 11</div>
+  <div class="slide-label">Modelo de Negócio</div>
+  <div class="accent-line"></div>
+  <h2>Receita compartilhada.<br><span class="highlight">Ambos os lados ganham.</span></h2>
+  <div class="grid-2" style="margin-top:36px;">
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <h3 style="color:var(--gold);margin-bottom:4px;">Data Joule recebe</h3>
+      <div class="card"><h3>Revenue share — CCEE</h3><p style="font-size:0.85rem;color:var(--muted);">Percentual dos prêmios obtidos nos leilões de Resposta à Demanda. A ser definido em contrato com a COPEL.</p></div>
+      <div class="card"><h3>SaaS por UC ativa</h3><p style="font-size:0.85rem;color:var(--muted);">Mensalidade por unidade consumidora cadastrada na plataforma e participante em eventos DR.</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <h3 style="color:var(--cyan);margin-bottom:4px;">COPEL recebe</h3>
+      <div class="card"><h3>Nova receita regulatória</h3><p style="font-size:0.85rem;color:var(--muted);">Participação direta nos leilões CCEE de Resposta à Demanda como agente agregador — mercado inexplorado hoje.</p></div>
+      <div class="card"><h3>Diferimento de CAPEX</h3><p style="font-size:0.85rem;color:var(--muted);">Redução de pico de carga em alimentadores críticos → atraso em investimentos de expansão de rede.</p></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:20px;background:var(--bg3);">
+    <p style="font-size:0.88rem;color:var(--muted);"><span class="cyan">Consumidores participantes</span> recebem JouleCredits (JLC) verificados on-chain — representando a energia flexibilizada em cada evento DR.</p>
+  </div>
+</section>
+
+<section class="slide" id="s9">
+  <div class="slide-number">09 / 11</div>
+  <div class="slide-label">Roadmap</div>
+  <div class="accent-line"></div>
+  <h2>De piloto a escala<br><span class="highlight">em 18 meses.</span></h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div><div class="tl-period">Q2 2026</div><div class="tl-text"><strong>Conexão COPEL</strong> — aprovação → sandbox MDMS → desenvolvimento do <span class="highlight">copel_bridge.py</span>.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot cyan"></div>
+      <div><div class="tl-period" style="color:var(--cyan);">Q3 2026</div><div class="tl-text"><strong>Piloto Fase 1</strong> — 50 UCs na RMC. Eventos DR por notificação, primeiras liquidações JLC com dados reais da COPEL.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div><div class="tl-period">Q4 2026</div><div class="tl-text"><strong>Registro CCEE</strong> — formalização como agente agregador. Primeiras participações no mecanismo competitivo de Resposta à Demanda.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot cyan"></div>
+      <div><div class="tl-period" style="color:var(--cyan);">Q1 2027</div><div class="tl-text"><strong>Fase 2</strong> — curtailment automatizado via API COPEL AMI. Expansão para 500+ UCs. Primeiro leilão competitivo.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green"></div>
+      <div><div class="tl-period" style="color:var(--green);">2027+</div><div class="tl-text"><strong>Escala nacional</strong> — COPEL como referência. Expansão para outras distribuidoras.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s10">
+  <div class="slide-number">10 / 11</div>
+  <div class="slide-label">Time</div>
+  <div class="accent-line"></div>
+  <h2>Construído por quem entende<br><span class="highlight">energia e software.</span></h2>
+  <div class="grid-2" style="margin-top:40px;max-width:800px;">
+    <div class="card gold-border">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--cyan));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:var(--bg);">JB</div>
+        <div>
+          <div style="font-weight:700;font-size:1rem;">Jeferson Bronze</div>
+          <div style="font-size:0.78rem;color:var(--muted);">Fundador &amp; CEO</div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Engenheiro de energia com experiência em sistemas de potência e desenvolvimento de software. Construiu toda a stack da Data Joule — do hardware VEN ao contrato on-chain. Bronze Engenharia de Energia (CNPJ ativo).</p>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="tag tag-gold">Engenharia de Energia</span>
+        <span class="tag tag-cyan">Full-Stack</span>
+        <span class="tag tag-muted">Blockchain</span>
+      </div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:200px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;opacity:0.3;">+</div>
+      <p style="color:var(--muted);font-size:0.9rem;">Advisors e parceiros estratégicos<br>a serem anunciados.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s11" style="background:radial-gradient(ellipse at 30% 50%, rgba(240,165,0,0.06) 0%, transparent 60%), var(--bg);">
+  <div class="slide-number">11 / 11</div>
+  <div class="slide-label">O Pedido</div>
+  <div class="accent-line"></div>
+  <h2>O que pedimos à COPEL<br>para <span class="highlight">começarmos juntos.</span></h2>
+  <div class="grid-3" style="margin-top:36px;">
+    <div class="card gold-border">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🔌</div>
+      <h3>Acesso ao sandbox MDMS</h3>
+      <p style="font-size:0.85rem;color:var(--muted);">Ambiente de testes da API de dados de consumo por UC. Necessário para desenvolver o copel_bridge.py antes do piloto.</p>
+    </div>
+    <div class="card cyan-border">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🏘️</div>
+      <h3>Piloto com 50 UCs — RMC</h3>
+      <p style="font-size:0.85rem;color:var(--muted);">Seleção de unidades consumidoras na RMC, onde a AMI já está instalada, para validação da Fase 1.</p>
+    </div>
+    <div class="card">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🤝</div>
+      <h3>Reunião técnica</h3>
+      <p style="font-size:0.85rem;color:var(--muted);">Com a equipe de Redes Inteligentes / Operação da COPEL DIS para alinhar arquitetura de integração e escopo do P&amp;D.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:28px;background:var(--bg3);border-color:var(--gold);">
+    <p style="font-size:1rem;line-height:1.7;text-align:center;">
+      A COPEL já tem os R$ 820M em infraestrutura.<br>
+      Nós temos a stack de software que a monetiza.<br>
+      <span class="highlight" style="font-weight:700;">Juntos, colocamos o Paraná no mapa da Resposta à Demanda.</span>
+    </p>
+  </div>
+  <p style="margin-top:28px;text-align:center;color:var(--muted);font-size:0.85rem;">
+    data-joule.com &nbsp;·&nbsp; jefersonbronze@gmail.com
+  </p>
+</section>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.nav-dot');
+
+  function goTo(i) { slides[i].scrollIntoView({ behavior: 'smooth' }); }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const i = Array.from(slides).indexOf(e.target);
+        dots.forEach(d => d.classList.remove('active'));
+        if (dots[i]) dots[i].classList.add('active');
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
