@@ -88,7 +88,14 @@ async function main() {
   const verifyKeys = await scanAll('event:report:*')
   for (const key of verifyKeys) {
     const record = await redis.get<EventReport>(key)
-    if (record && typeof record === 'object' && !isValidScaled(record.kwh_scaled)) {
+    // Only positive-reduction events must carry kwh_scaled. Zero-curtailment
+    // events (kwh_reduced <= 0) legitimately have none — they mint nothing and
+    // are excluded from the reserve sum — so they are not "missing".
+    if (
+      record && typeof record === 'object' &&
+      typeof record.kwh_reduced === 'number' && record.kwh_reduced > 0 &&
+      !isValidScaled(record.kwh_scaled)
+    ) {
       stillMissing.push(key)
     }
   }
