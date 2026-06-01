@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useRef } from 'react'
 import { useLocale, type Locale } from '@/app/lib/i18n'
-import { HabsLogo } from '@/app/components/HabsLogo'
+import { QcFlag } from '@/app/components/QcFlag'
 
 const LOCALES: { code: Locale; label: string }[] = [
   { code: 'pt', label: 'PT' },
@@ -115,7 +115,7 @@ export function SiteNav() {
           {locale === 'fr' && (
             <>
               <span className="text-base leading-none opacity-70 sm:hidden">⚜</span>
-              <HabsLogo className="hidden sm:block h-5 w-auto rounded-sm" />
+              <QcFlag className="hidden sm:block h-5 w-auto rounded-sm" />
             </>
           )}
           {(locale === 'en' || locale === 'pt') && <span className="text-base leading-none">🏴‍☠️</span>}
