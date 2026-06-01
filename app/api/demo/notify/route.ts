@@ -114,10 +114,18 @@ export async function POST(request: NextRequest) {
       const durationS = evEnd - evStart
       const kwhReduced = Math.max(0, (baseline_w - avgCurtailed) * durationS / 3_600_000)
       const effectiveSource = source ?? (activeEvent as Record<string, unknown>).source as string | undefined
+      // Canonical scaled value — single source of truth for both the Functions
+      // DON (source.js → BigInt) and the CRE PoR workflow (compute.ts → BigInt).
+      // Computed once here, persisted as a string, never recomputed from kwh_reduced
+      // by consumers. Mirrors /api/ingest — this tier=0 close path must persist it
+      // too, or events written here land with kwh_scaled=null and drop out of the
+      // PoR attestation.
+      const kwhScaled = Math.floor(kwhReduced * 1e9).toString()
       const report = {
         event_name: evName, tier: evTier, start_ts: evStart, end_ts: evEnd,
         baseline_w, avg_curtailed_w: avgCurtailed,
         duration_s: durationS, kwh_reduced: kwhReduced,
+        kwh_scaled: kwhScaled,
         completed_at: Math.floor(Date.now() / 1000),
         participant_id: 'pi-compute',
         ...(effectiveSource ? { source: effectiveSource } : {}),

@@ -22,14 +22,28 @@ export async function GET() {
     })
   }
 
-  const reports = await Promise.all(keys.map(k => redis.get(k)))
-  const valid = reports
-    .filter(Boolean)
-    .sort((a: unknown, b: unknown) => {
-      const ra = a as { completed_at: number }
-      const rb = b as { completed_at: number }
-      return rb.completed_at - ra.completed_at
-    })
+  const reports = (await Promise.all(keys.map(k => redis.get(k)))).filter(Boolean) as Array<{
+    event_name?: string
+    kwh_scaled?: string | null
+    completed_at: number
+  }>
+
+  // Each event is stored under two keys — legacy `event:report:{name}` and
+  // participant-namespaced `event:report:{pid}:{name}` — so the scan returns
+  // every event twice. Collapse by event_name, preferring a copy that carries
+  // kwh_scaled (a half-applied backfill can leave one copy null). Without this,
+  // the table double-lists and the CRE PoR workflow double-counts the reserve.
+  const byName = new Map<string, (typeof reports)[number]>()
+  let noNameIdx = 0
+  for (const r of reports) {
+    const key = r.event_name ?? `__noname_${noNameIdx++}`
+    const existing = byName.get(key)
+    if (!existing || (existing.kwh_scaled == null && r.kwh_scaled != null)) {
+      byName.set(key, r)
+    }
+  }
+
+  const valid = [...byName.values()].sort((a, b) => b.completed_at - a.completed_at)
 
   return NextResponse.json(valid, {
     headers: { 'Cache-Control': 'no-store' },

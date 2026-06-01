@@ -59,6 +59,13 @@ export default function JouleCreditsPage() {
 
   const totalJlc = events.reduce((s, e) => s + e.kwh_reduced, 0)
 
+  // Presentation-only filter: hide events that minted nothing (no real
+  // curtailment — kwh_reduced clamped to 0, which renders as a negative or zero
+  // watt delta and 0.000000 JLC). These are kept in /api/events/log on purpose:
+  // they are real audit records and the CRE PoR workflow needs the full feed.
+  // Do NOT move this filter into the API, or the workflow would lose them.
+  const visibleEvents = events.filter((e) => e.kwh_reduced > 0)
+
   const CHAIN_NODES = [
     { label: t.jlc.chain_step_vtn,    sub: 'vtn.data-joule.com',   color: '#22d3ee', glow: '#164e63', bg: 'bg-cyan-950/20',   border: 'border-cyan-900' },
     { label: t.jlc.chain_step_ven,    sub: 'mtl-ven-01',            color: '#22d3ee', glow: '#164e63', bg: 'bg-cyan-950/20',   border: 'border-cyan-900' },
@@ -322,14 +329,14 @@ export default function JouleCreditsPage() {
                           {t.jlc.loading}
                         </td>
                       </tr>
-                    ) : events.length === 0 ? (
+                    ) : visibleEvents.length === 0 ? (
                       <tr>
                         <td colSpan={7} className="px-4 py-10 text-center text-neutral-600">
                           {t.jlc.log_empty}
                         </td>
                       </tr>
                     ) : (
-                      events.map((ev) => (
+                      visibleEvents.map((ev) => (
                         <tr
                           key={ev.event_name}
                           className="border-b border-neutral-800/50 hover:bg-neutral-900/30 transition-colors"
