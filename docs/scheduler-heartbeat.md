@@ -27,7 +27,7 @@ silent outage of 2026-05-25 → 2026-06-03.
 > monitor at the route every 5 min instead — e.g. **cron-job.org** or
 > **UptimeRobot** hitting:
 >
-> ```
+> ```text
 > https://data-joule.com/api/health/scheduler?key=YOUR_HEARTBEAT_SECRET
 > ```
 >

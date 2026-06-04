@@ -45,10 +45,12 @@ export async function GET(request: NextRequest) {
   }
 
   // Down. Log + page (cooldown-gated), then report 503.
-  const inCooldown = await redis.get(COOLDOWN_KEY)
+  // Atomic claim: SET ... EX ... NX returns null when the key already exists, so
+  // only the first invocation in a cooldown window sends the alert — no TOCTOU
+  // double-paging when checks (cron + external monitor, or overlapping calls) race.
+  const claimedCooldown = await redis.set(COOLDOWN_KEY, Date.now(), { ex: COOLDOWN_SECONDS, nx: true })
   let alerted: unknown = 'suppressed (cooldown)'
-  if (!inCooldown) {
-    await redis.set(COOLDOWN_KEY, Date.now(), { ex: COOLDOWN_SECONDS })
+  if (claimedCooldown) {
     alerted = await sendAlert(
       '🔴 data-joule scheduler DOWN — demo:next_event_ts missing for >10 min. ' +
         'The VPS create_demo_event.sh cron has stopped firing; dashboard wattage ' +

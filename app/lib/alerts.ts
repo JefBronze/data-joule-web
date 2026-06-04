@@ -13,6 +13,7 @@ async function sendTelegram(text: string): Promise<AlertResult | null> {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
+      signal: AbortSignal.timeout(5000),
     })
     return { channel: 'telegram', ok: res.ok, detail: res.ok ? undefined : `HTTP ${res.status}` }
   } catch (e) {
@@ -38,6 +39,7 @@ async function sendWhatsApp(text: string): Promise<AlertResult | null> {
         type: 'text',
         text: { body: text },
       }),
+      signal: AbortSignal.timeout(5000),
     })
     return { channel: 'whatsapp', ok: res.ok, detail: res.ok ? undefined : `HTTP ${res.status}` }
   } catch (e) {
