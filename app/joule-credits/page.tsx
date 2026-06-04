@@ -59,12 +59,14 @@ export default function JouleCreditsPage() {
 
   const totalJlc = events.reduce((s, e) => s + e.kwh_reduced, 0)
 
-  // Presentation-only filter: hide events that minted nothing (no real
-  // curtailment — kwh_reduced clamped to 0, which renders as a negative or zero
-  // watt delta and 0.000000 JLC). These are kept in /api/events/log on purpose:
-  // they are real audit records and the CRE PoR workflow needs the full feed.
-  // Do NOT move this filter into the API, or the workflow would lose them.
-  const visibleEvents = events.filter((e) => e.kwh_reduced > 0)
+  // Presentation-only filter: hide events that *render* as nothing — i.e. whose
+  // kwh_reduced rounds to 0.000000 JLC at the table's 6-decimal precision. This
+  // catches both the old clamped-to-0 records and the noise-level (sub-µ) values
+  // that slip past a bare `> 0` check and show up as empty "0.0 W / 0.000000 JLC"
+  // rows. These are kept in /api/events/log on purpose: they are real audit
+  // records and the CRE PoR workflow needs the full feed. Do NOT move this filter
+  // into the API, or the workflow would lose them.
+  const visibleEvents = events.filter((e) => Number(e.kwh_reduced.toFixed(6)) > 0)
 
   const CHAIN_NODES = [
     { label: t.jlc.chain_step_vtn,    sub: 'vtn.data-joule.com',   color: '#22d3ee', glow: '#164e63', bg: 'bg-cyan-950/20',   border: 'border-cyan-900' },

@@ -7,6 +7,7 @@ const redis = new Redis({
 })
 
 const CADENCE_SECONDS = 300
+const BASELINE_WINDOW_S = 120 // average power over this window BEFORE an event = curtailment baseline
 const MAX_BODY_BYTES = 2048
 
 export async function POST(request: NextRequest) {
@@ -68,11 +69,23 @@ export async function POST(request: NextRequest) {
     if (duration_s < 30 || duration_s > 3600 || !event_name) {
       return NextResponse.json({ error: 'invalid event payload' }, { status: 422 })
     }
-    const [latest, existingEvent] = await Promise.all([
+    const [latest, existingEvent, rawBaselineHist] = await Promise.all([
       redis.get<{ wattage_w?: number }>('telemetry:latest'),
       redis.get<{ source?: string; end_ts: number }>('demo:event'),
+      redis.lrange<Record<string, unknown>>('telemetry:history', 0, -1),
     ])
-    const baseline_w = latest?.wattage_w ?? 13.5
+    // Baseline = average measured power over BASELINE_WINDOW_S seconds BEFORE the
+    // event, not a single instantaneous sample. The plug swings 4-11 W with
+    // inference load, so one reading made baseline-vs-curtailed pure sampling
+    // noise (high sample -> dust credit, low sample -> clamped to 0). Averaging a
+    // pre-event window removes that.
+    const preWindow = rawBaselineHist
+      .map(h => (typeof h === 'string' ? JSON.parse(h) : h) as { timestamp: number; wattage_w: number })
+      .filter(h => typeof h?.wattage_w === 'number' &&
+        h.timestamp >= start_ts - BASELINE_WINDOW_S && h.timestamp <= start_ts)
+    const baseline_w = preWindow.length > 0
+      ? preWindow.reduce((s, h) => s + h.wattage_w, 0) / preWindow.length
+      : (latest?.wattage_w ?? 13.5)
     const nowSec = Math.floor(Date.now() / 1000)
     const SOURCE_PRIORITY: Record<string, number> = { ons: 2, hilo: 1, grid: 0 }
     const incomingPrio = SOURCE_PRIORITY[source ?? ''] ?? -1
