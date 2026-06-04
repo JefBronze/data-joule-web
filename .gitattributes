@@ -1,0 +1,8 @@
+# Default: let Git normalize text line endings.
+* text=auto
+
+# Force LF on files that run on Linux (VPS + Pi). A Windows checkout must never
+# ship CRLF here — bash scripts and /etc/cron.d files break with CRLF endings.
+*.sh             text eol=lf
+*.py             text eol=lf
+demo-events.cron text eol=lf
