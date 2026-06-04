@@ -80,9 +80,13 @@ export async function POST(request: NextRequest) {
     // noise (high sample -> dust credit, low sample -> clamped to 0). Averaging a
     // pre-event window removes that.
     const preWindow = rawBaselineHist
-      .map(h => (typeof h === 'string' ? JSON.parse(h) : h) as { timestamp: number; wattage_w: number })
-      .filter(h => typeof h?.wattage_w === 'number' &&
-        h.timestamp >= start_ts - BASELINE_WINDOW_S && h.timestamp <= start_ts)
+      .map(h => {
+        try { return (typeof h === 'string' ? JSON.parse(h) : h) as { timestamp?: number; wattage_w?: number } }
+        catch { return null }
+      })
+      .filter((h): h is { timestamp: number; wattage_w: number } =>
+        h != null && typeof h.timestamp === 'number' && Number.isFinite(h.wattage_w) &&
+        h.timestamp >= start_ts - BASELINE_WINDOW_S && h.timestamp < start_ts) // exclusive: pre-event only
     const baseline_w = preWindow.length > 0
       ? preWindow.reduce((s, h) => s + h.wattage_w, 0) / preWindow.length
       : (latest?.wattage_w ?? 13.5)

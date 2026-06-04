@@ -66,7 +66,7 @@ export default function JouleCreditsPage() {
   // rows. These are kept in /api/events/log on purpose: they are real audit
   // records and the CRE PoR workflow needs the full feed. Do NOT move this filter
   // into the API, or the workflow would lose them.
-  const visibleEvents = events.filter((e) => Number(e.kwh_reduced.toFixed(6)) > 0)
+  const visibleEvents = events.filter((e) => Number.isFinite(e.kwh_reduced) && Number(e.kwh_reduced.toFixed(6)) > 0)
 
   const CHAIN_NODES = [
     { label: t.jlc.chain_step_vtn,    sub: 'vtn.data-joule.com',   color: '#22d3ee', glow: '#164e63', bg: 'bg-cyan-950/20',   border: 'border-cyan-900' },
