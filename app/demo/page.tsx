@@ -50,7 +50,7 @@ const SOURCE_LABELS: Record<string, { key: keyof ReturnType<typeof useLocale>['t
 // ── Event banner ──────────────────────────────────────────────────────────────
 
 function EventBanner({
-  event, signal, now, locale, d, g,
+  event, signal, now, locale, d, g, liveTier,
 }: {
   event: DemoEvent
   signal: GridSignal | null
@@ -58,6 +58,7 @@ function EventBanner({
   locale: Locale
   d: ReturnType<typeof useLocale>['t']['demo']
   g: ReturnType<typeof useLocale>['t']['grid']
+  liveTier: number
 }) {
   const nowSec  = Math.floor(now / 1000)
   const secsLeft = event.end_ts - nowSec
@@ -65,6 +66,12 @@ function EventBanner({
 
   const cfg    = TIER_CONFIG[event.tier] ?? TIER_CONFIG[0]
   const isSynthetic = signal?.is_synthetic ?? true
+  // demo:event is set the instant the event is created, but the tier only reaches
+  // the node via OpenADR VTN -> VEN -> control agent, which lags by seconds. Until
+  // telemetry's dr_tier catches up, show the node as RESPONDING instead of claiming
+  // the throttled state — otherwise the banner reads "TIER 3 / SUSPENDED" while the
+  // node is still at baseline (e.g. 10.7 W mid-ramp).
+  const applied = liveTier >= event.tier
 
   // Build trigger description
   let triggerLine: string | null = null
@@ -102,7 +109,13 @@ function EventBanner({
           {isSynthetic && (
             <div className="text-xs text-neutral-600 mt-1">{g.grid_low}</div>
           )}
-          <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
+          {applied ? (
+            <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
+          ) : (
+            <div className="text-xs mt-1 animate-pulse" style={{ color: cfg.color }}>
+              NODE RESPONDING · T{liveTier} → T{event.tier}
+            </div>
+          )}
         </div>
         <div className="text-center sm:text-right shrink-0 border-t border-neutral-800 pt-3 sm:border-0 sm:pt-0">
           <div className="text-xs text-neutral-500 uppercase tracking-widest">{d.ends_in}</div>
@@ -373,7 +386,7 @@ export default function DemoPage() {
 
         {/* Active DR event banner */}
         {demoEvent && demoEvent.end_ts > Math.floor(now / 1000) && (
-          <EventBanner event={demoEvent} signal={gridSignal} now={now} locale={locale} d={d} g={g} />
+          <EventBanner event={demoEvent} signal={gridSignal} now={now} locale={locale} d={d} g={g} liveTier={tier} />
         )}
 
         {/* Wattage chart */}
