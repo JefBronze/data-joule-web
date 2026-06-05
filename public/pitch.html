@@ -91,7 +91,7 @@
 <body>
 
 <!-- 1. HOMEPAGE LINK (modification #3) -->
-<a href="/" id="home-link">← data-joule.com</a>
+<a href="/" id="home-link" onclick="try{localStorage.setItem('dj-locale','pt')}catch(e){}">← data-joule.com</a>
 
 <nav id="nav">
   <div class="nav-dot active" onclick="goTo(0)" title="Capa"></div>
@@ -423,7 +423,7 @@
   </div>
   <!-- footer: email + flag + home link -->
   <div style="margin-top:28px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
-    <a href="/" style="color:var(--muted);text-decoration:none;font-size:0.85rem;border:1px solid var(--border);padding:5px 14px;border-radius:20px;transition:color 0.2s,border-color 0.2s;" onmouseover="this.style.color='#f0a500';this.style.borderColor='#f0a500'" onmouseout="this.style.color='';this.style.borderColor=''">← Homepage</a>
+    <a href="/" onclick="try{localStorage.setItem('dj-locale','pt')}catch(e){}" style="color:var(--muted);text-decoration:none;font-size:0.85rem;border:1px solid var(--border);padding:5px 14px;border-radius:20px;transition:color 0.2s,border-color 0.2s;" onmouseover="this.style.color='#f0a500';this.style.borderColor='#f0a500'" onmouseout="this.style.color='';this.style.borderColor=''">← Homepage</a>
     <span style="color:var(--border);">·</span>
     <span style="color:var(--muted);font-size:0.85rem;">data-joule.com</span>
     <span style="color:var(--border);">·</span>
