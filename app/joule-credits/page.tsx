@@ -108,17 +108,30 @@ export default function JouleCreditsPage() {
                 </p>
 
                 <div className="flex justify-center mb-10">
-                  <Image
-                    src="/jlc-coin-transparent.png"
-                    alt="Joule Credits"
-                    priority
-                    width={300}
-                    height={300}
-                    className="w-40 h-40 md:w-56 md:h-56 shrink-0"
-                    style={{
-                      filter: 'drop-shadow(0 0 18px rgba(168,85,247,0.7)) drop-shadow(0 0 42px rgba(168,85,247,0.4))',
-                    }}
-                  />
+                  <div className="relative">
+                    {/* Glow is a standalone blurred radial gradient, NOT a
+                        drop-shadow on the <img>. A CSS drop-shadow can't render
+                        until the PNG is downloaded + decoded, so it used to pop in
+                        seconds late behind the 2.9 MB source. This paints instantly. */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 rounded-full pointer-events-none"
+                      style={{
+                        background:
+                          'radial-gradient(circle, rgba(168,85,247,0.6) 0%, rgba(168,85,247,0.28) 45%, transparent 72%)',
+                        filter: 'blur(26px)',
+                        transform: 'scale(1.15)',
+                      }}
+                    />
+                    <Image
+                      src="/jlc-coin-transparent.png"
+                      alt="Joule Credits"
+                      priority
+                      width={300}
+                      height={300}
+                      className="relative w-40 h-40 md:w-56 md:h-56 shrink-0"
+                    />
+                  </div>
                 </div>
 
                 {/* Stat cards */}
