@@ -10,7 +10,7 @@ baseline even though the Pi/VTN/ingest are all healthy (this happened
 
 | Repo file | Deploys to | Purpose |
 |---|---|---|
-| `create_demo_event.sh` | `/opt/demo/create_demo_event.sh` | Every 5 min: read grid signal, create VTN event (or synthetic fallback after 30 min calm), notify Vercel |
+| `create_demo_event.sh` | `/opt/demo/create_demo_event.sh` | Every 5 min: read grid signal, create VTN event (or synthetic fallback after 30 min calm), notify Vercel. State in `/var/lib/demo-scheduler` (0700, root-owned; self-created via `install -d`) |
 | `demo-events.cron` | `/etc/cron.d/demo-events` | The schedule (runs as `root`) |
 | `env.example` | `/opt/demo/.env` | Secrets/config sourced by the script |
 | `grid_signal.py` | `/opt/demo/grid_signal.py` | Fetches 5 grid sources (HQ, ISO-NE, CAISO, NYISO, ONS) concurrently; outputs locale-grouped `{"tier", "triggered_by_source", ...}` JSON. Stdlib only, always exits 0. Optional `EIA_API_KEY` for the US sources. |
