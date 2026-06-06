@@ -1,6 +1,7 @@
 # Demo event scheduler — install to /etc/cron.d/demo-events on the VPS.
-# Runs as root so the /tmp state files (grid_signal.json, grid_zero_count,
-# demo_last_tier) and the log stay root-owned and writable. Runs every 5 min.
+# Runs as root so the state files in /var/lib/demo-scheduler (grid_signal.json,
+# grid_zero_count, demo_last_tier) and the log stay root-owned and writable.
+# The script creates that 0700 dir itself (install -d). Runs every 5 min.
 #
 # Install:
 #   sudo cp demo-events.cron /etc/cron.d/demo-events

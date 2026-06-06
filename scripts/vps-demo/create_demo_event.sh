@@ -4,26 +4,39 @@
 # only moves when this script fires DR events. Install schedule via demo-events.cron.
 #
 # Depends on: /opt/demo/.env, /opt/demo/grid_signal.py
-# State files (must be writable by the cron user — runs as root via cron.d):
-#   /tmp/grid_signal.json, /tmp/grid_zero_count, /tmp/demo_last_tier
+# State files live in a root-owned 0700 dir (NOT world-writable /tmp):
+#   /var/lib/demo-scheduler/{grid_signal.json,grid_zero_count,demo_last_tier}
 set -euo pipefail
+umask 077
 source /opt/demo/.env
 
 : "${ADMIN_SECRET:?ADMIN_SECRET must be set in /opt/demo/.env}"
 : "${INGEST_API_KEY:?INGEST_API_KEY must be set in /opt/demo/.env}"
 : "${NOTIFY_URL:?NOTIFY_URL must be set in /opt/demo/.env}"
 
+# ── 0. State dir ──────────────────────────────────────────────────────────────
+# cron runs this as root, so predictable /tmp paths were a symlink-attack vector
+# (a local user could pre-create/symlink /tmp/grid_signal.json etc. and redirect
+# root's writes to an arbitrary file). /var/lib is root-only, so no untrusted user
+# can plant a symlink here. `install -d` is idempotent and re-asserts mode 0700
+# every run.
+STATE_DIR=/var/lib/demo-scheduler
+install -d -m 700 "$STATE_DIR"
+GRID_SIGNAL_FILE="$STATE_DIR/grid_signal.json"
+ZERO_COUNT_FILE="$STATE_DIR/grid_zero_count"
+LAST_TIER_FILE="$STATE_DIR/demo_last_tier"
+
 # ── 1. Fetch real grid signal ─────────────────────────────────────────────────
 export EIA_API_KEY="${EIA_API_KEY:-}"
-python3 /opt/demo/grid_signal.py > /tmp/grid_signal.json 2>>/var/log/demo-events.log
-TIER=$(python3 -c "import json; print(json.load(open('/tmp/grid_signal.json'))['tier'])" 2>/dev/null || echo 0)
+python3 /opt/demo/grid_signal.py > "$GRID_SIGNAL_FILE" 2>>/var/log/demo-events.log
+TIER=$(python3 -c "import json; print(json.load(open('$GRID_SIGNAL_FILE'))['tier'])" 2>/dev/null || echo 0)
 
 # ── 2. Synthetic fallback logic ───────────────────────────────────────────────
-ZERO_COUNT=$(cat /tmp/grid_zero_count 2>/dev/null || echo 0)
+ZERO_COUNT=$(cat "$ZERO_COUNT_FILE" 2>/dev/null || echo 0)
 
 if [ "$TIER" -eq 0 ]; then
   ZERO_COUNT=$(( ZERO_COUNT + 1 ))
-  echo "$ZERO_COUNT" > /tmp/grid_zero_count
+  echo "$ZERO_COUNT" > "$ZERO_COUNT_FILE"
 
   if [ "$ZERO_COUNT" -lt 7 ]; then
     # Grids calm — update grid signal display only, no VTN event
@@ -31,32 +44,32 @@ if [ "$TIER" -eq 0 ]; then
     curl -sf -X POST "$NOTIFY_URL" \
       -H "Authorization: Bearer $INGEST_API_KEY" \
       -H "Content-Type: application/json" \
-      -d "{\"tier\":0,\"start_ts\":${START_TS},\"grid_signal\":$(cat /tmp/grid_signal.json)}" || true
+      -d "{\"tier\":0,\"start_ts\":${START_TS},\"grid_signal\":$(cat "$GRID_SIGNAL_FILE")}" || true
     echo "[$(date -u)] Grid calm (${ZERO_COUNT}/6) — signal updated, no event"
     exit 0
   fi
 
   # 30 min of tier-0 across all grids → synthetic fallback
-  LAST_SYN=$(cat /tmp/demo_last_tier 2>/dev/null || echo 3)
+  LAST_SYN=$(cat "$LAST_TIER_FILE" 2>/dev/null || echo 3)
   TIER=$(( LAST_SYN == 2 ? 3 : 2 ))
-  echo "$TIER" > /tmp/demo_last_tier
+  echo "$TIER" > "$LAST_TIER_FILE"
   GRID_SIGNAL=$(python3 -c "
 import json
-d = json.load(open('/tmp/grid_signal.json'))
+d = json.load(open('$GRID_SIGNAL_FILE'))
 d['is_synthetic'] = True
 d['tier'] = $TIER
 d['triggered_by_locale'] = None
 d['triggered_by_source'] = 'synthetic'
 print(json.dumps(d))
 ")
-  echo 0 > /tmp/grid_zero_count
+  echo 0 > "$ZERO_COUNT_FILE"
   echo "[$(date -u)] Synthetic fallback activated (tier ${TIER})"
 else
-  echo 0 > /tmp/grid_zero_count
-  GRID_SIGNAL=$(cat /tmp/grid_signal.json)
+  echo 0 > "$ZERO_COUNT_FILE"
+  GRID_SIGNAL=$(cat "$GRID_SIGNAL_FILE")
   TRIGGERED_BY=$(python3 -c "
 import json
-d = json.load(open('/tmp/grid_signal.json'))
+d = json.load(open('$GRID_SIGNAL_FILE'))
 print(d.get('triggered_by_source') or 'unknown')
 " 2>/dev/null || echo unknown)
   echo "[$(date -u)] Real grid signal: tier ${TIER} triggered by ${TRIGGERED_BY}"
