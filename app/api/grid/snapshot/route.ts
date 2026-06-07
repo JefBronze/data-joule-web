@@ -78,6 +78,8 @@ export async function POST(request: NextRequest) {
     }))
   }
 
+  snapshot.posted_at = Math.floor(Date.now() / 1000)
+
   await redis.set(`grid:current:${source}`, snapshot, { ex: TTL_SECONDS })
 
   return NextResponse.json({ ok: true })
