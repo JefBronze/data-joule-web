@@ -117,6 +117,7 @@ export const pt = {
     current_load: 'Potência atual',
     peak_30m: 'pico 30 min',
     dr_tier: 'Patamar de resposta',
+    tier_desc: ['LINHA DE BASE', 'REDUZIDO', 'ECONOMIA', 'SUSPENSO', 'DESLIGADO'],
     inference: 'Inferência',
     collecting: 'Coletando dados…',
     recent_readings: 'Leituras Recentes',

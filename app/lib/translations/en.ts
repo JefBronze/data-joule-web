@@ -117,6 +117,7 @@ export const en = {
     current_load: 'Current Load',
     peak_30m: '30-min peak',
     dr_tier: 'DR Tier',
+    tier_desc: ['BASELINE', 'THROTTLED', 'POWER-SAVE', 'SUSPENDED', 'HALT'],
     inference: 'Inference',
     collecting: 'Collecting data…',
     recent_readings: 'Recent Readings',

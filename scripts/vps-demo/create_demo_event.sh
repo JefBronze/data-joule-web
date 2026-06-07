@@ -32,20 +32,25 @@ python3 /opt/demo/grid_signal.py > "$GRID_SIGNAL_FILE" 2>>/var/log/demo-events.l
 TIER=$(python3 -c "import json; print(json.load(open('$GRID_SIGNAL_FILE'))['tier'])" 2>/dev/null || echo 0)
 
 # ── 2. Synthetic fallback logic ───────────────────────────────────────────────
+# Fire a synthetic demo event after this many consecutive all-calm cycles (cron
+# runs every 5 min). Lower = livelier demo: 2 → one calm display cycle then an
+# event (~every 10 min), so visitors reliably see the Pi actually curtail.
+# Raise it for a quieter, more "realistic" demo.
+SYNTH_THRESHOLD=2
 ZERO_COUNT=$(cat "$ZERO_COUNT_FILE" 2>/dev/null || echo 0)
 
 if [ "$TIER" -eq 0 ]; then
   ZERO_COUNT=$(( ZERO_COUNT + 1 ))
   echo "$ZERO_COUNT" > "$ZERO_COUNT_FILE"
 
-  if [ "$ZERO_COUNT" -lt 7 ]; then
+  if [ "$ZERO_COUNT" -lt "$SYNTH_THRESHOLD" ]; then
     # Grids calm — update grid signal display only, no VTN event
     START_TS=$(date +%s)
     curl -sf -X POST "$NOTIFY_URL" \
       -H "Authorization: Bearer $INGEST_API_KEY" \
       -H "Content-Type: application/json" \
       -d "{\"tier\":0,\"start_ts\":${START_TS},\"grid_signal\":$(cat "$GRID_SIGNAL_FILE")}" || true
-    echo "[$(date -u)] Grid calm (${ZERO_COUNT}/6) — signal updated, no event"
+    echo "[$(date -u)] Grid calm (${ZERO_COUNT}/$((SYNTH_THRESHOLD-1))) — signal updated, no event"
     exit 0
   fi
 

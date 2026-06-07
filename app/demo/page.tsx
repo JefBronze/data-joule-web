@@ -115,7 +115,7 @@ function EventBanner({
             <div className="text-xs text-neutral-600 mt-1">{g.grid_low}</div>
           )}
           {applied ? (
-            <div className="text-xs text-neutral-500 mt-1">{cfg.desc}</div>
+            <div className="text-xs text-neutral-500 mt-1">{d.tier_desc?.[event.tier] ?? cfg.desc}</div>
           ) : (
             <div className="text-xs mt-1 animate-pulse" style={{ color: cfg.color }}>
               NODE RESPONDING · T{liveTier} → T{event.tier}
@@ -365,7 +365,7 @@ export default function DemoPage() {
                   <span className="text-5xl font-bold font-mono" style={{ color: tierCfg.color }}>{tier}</span>
                   <div>
                     <div className="text-sm font-mono font-semibold" style={{ color: tierCfg.color }}>{tierCfg.label}</div>
-                    <div className="text-xs text-neutral-500 font-mono">{tierCfg.desc}</div>
+                    <div className="text-xs text-neutral-500 font-mono">{d.tier_desc?.[tier] ?? tierCfg.desc}</div>
                   </div>
                 </div>
                 <div className="flex items-end gap-1 mt-4">

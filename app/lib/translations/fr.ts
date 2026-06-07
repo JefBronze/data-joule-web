@@ -117,6 +117,7 @@ export const fr = {
     current_load: "Charge actuelle",
     peak_30m: "crête 30 min",
     dr_tier: "Palier d'effacement",
+    tier_desc: ["RÉFÉRENCE", "RÉDUIT", "ÉCONOMIE", "SUSPENDU", "ARRÊT"],
     inference: "Inférence",
     collecting: "Collecte des données…",
     recent_readings: "Lectures récentes",
