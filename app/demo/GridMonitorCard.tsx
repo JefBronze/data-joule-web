@@ -18,6 +18,16 @@ function getTierColor(tier: number): string {
   return '#4ade80'                  // green-400
 }
 
+function regionColor(pct: number): string {
+  if (pct >= 90) return '#ef4444'
+  if (pct >= 80) return '#f97316'
+  if (pct >= 70) return '#eab308'
+  return '#4ade80'
+}
+function fmtRegionMW(mw: number): string {
+  return mw >= 1000 ? (mw / 1000).toFixed(1) + 'k' : String(mw)
+}
+
 function getSnapshotForLocale(current: GridCurrent | undefined, locale: Locale): GridSnapshot | null {
   if (!current) return null
   if (locale === 'fr') return current.hq
@@ -186,6 +196,17 @@ export function GridMonitorCard({ current, locale, g, d }: GridMonitorCardProps)
           <span className="text-neutral-700">— · — · —</span>
         )}
       </div>
+
+      {source?.regions && source.regions.length > 0 && (
+        <div className="border-t border-neutral-800 mt-3 pt-3 grid grid-cols-2 gap-x-3 gap-y-2">
+          {source.regions.filter(r => r.code !== 'S').map(r => (
+            <div key={r.code} className="flex items-baseline justify-between font-mono text-xs">
+              <span className="text-neutral-500">{r.code}</span>
+              <span style={{ color: regionColor(r.demand_pct) }}>{fmtRegionMW(r.demand_mw)}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
