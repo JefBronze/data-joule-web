@@ -7,7 +7,7 @@ export type { TelemetryEntry } from '@/app/lib/telemetry'
 
 type HourlyEntry = { timestamp: number; wattage_w: number }
 
-export type DemoEvent = { tier: number; end_ts: number; event_name: string }
+export type DemoEvent = { tier: number; end_ts: number; event_name: string; source?: string }
 
 export type GridSignal = {
   tier: number
@@ -22,6 +22,9 @@ export type GridSignal = {
   peak_event_active?: boolean
   peak_event_name?: string | null
   fetched_at?: number
+  t1_pct?: number
+  t2_pct?: number
+  demo_mode?: boolean
 }
 
 /** Per-source live snapshot written by the VPS bridges every poll cycle. */
@@ -36,6 +39,7 @@ export type GridSnapshot = {
   area?: string
   peak_event_active?: boolean
   peak_event_name?: string | null
+  regions?: { code: string; demand_mw: number; demand_pct: number }[]
 }
 
 export type GridCurrent = {
