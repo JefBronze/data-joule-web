@@ -106,6 +106,11 @@ function EventBanner({
           {triggerLine && (
             <div className="text-xs text-neutral-400 mt-1">{triggerLine}</div>
           )}
+          {event.source === 'ons' && signal?.demo_mode && (
+            <div className="text-xs text-neutral-600 mt-1">
+              {g.demo_threshold_note.replace('{pct}', String(signal.t1_pct ?? ''))}
+            </div>
+          )}
           {isSynthetic && (
             <div className="text-xs text-neutral-600 mt-1">{g.grid_low}</div>
           )}
