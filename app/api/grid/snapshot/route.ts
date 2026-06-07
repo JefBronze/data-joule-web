@@ -63,6 +63,21 @@ export async function POST(request: NextRequest) {
   if (typeof body.peak_event_active === 'boolean') snapshot.peak_event_active = body.peak_event_active
   if (typeof body.peak_event_name === 'string') snapshot.peak_event_name = body.peak_event_name
 
+  if (Array.isArray(body.regions)) {
+    const valid = body.regions.length <= 6 && body.regions.every(r =>
+      r && typeof r === 'object' &&
+      typeof (r as Record<string, unknown>).code === 'string' &&
+      /^[A-Z]{1,5}$/.test((r as Record<string, unknown>).code as string) &&
+      Number.isFinite(Number((r as Record<string, unknown>).demand_mw)) &&
+      Number.isFinite(Number((r as Record<string, unknown>).demand_pct)))
+    if (!valid) {
+      return NextResponse.json({ error: 'invalid regions' }, { status: 422 })
+    }
+    snapshot.regions = (body.regions as Record<string, unknown>[]).map(r => ({
+      code: r.code, demand_mw: Number(r.demand_mw), demand_pct: Number(r.demand_pct),
+    }))
+  }
+
   await redis.set(`grid:current:${source}`, snapshot, { ex: TTL_SECONDS })
 
   return NextResponse.json({ ok: true })
