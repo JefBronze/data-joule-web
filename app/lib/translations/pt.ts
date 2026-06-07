@@ -115,6 +115,7 @@ export const pt = {
     heading: 'FlexCompute Edge',
     node_info: 'mtl-edge-01 · Montréal, QC · VEN OpenADR 3.0',
     current_load: 'Potência atual',
+    peak_30m: 'pico 30 min',
     dr_tier: 'Patamar de resposta',
     inference: 'Inferência',
     collecting: 'Coletando dados…',

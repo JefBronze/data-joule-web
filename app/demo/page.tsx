@@ -334,26 +334,50 @@ export default function DemoPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             {/* Wattage */}
-            <div className="rounded-lg border p-5"
+            <div className="rounded-lg border p-5 flex flex-col"
               style={{ borderColor: 'rgba(245,158,11,0.3)', background: 'rgba(245,158,11,0.05)' }}>
               <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-mono">{d.current_load}</div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold font-mono text-amber-400">
-                  {data ? data.wattage_w.toFixed(1) : '—'}
-                </span>
-                <span className="text-xl text-amber-600 font-mono">W</span>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-bold font-mono text-amber-400">
+                    {data ? data.wattage_w.toFixed(1) : '—'}
+                  </span>
+                  <span className="text-xl text-amber-600 font-mono">W</span>
+                </div>
+                {data && history.length > 0 && (() => {
+                  const base = Math.max(data.wattage_w, ...history.map(h => h.wattage_w))
+                  const pct = base > 0 ? Math.max(0, (base - data.wattage_w) / base * 100) : 0
+                  return (
+                    <div className="text-xs font-mono text-amber-600/80 mt-3">
+                      {d.peak_30m} {base.toFixed(1)} W · ↓{pct.toFixed(0)}%
+                    </div>
+                  )
+                })()}
               </div>
             </div>
 
             {/* DR Tier */}
-            <div className="rounded-lg border p-5"
+            <div className="rounded-lg border p-5 flex flex-col"
               style={{ borderColor: tierCfg.color + '44', background: tierCfg.bg }}>
               <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.dr_tier}</div>
-              <div className="flex items-baseline gap-3">
-                <span className="text-5xl font-bold font-mono" style={{ color: tierCfg.color }}>{tier}</span>
-                <div>
-                  <div className="text-sm font-mono font-semibold" style={{ color: tierCfg.color }}>{tierCfg.label}</div>
-                  <div className="text-xs text-neutral-500 font-mono">{tierCfg.desc}</div>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-5xl font-bold font-mono" style={{ color: tierCfg.color }}>{tier}</span>
+                  <div>
+                    <div className="text-sm font-mono font-semibold" style={{ color: tierCfg.color }}>{tierCfg.label}</div>
+                    <div className="text-xs text-neutral-500 font-mono">{tierCfg.desc}</div>
+                  </div>
+                </div>
+                <div className="flex items-end gap-1 mt-4">
+                  {[0, 1, 2, 3, 4].map(t => (
+                    <div key={t} className="flex-1 flex flex-col items-center gap-1">
+                      <div className="w-full rounded" style={{
+                        height: 4 + t * 3,
+                        background: t === tier ? TIER_CONFIG[t].color : 'rgba(115,115,115,0.25)',
+                      }} />
+                      <span className="text-[10px] font-mono" style={{ color: t === tier ? TIER_CONFIG[t].color : '#6b7280' }}>{t}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -367,19 +391,21 @@ export default function DemoPage() {
                 inferenceStatus === 'suspended' ? '#f87171' :
                 inferenceStatus === 'error'     ? '#fb923c' : '#6b7280'
               return (
-                <div className="rounded-lg border p-5"
+                <div className="rounded-lg border p-5 flex flex-col"
                   style={{ borderColor: inferenceColor + '44', background: inferenceColor === '#4ade80' ? 'rgba(74,222,128,0.05)' : 'transparent' }}>
                   <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-mono">{d.inference}</div>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl font-bold font-mono" style={{ color: inferenceColor }}>
-                      {tokS !== null ? tokS.toFixed(1) : '—'}
-                    </span>
-                    <span className="text-xl font-mono" style={{ color: inferenceColor + 'aa' }}>tok/s</span>
+                  <div className="flex-1 flex flex-col justify-center">
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span className="text-5xl font-bold font-mono" style={{ color: inferenceColor }}>
+                        {tokS !== null ? tokS.toFixed(1) : '—'}
+                      </span>
+                      <span className="text-xl font-mono" style={{ color: inferenceColor + 'aa' }}>tok/s</span>
+                    </div>
+                    <div className="text-xs font-mono font-semibold" style={{ color: inferenceColor }}>
+                      ● {inferenceStatus.toUpperCase()}
+                    </div>
+                    <div className="text-xs text-neutral-600 font-mono mt-1">Llama-3.2-3B Q4_K_M</div>
                   </div>
-                  <div className="text-xs font-mono font-semibold" style={{ color: inferenceColor }}>
-                    ● {inferenceStatus.toUpperCase()}
-                  </div>
-                  <div className="text-xs text-neutral-600 font-mono mt-1">Llama-3.2-3B Q4_K_M</div>
                 </div>
               )
             })()}
