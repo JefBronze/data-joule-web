@@ -171,6 +171,7 @@ export const fr = {
     demand_note:  "Puissance appelée sur le réseau d'HQ — résidences, industries et tout ce qui est branché. % élevé = signal de pointe hivernale imminente.",
     load_unit:    "charge",
     peak_short:   "POINTE",
+    demo_threshold_note: "Seuil de démonstration — déclenché à {pct} % du pic annuel du Sul; en production, le déclenchement n'a lieu qu'en cas de stress réel du réseau.",
   },
   jlc: {
     hero_title: 'Crédits Joule',

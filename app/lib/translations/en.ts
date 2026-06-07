@@ -171,6 +171,7 @@ export const en = {
     demand_note:  'Electrical load consumed by the grid — homes, industry, everything connected. Higher % = more stress.',
     load_unit:    'load',
     peak_short:   'PEAK',
+    demo_threshold_note: "Demo threshold — fired at {pct}% of Sul's annual peak; production fires only on real grid stress.",
   },
   jlc: {
     hero_title: 'Joule Credits',

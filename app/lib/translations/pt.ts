@@ -171,6 +171,7 @@ export const pt = {
     demand_note: 'Carga elétrica atendida no SIN (Sistema Interligado Nacional) — residências, indústria e demais consumidores conectados. Percentual alto indica maior solicitação do sistema.',
     load_unit:   'carga',
     peak_short:  'PONTA',
+    demo_threshold_note: "Limiar de demonstração — disparado a {pct}% do pico anual do Sul; em produção, dispara apenas sob estresse real da rede.",
   },
   jlc: {
     hero_title: 'Créditos Joule',
