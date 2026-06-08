@@ -43,12 +43,13 @@ export async function GET(request: NextRequest) {
 
   const fiveDaysAgo = Math.floor(Date.now() / 1000) - 5 * 24 * 3600
 
-  const [latest, history, hourlyRaw, demoEvent, nextEventTs, gridSignal, gridHq, gridOns, gridNyiso] = await Promise.all([
+  const [latest, history, hourlyRaw, demoEvent, nextEventTs, lastEvent, gridSignal, gridHq, gridOns, gridNyiso] = await Promise.all([
     redis.get<TelemetryEntry>('telemetry:latest'),
     redis.lrange<TelemetryEntry>('telemetry:history', 0, 359),
     redis.hgetall('telemetry:hourly') as Promise<Record<string, string> | null>,
     redis.get<{ tier: number; end_ts: number; event_name: string }>('demo:event'),
     redis.get<number>('demo:next_event_ts'),
+    redis.get<{ source: string; tier: number; event_name: string; ts: number; triggered_by_source: string }>('demo:last_event'),
     redis.get('demo:grid_signal'),
     redis.get('grid:current:hq'),
     redis.get('grid:current:ons'),
@@ -67,6 +68,7 @@ export async function GET(request: NextRequest) {
       hourly,
       demoEvent: demoEvent ?? null,
       nextEventTs: nextEventTs ?? null,
+      lastEvent: lastEvent ?? null,
       gridSignal: gridSignal ?? null,
       gridCurrent: {
         hq:    gridHq    ?? null,
