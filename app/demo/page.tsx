@@ -212,7 +212,7 @@ export default function DemoPage() {
     return `${Math.floor(diff / 60)} ${gridT.min_ago}`
   }
   const g = t.grid
-  const { data, history, hourly, demoEvent, nextEventTs, gridSignal, gridCurrent, loading, now, connectionStatus } = useFlexState()
+  const { data, history, hourly, demoEvent, lastEvent, gridSignal, gridCurrent, loading, now, connectionStatus } = useFlexState()
 
   const tier     = data?.dr_tier ?? 0
   const tierCfg  = TIER_CONFIG[tier] ?? TIER_CONFIG[0]
@@ -223,15 +223,6 @@ export default function DemoPage() {
     ? (wattages.reduce((a, b) => a + b, 0) / wattages.length).toFixed(1) : '—'
 
   const activeEvent   = demoEvent && demoEvent.end_ts > Math.floor(now / 1000)
-  const showNextCheck = !activeEvent
-
-  // "Next check" countdown: based on gridSignal.fetched_at + 300, fallback to nextEventTs
-  const nextCheckTs = gridSignal?.fetched_at ? gridSignal.fetched_at + 300 : (nextEventTs ?? null)
-  const nextCheckLabel = showNextCheck
-    ? nextCheckTs && nextCheckTs > Math.floor(now / 1000)
-      ? `${g.next_check} ${fmtCountdown(nextCheckTs - Math.floor(now / 1000))}`
-      : d.events_schedule
-    : null
 
   const chartTimeLabel = hourly.length >= 2
     ? `Wattage · Last 5 Days (${hourly.length}h)`
@@ -301,10 +292,12 @@ export default function DemoPage() {
               )}
             </span>
           </div>
-          {nextCheckLabel && (
+          {lastEvent && (
             <div className="hidden md:flex items-center gap-3">
               <span className="h-3 w-px bg-neutral-700" aria-hidden="true" />
-              <span className="text-xs text-amber-400 font-mono">{nextCheckLabel}</span>
+              <span className="text-xs text-amber-400 font-mono">
+                {d.last_event}: {lastEvent.triggered_by_source} · {timeAgo(lastEvent.ts)}
+              </span>
             </div>
           )}
         </div>
