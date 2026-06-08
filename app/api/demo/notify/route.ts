@@ -105,6 +105,14 @@ export async function POST(request: NextRequest) {
     if (existingExpired || incomingPrio >= existingPrio) {
       pipeline.set('demo:event', eventPayload, { ex: duration_s * 2 + 300 })
     }
+    const triggeredBy = (grid_signal as Record<string, unknown> | null)?.triggered_by_source as string | undefined
+    pipeline.set('demo:last_event', {
+      source: source ?? 'grid',
+      tier,
+      event_name,
+      ts: start_ts,
+      triggered_by_source: triggeredBy ?? source ?? 'grid',
+    }, { ex: 86400 * 7 })
   }
 
   // When the bridge explicitly closes an event (tier=0), write the event report
