@@ -34,6 +34,7 @@ export type GridSnapshot = {
   demand_pct: number
   tier: number
   updated: string
+  posted_at?: number
   capacity_mw?: number
   ref_peak_mw?: number
   area?: string
