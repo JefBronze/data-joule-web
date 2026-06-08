@@ -201,6 +201,7 @@ export const pt = {
     log_col_jlc: 'JLC emitido',
     log_col_tx: 'Tx',
     log_col_source: 'Fonte',
+    log_source_operator: 'OPERADOR',
     log_empty: 'Nenhum evento verificado ainda.',
     economics_title: 'Modelo do token',
     contract_title: 'Contrato',

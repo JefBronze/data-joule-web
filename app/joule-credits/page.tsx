@@ -388,6 +388,9 @@ export default function JouleCreditsPage() {
                             )}
                           </td>
                           <td className="px-4 py-3 text-center">
+                            {ev.source === 'operator' && (
+                              <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-amber-700 bg-amber-950/40 text-amber-400">{t.jlc.log_source_operator}</span>
+                            )}
                             {ev.source === 'ons' && (
                               <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-green-700 bg-green-950/40 text-green-400">ONS</span>
                             )}
