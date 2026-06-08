@@ -130,6 +130,7 @@ export const fr = {
     footer: "Tableau de bord rafraîchi aux 5s · Matériel à Montréal, QC · OpenADR 3.0",
     next_event: "Prochain relevé dans",
     events_schedule: "Demande réseau interrogée toutes les 5 min",
+    last_event: "dernier événement",
     event_active: "Signal d'effacement actif",
     ends_in: "Fin dans",
     ends_in_sub: "puis notre système revérifie",

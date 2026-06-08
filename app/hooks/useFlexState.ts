@@ -34,6 +34,7 @@ export type GridSnapshot = {
   demand_pct: number
   tier: number
   updated: string
+  posted_at?: number
   capacity_mw?: number
   ref_peak_mw?: number
   area?: string
@@ -48,6 +49,8 @@ export type GridCurrent = {
   nyiso: GridSnapshot | null
 }
 
+export type LastEvent = { source: string; tier: number; event_name: string; ts: number; triggered_by_source: string }
+
 export type { HourlyEntry }
 
 type ApiResponse = {
@@ -56,6 +59,7 @@ type ApiResponse = {
   hourly: HourlyEntry[]
   demoEvent: DemoEvent | null
   nextEventTs: number | null
+  lastEvent: LastEvent | null
   gridSignal: GridSignal | null
   gridCurrent?: GridCurrent
 }
@@ -72,6 +76,7 @@ export function useFlexState() {
   const [hourly,      setHourly]      = useState<HourlyEntry[]>([])
   const [demoEvent,   setDemoEvent]   = useState<DemoEvent | null>(null)
   const [nextEventTs, setNextEventTs] = useState<number | null>(null)
+  const [lastEvent,   setLastEvent]   = useState<LastEvent | null>(null)
   const [gridSignal,  setGridSignal]  = useState<GridSignal | null>(null)
   const [gridCurrent, setGridCurrent] = useState<GridCurrent>({ hq: null, ons: null, nyiso: null })
   const [loading,           setLoading]           = useState(true)
@@ -89,6 +94,7 @@ export function useFlexState() {
       setHourly(json.hourly ?? [])
       setDemoEvent(json.demoEvent ?? null)
       setNextEventTs(json.nextEventTs ?? null)
+      setLastEvent(json.lastEvent ?? null)
       setGridSignal(json.gridSignal ?? null)
       setGridCurrent(json.gridCurrent ?? { hq: null, ons: null, nyiso: null })
       setLastSuccessTime(Date.now())
@@ -116,5 +122,5 @@ export function useFlexState() {
     lastSuccessTime !== null && now - lastSuccessTime > STALE_THRESHOLD ? 'stale' :
     'ok'
 
-  return { data, history, hourly, demoEvent, nextEventTs, gridSignal, gridCurrent, loading, now, connectionStatus }
+  return { data, history, hourly, demoEvent, nextEventTs, lastEvent, gridSignal, gridCurrent, loading, now, connectionStatus }
 }

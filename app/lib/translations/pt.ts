@@ -130,6 +130,7 @@ export const pt = {
     footer: 'Dashboard atualizado a cada 5s · Hardware em Montréal, QC · OpenADR 3.0',
     next_event: 'Próxima leitura em',
     events_schedule: 'SIN consultado a cada 5 min',
+    last_event: 'último evento',
     event_active: 'Evento de RD Automático Ativo',
     ends_in: 'Encerra em',
     ends_in_sub: 'nosso sistema verifica após',

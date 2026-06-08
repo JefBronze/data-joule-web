@@ -130,6 +130,7 @@ export const en = {
     footer: 'Dashboard refreshes every 5s · Hardware in Montréal, QC · OpenADR 3.0',
     next_event: 'Next grid check in',
     events_schedule: 'Grid demand polled every 5 min',
+    last_event: 'last event',
     event_active: 'Auto DR Event Active',
     ends_in: 'Ends in',
     ends_in_sub: 'then our system rechecks',
