@@ -133,7 +133,7 @@ export const fr = {
     last_event: "dernier événement",
     event_active: "Signal d'effacement actif",
     ends_in: "Fin dans",
-    ends_in_sub: "puis notre système revérifie",
+    ends_in_sub: "puis le nœud revient au niveau de base",
     jlc_banner: "Chaque événement DR complété émet des JLC sur Polygon Mainnet — Explorer les Crédits Joule →",
     llm_active: "ACTIF",
     llm_degraded: "DÉGRADÉ",
@@ -268,7 +268,7 @@ export const fr = {
       { name: "Arrêt", mechanism: "Le chemin de contrôle effectue un arrêt ordonné et isole l'alimentation de calcul via la prise mesurée. Quand l'événement se termine, le nœud est restauré et revient en service en environ 55 secondes." },
     ],
     steps: [
-      { title: "Le VTN crée un événement", detail: "Hydro-Québec Distribution ou un script de test publie un événement OpenADR avec un payload SIMPLE. La valeur (1–4) correspond directement à un palier d'effacement avec heure de départ et durée." },
+      { title: "Le VTN crée un événement", detail: "Hydro-Québec Distribution ou un pont réseau automatisé publie un événement OpenADR avec un payload SIMPLE. La valeur (1–4) correspond directement à un palier d'effacement avec heure de départ et durée." },
       { title: "Le VEN interroge toutes les 10 secondes", detail: "Le VEN consulte le flux d'événements autorisé à cadence fixe et n'agit que sur les événements dans leur fenêtre active." },
       { title: "is_active() vérifie l'intervalle", detail: "Comme l'implémentation OpenADR 3.0 RI ne fixe pas toujours eventStatus, is_active() vérifie localement si l'heure courante tombe dans une fenêtre d'intervalle." },
       { title: "run_event() parcourt les paliers d'effacement", detail: "La valeur SIMPLE devient le palier d'effacement. run_event() appelle l'action correspondante, évite les doublons en mémoire, puis restaure le palier 0 et publie un rapport à la fin." },

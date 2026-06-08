@@ -65,7 +65,6 @@ function EventBanner({
   if (secsLeft <= 0) return null
 
   const cfg    = TIER_CONFIG[event.tier] ?? TIER_CONFIG[0]
-  const isSynthetic = signal?.is_synthetic ?? true
   // demo:event is set the instant the event is created, but the tier only reaches
   // the node via OpenADR VTN -> VEN -> control agent, which lags by seconds. Until
   // telemetry's dr_tier catches up, show the node as RESPONDING instead of claiming
@@ -75,7 +74,7 @@ function EventBanner({
 
   // Build trigger description
   let triggerLine: string | null = null
-  if (!isSynthetic && signal?.triggered_by_source) {
+  if (signal?.triggered_by_source) {
     const srcKey = SOURCE_LABELS[signal.triggered_by_source]?.key
     const srcLabel = srcKey ? (g[srcKey] as string) : signal.triggered_by_source
     const demandPct = signal.demand_pct ?? null
@@ -85,7 +84,9 @@ function EventBanner({
       : `${g.triggered_by} ${srcLabel}`
   }
 
-  const headingText = isSynthetic ? g.demo_event : g.real_event
+  // Synthetic/demo events were retired — every event is real now (automated grid
+  // bridge or operator dispatch), so the banner always reads as a real event.
+  const headingText = g.real_event
 
   return (
     <div
@@ -110,9 +111,6 @@ function EventBanner({
             <div className="text-xs text-neutral-600 mt-1">
               {g.demo_threshold_note.replace('{pct}', String(signal.t1_pct ?? ''))}
             </div>
-          )}
-          {isSynthetic && (
-            <div className="text-xs text-neutral-600 mt-1">{g.grid_low}</div>
           )}
           {applied ? (
             <div className="text-xs text-neutral-500 mt-1">{d.tier_desc?.[event.tier] ?? cfg.desc}</div>
