@@ -397,7 +397,10 @@ export default function JouleCreditsPage() {
                             {ev.source === 'hilo' && (
                               <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-cyan-700 bg-cyan-950/40 text-cyan-400">HILO</span>
                             )}
-                            {ev.source === 'grid' && (
+                            {ev.source === 'nyiso' && (
+                              <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-rose-700 bg-rose-950/40 text-rose-400">NYISO</span>
+                            )}
+                            {(ev.source === 'grid' || ev.source === 'hq') && (
                               <span className="text-xs font-mono px-1.5 py-0.5 rounded border border-blue-800 bg-blue-950/40 text-blue-400">HQ</span>
                             )}
                             {!ev.source && (
