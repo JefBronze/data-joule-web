@@ -222,8 +222,6 @@ export default function DemoPage() {
   const avgW = wattages.length
     ? (wattages.reduce((a, b) => a + b, 0) / wattages.length).toFixed(1) : '—'
 
-  const activeEvent   = demoEvent && demoEvent.end_ts > Math.floor(now / 1000)
-
   const chartTimeLabel = hourly.length >= 2
     ? `Wattage · Last 5 Days (${hourly.length}h)`
     : history.length >= 2
