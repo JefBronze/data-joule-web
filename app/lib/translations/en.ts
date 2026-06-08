@@ -133,7 +133,7 @@ export const en = {
     last_event: 'last event',
     event_active: 'Auto DR Event Active',
     ends_in: 'Ends in',
-    ends_in_sub: 'then our system rechecks',
+    ends_in_sub: 'then the node returns to baseline',
     jlc_banner: 'Each completed DR event mints JLC on Polygon Mainnet — Explore Joule Credits →',
     llm_active: 'ACTIVE',
     llm_degraded: 'DEGRADED',
@@ -285,7 +285,7 @@ export const en = {
     steps: [
       {
         title: 'VTN creates an event',
-        detail: 'A grid operator or test script posts an OpenADR event with a SIMPLE payload. The payload value (1–4) maps directly to a response tier and includes a start time plus duration.',
+        detail: 'A grid operator — or one of the automated grid bridges — posts an OpenADR event with a SIMPLE payload. The payload value (1–4) maps directly to a response tier and includes a start time plus duration.',
       },
       {
         title: 'VEN polls every 10 seconds',

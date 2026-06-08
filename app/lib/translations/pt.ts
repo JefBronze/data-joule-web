@@ -133,7 +133,7 @@ export const pt = {
     last_event: 'último evento',
     event_active: 'Evento de RD Automático Ativo',
     ends_in: 'Encerra em',
-    ends_in_sub: 'nosso sistema verifica após',
+    ends_in_sub: 'depois o nó volta ao nível base',
     jlc_banner: 'Cada evento de RD concluído emite JLC na Polygon Mainnet — Explorar Créditos Joule →',
     llm_active: 'ATIVO',
     llm_degraded: 'DEGRADADO',
