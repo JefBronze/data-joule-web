@@ -101,7 +101,7 @@ export const pt = {
     signal_read: 'Ler →',
     flow_operator: 'Sinal do sistema',
     flow_operator_sub: 'Gera evento de RD',
-    flow_control_sub: 'controle via LAN privada',
+    flow_control_sub: 'via LAN privada',
     flow_plug_sub: 'Zigbee · mede em W',
     tier_labels: ['NORMAL', 'REDUZIDO', 'ECO', 'SUSPENSO', 'DESLIGADO'],
   },
