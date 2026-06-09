@@ -101,6 +101,7 @@ export const en = {
     signal_read: 'Read →',
     flow_operator: 'Grid Operator',
     flow_operator_sub: 'Issues DR event',
+    flow_control_label: 'Control Agent',
     flow_control_sub: 'private LAN control',
     flow_plug_sub: 'Zigbee · measures W',
     tier_labels: ['BASELINE', 'THROTTLED', 'POWER-SAVE', 'SUSPENDED', 'HALT'],
