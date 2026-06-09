@@ -292,7 +292,7 @@ export default function HomePage() {
                 <path d="M436,40 L468,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.4s"}}/>
 
                 <rect x="474" y="12" width="120" height="56" rx="6" fill="#150a00" stroke="#78350f" strokeWidth="1"/>
-                <text x="534" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">Control Agent</text>
+                <text x="534" y="37" textAnchor="middle" fill="#f59e0b" fontSize="10" fontFamily="var(--font-mono)" fontWeight="600">{t.home.flow_control_label}</text>
                 <text x="534" y="53" textAnchor="middle" fill="#4b5563" fontSize="8.5" fontFamily="var(--font-mono)">{t.home.flow_control_sub}</text>
 
                 <path d="M594,40 L626,40" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#ah-amber)" className="animate-signal-dash" style={{animationDelay: "0.6s"}}/>
@@ -309,7 +309,7 @@ export default function HomePage() {
                 { label: t.home.flow_operator, sub: t.home.flow_operator_sub, color: '#9ca3af', bg: 'bg-neutral-900', border: 'border-neutral-700' },
                 { label: 'VTN', sub: 'vtn.data-joule.com', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
                 { label: 'VEN', sub: 'mtl-ven-01', color: '#22d3ee', bg: 'bg-cyan-950/20', border: 'border-cyan-900' },
-                { label: 'Control Agent', sub: t.home.flow_control_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
+                { label: t.home.flow_control_label, sub: t.home.flow_control_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
                 { label: 'Smart Plug', sub: t.home.flow_plug_sub, color: '#f59e0b', bg: 'bg-amber-950/20', border: 'border-amber-900' },
               ].map((node, i) => (
                 <div key={i}>
