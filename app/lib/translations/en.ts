@@ -9,12 +9,12 @@ export const en = {
     tagline: 'Live telemetry from an AI compute node in Montréal, QC. Updated every 5s.',
   },
   home: {
-    hero_badge: 'OpenADR 3.0 · Live Hardware · Chainlink-settled',
-    hero_badge_mobile: 'OpenADR 3.0 · Chainlink-settled',
+    hero_badge: 'OpenADR 3.0 · Live Hardware · Chainlink-verified',
+    hero_badge_mobile: 'OpenADR 3.0 · Chainlink-verified',
     headline1: 'AI compute,',
     headline2: 'dispatchable by the grid.',
     description:
-      'Data Joule turns OpenADR 3.0 demand-response events into measured inference curtailment on a Raspberry Pi — and mints each curtailed kWh as a Joule Credit on Polygon via Chainlink. Flexible AI load that is measured, auditable, and on-chain provable.',
+      'Data Joule turns OpenADR 3.0 demand-response events into measured inference curtailment on a Raspberry Pi — and settles each verified kWh on-chain as a Joule Credit on Polygon: Chainlink-verified, supply-bounded by Proof-of-Reserve. Flexible AI load that is measured, auditable, and verifiable.',
     cta_demo: 'Watch Live Demo →',
     cta_method: 'How It Works',
     proof_hardware: 'Hardware',
@@ -74,7 +74,7 @@ export const en = {
       },
       {
         audience: 'Web3 / Energy',
-        point: 'Each completed DR event mints a Joule Credit (ERC-20) on Polygon, verified by Chainlink\'s oracle network against the real wattage drop. Physical-world energy settlement on-chain, without a trusted intermediary.',
+        point: 'Each verified DR event becomes a Joule Credit (ERC-20) on Polygon — decentralized Chainlink verification of the measurement, plus a Proof-of-Reserve cap so supply can never exceed verified kWh, with an immutable audit trail. The on-chain settlement rails for demand-response.',
       },
     ],
     signal_items: [
@@ -91,9 +91,9 @@ export const en = {
     ],
     about_heading: 'About this project',
     about_p1:
-      'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility — and that curtailment events can be settled on-chain without a trusted intermediary. The full stack — from VTN deployment on a VPS to Chainlink oracle verification on Polygon — was designed, deployed, and tested as a working proof point.',
+      'Data Joule is an Internet of Energy portfolio project built to demonstrate that AI edge compute can participate in real-time grid flexibility — and that curtailment events can be recorded and settled on-chain with verifiable, decentralized oracle attestation. The full stack — from VTN deployment on a VPS to Chainlink oracle verification on Polygon — was designed, deployed, and tested as a working proof point.',
     about_p2:
-      'The hardware runs 24/7. The telemetry is real. The OpenADR signals come from a production-grade VTN reference implementation. When a DR event completes, the measured curtailment is settled on-chain: Chainlink\'s oracle network verifies the kWh reduction and mints a Joule Credit on Polygon. Nothing here is simulated or claimed — it is measured, recorded, and provable.',
+      'The hardware runs 24/7. The telemetry is measured, not simulated. The OpenADR signals come from a real VTN. When a DR event completes, the measured curtailment is recorded and exposed on-chain for verification — Chainlink\'s oracle network attests the kWh reduction and a Proof-of-Reserve cap bounds the JLC that can be minted. The measurement is real; minting is gated, by design, until the reserve is independently attested.',
     tier_label: 'TIER',
     live_node: 'Live Node',
     waiting_telemetry: 'Waiting for telemetry…',
