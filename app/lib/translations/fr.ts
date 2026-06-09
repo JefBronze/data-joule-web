@@ -9,12 +9,12 @@ export const fr = {
     tagline: "Télémétrie en direct d'un nœud de calcul IA à Montréal, QC. Mise à jour aux 5 secondes.",
   },
   home: {
-    hero_badge: "OpenADR 3.0 · Matériel réel · Réglé sur Chainlink",
+    hero_badge: "OpenADR 3.0 · Matériel réel · Vérifié par Chainlink",
     hero_badge_mobile: "OpenADR 3.0 · Chainlink",
     headline1: "Du calcul IA,",
     headline2: "effaçable à la pointe hivernale.",
     description:
-      "Data Joule démontre, sur du matériel réel à Montréal, qu’un nœud d’inférence IA peut s’effacer sur signal — comme un participant Hilo ou au tarif Flex d’HQ. Chaque événement d’effacement est réglé sur chaîne : un Joule Credit (ERC-20) frappé sur Polygon via Chainlink, vérifiable sans intermédiaire.",
+      "Data Joule démontre, sur du matériel réel à Montréal, qu’un nœud d’inférence IA peut s’effacer sur signal — comme un participant Hilo ou au tarif Flex d’HQ. Chaque kWh vérifié est réglé sur chaîne comme un Joule Credit (ERC-20) sur Polygon : vérifié par Chainlink et plafonné par une preuve de réserve.",
     cta_demo: "Voir la démo en direct →",
     cta_method: "Comment ça marche",
     proof_hardware: "Matériel",
@@ -74,7 +74,7 @@ export const fr = {
       },
       {
         audience: "Web3 / Énergie",
-        point: "Chaque événement d'effacement complété frappe un Joule Credit (ERC-20) sur Polygon, vérifié par le réseau d'oracles Chainlink contre la mesure de puissance réelle. Règlement d'énergie physique sur chaîne, sans intermédiaire de confiance.",
+        point: "Chaque événement d'effacement vérifié devient un Joule Credit (ERC-20) sur Polygon — vérification décentralisée Chainlink de la mesure, plus un plafond de preuve de réserve pour que l'offre ne dépasse jamais les kWh vérifiés, avec une piste d'audit immuable. Les rails de règlement on-chain pour l'effacement.",
       },
     ],
     signal_items: [
@@ -91,9 +91,9 @@ export const fr = {
     ],
     about_heading: "À propos du projet",
     about_p1:
-      "Data Joule est un projet de portefeuille Internet of Energy conçu pour démontrer que le calcul IA de bord peut participer à la flexibilité réseau en temps réel — et que les événements d'effacement peuvent être réglés sur chaîne sans intermédiaire de confiance. La pile complète — du VTN sur VPS jusqu'à la vérification oracle Chainlink sur Polygon — a été pensée, déployée et testée comme preuve fonctionnelle.",
+      "Data Joule est un projet de portefeuille Internet of Energy conçu pour démontrer que le calcul IA de bord peut participer à la flexibilité réseau en temps réel — et que les événements d'effacement peuvent être enregistrés et réglés sur chaîne avec une attestation oracle décentralisée et vérifiable. La pile complète — du VTN sur VPS jusqu'à la vérification oracle Chainlink sur Polygon — a été pensée, déployée et testée comme preuve fonctionnelle.",
     about_p2:
-      "Le matériel roule 24h/24. La télémétrie est réelle. Les signaux OpenADR viennent d'une implémentation de référence VTN de niveau production. Quand un événement d'effacement se termine, la réduction mesurée est réglée sur chaîne : le réseau d'oracles Chainlink vérifie la baisse en kWh et frappe un Joule Credit sur Polygon. Rien n'est simulé ni déclaré — c'est mesuré, enregistré et vérifiable.",
+      "Le matériel roule 24h/24. La télémétrie est mesurée, pas simulée. Les signaux OpenADR viennent d'un vrai VTN. Quand un événement d'effacement se termine, la réduction mesurée est enregistrée et exposée sur chaîne pour vérification — le réseau d'oracles Chainlink atteste la baisse en kWh et un plafond de preuve de réserve borne les JLC pouvant être frappés. La mesure est réelle ; l'émission est conditionnée, par conception, tant que la réserve n'est pas attestée de façon indépendante.",
     tier_label: 'PALIER',
     live_node: 'Edge en direct',
     waiting_telemetry: 'En attente de télémétrie…',

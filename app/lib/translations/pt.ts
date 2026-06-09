@@ -74,7 +74,7 @@ export const pt = {
       },
       {
         audience: 'Web3 / Energia',
-        point: 'Cada evento de RD concluído cunha um Joule Credit (ERC-20) na Polygon, verificado pela rede de oráculos Chainlink contra a medição real de potência. Liquidação de energia do mundo físico on-chain, sem intermediário de confiança.',
+        point: 'Cada evento de RD verificado vira um Joule Credit (ERC-20) na Polygon — verificação descentralizada da Chainlink sobre a medição, mais um teto Proof-of-Reserve para que a oferta nunca exceda os kWh verificados, com trilha de auditoria imutável. Os trilhos de liquidação on-chain para a Resposta da Demanda.',
       },
     ],
     signal_items: [
@@ -91,9 +91,9 @@ export const pt = {
     ],
     about_heading: 'Sobre o projeto',
     about_p1:
-      'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e liquida cada kWh cortado on-chain sem intermediário de confiança. A arquitetura vai do VTN no VPS até a verificação oracle Chainlink na Polygon — projetada, implantada e testada como prova funcional.',
+      'Data Joule é uma demonstração pública de Internet de Energia: uma carga de IA real que recebe eventos OpenADR, reduz consumo por patamares e registra cada kWh cortado on-chain com verificação descentralizada (oráculo Chainlink + Proof-of-Reserve). A arquitetura vai do VTN no VPS até a verificação oracle Chainlink na Polygon — projetada, implantada e testada como prova funcional.',
     about_p2:
-      'O sistema roda continuamente. A telemetria vem de medição física. Os eventos OpenADR são emitidos por um VTN de referência operado pelo projeto. Quando um evento é concluído, a redução medida é liquidada on-chain: a rede de oráculos Chainlink verifica a queda em kWh e cunha um Joule Credit na Polygon. Nada aqui é simulado ou declarado — é medido, registrado e verificável.',
+      'O sistema roda continuamente. A telemetria vem de medição física, não de simulação. Os eventos OpenADR são emitidos por um VTN de referência operado pelo projeto. Quando um evento é concluído, a redução medida é registrada e exposta on-chain para verificação — a rede de oráculos Chainlink atesta a queda em kWh e um teto Proof-of-Reserve limita os JLC que podem ser cunhados. A medição é real; a emissão é controlada, por design, até que a reserva seja atestada de forma independente.',
     tier_label: 'PATAMAR',
     live_node: 'Nó em operação',
     waiting_telemetry: 'Aguardando telemetria…',
