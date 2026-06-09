@@ -209,7 +209,7 @@ export default function JouleCreditsPage() {
               {/* Desktop horizontal SVG chain */}
               <div className="hidden sm:block mb-8">
                 <svg
-                  viewBox="0 0 880 104"
+                  viewBox="0 0 906 104"
                   className="w-full"
                   aria-label="Verification chain: OpenADR VTN to VEN to Smart Plug to Chainlink DON to ERC-20 Mint"
                 >
@@ -232,45 +232,45 @@ export default function JouleCreditsPage() {
                   {/* VTN */}
                   <rect x="0" y="14" width="148" height="76" rx="8" fill="#091420" stroke="#164e63" strokeWidth="1.5"/>
                   <circle cx="20" cy="36" r="4" fill="none" stroke="#22d3ee" strokeWidth="1.5"/>
-                  <text x="74" y="40" textAnchor="middle" fill="#22d3ee" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">OpenADR VTN</text>
+                  <text x="74" y="40" textAnchor="middle" fill="#22d3ee" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">{t.jlc.chain_step_vtn}</text>
                   <text x="74" y="57" textAnchor="middle" fill="#164e63" fontSize="8.5" fontFamily="var(--font-mono)">vtn.data-joule.com</text>
-                  <text x="74" y="72" textAnchor="middle" fill="#0c3344" fontSize="8" fontFamily="var(--font-mono)">Issues event + ID</text>
+                  <text x="74" y="72" textAnchor="middle" fill="#0c3344" fontSize="8" fontFamily="var(--font-mono)">{t.jlc.chain_vtn_action}</text>
 
                   <path d="M148,52 L180,52" stroke="#164e63" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#jlc-arr-cyan)" className="animate-signal-dash"/>
 
                   {/* VEN */}
                   <rect x="186" y="14" width="148" height="76" rx="8" fill="#091420" stroke="#164e63" strokeWidth="1.5"/>
                   <circle cx="206" cy="36" r="4" fill="none" stroke="#22d3ee" strokeWidth="1.5"/>
-                  <text x="260" y="40" textAnchor="middle" fill="#22d3ee" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">VEN Control</text>
+                  <text x="260" y="40" textAnchor="middle" fill="#22d3ee" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">{t.jlc.chain_step_ven}</text>
                   <text x="260" y="57" textAnchor="middle" fill="#164e63" fontSize="8.5" fontFamily="var(--font-mono)">mtl-ven-01</text>
-                  <text x="260" y="72" textAnchor="middle" fill="#0c3344" fontSize="8" fontFamily="var(--font-mono)">Applies tier ladder</text>
+                  <text x="260" y="72" textAnchor="middle" fill="#0c3344" fontSize="8" fontFamily="var(--font-mono)">{t.jlc.chain_ven_action}</text>
 
                   <path d="M334,52 L366,52" stroke="#78350f" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#jlc-arr-amber)" className="animate-signal-dash" style={{animationDelay: '0.25s'}}/>
 
                   {/* Smart Plug */}
                   <rect x="372" y="14" width="148" height="76" rx="8" fill="#150a00" stroke="#78350f" strokeWidth="1.5"/>
                   <circle cx="392" cy="36" r="4" fill="none" stroke="#f59e0b" strokeWidth="1.5"/>
-                  <text x="446" y="40" textAnchor="middle" fill="#f59e0b" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">Smart Plug</text>
+                  <text x="446" y="40" textAnchor="middle" fill="#f59e0b" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">{t.jlc.chain_step_plug}</text>
                   <text x="446" y="57" textAnchor="middle" fill="#78350f" fontSize="8.5" fontFamily="var(--font-mono)">Zigbee · wattage_w</text>
-                  <text x="446" y="72" textAnchor="middle" fill="#422006" fontSize="8" fontFamily="var(--font-mono)">Physical measurement</text>
+                  <text x="446" y="72" textAnchor="middle" fill="#422006" fontSize="8" fontFamily="var(--font-mono)">{t.jlc.chain_plug_action}</text>
 
                   <path d="M520,52 L552,52" stroke="#6b21a8" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#jlc-arr-purple)" className="animate-signal-dash" style={{animationDelay: '0.5s'}}/>
 
                   {/* Chainlink DON */}
                   <rect x="558" y="14" width="162" height="76" rx="8" fill="#0f0421" stroke="#7e22ce" strokeWidth="1.5" filter="url(#jlc-glow-purple)"/>
                   <circle cx="580" cy="36" r="4" fill="none" stroke="#a855f7" strokeWidth="2"/>
-                  <text x="639" y="40" textAnchor="middle" fill="#a855f7" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">Chainlink DON</text>
+                  <text x="639" y="40" textAnchor="middle" fill="#a855f7" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">{t.jlc.chain_step_oracle}</text>
                   <text x="639" y="57" textAnchor="middle" fill="#6b21a8" fontSize="8.5" fontFamily="var(--font-mono)">Functions · consensus</text>
                   <text x="639" y="72" textAnchor="middle" fill="#3b0764" fontSize="8" fontFamily="var(--font-mono)">{t.jlc.oracle_sub}</text>
 
                   <path d="M720,52 L752,52" stroke="#6b21a8" strokeWidth="1.5" strokeDasharray="4 3" markerEnd="url(#jlc-arr-purple)" className="animate-signal-dash" style={{animationDelay: '0.75s'}}/>
 
                   {/* ERC-20 Mint */}
-                  <rect x="758" y="14" width="122" height="76" rx="8" fill="#0f0421" stroke="#7e22ce" strokeWidth="1.5" filter="url(#jlc-glow-purple)"/>
+                  <rect x="758" y="14" width="148" height="76" rx="8" fill="#0f0421" stroke="#7e22ce" strokeWidth="1.5" filter="url(#jlc-glow-purple)"/>
                   <circle cx="778" cy="36" r="4" fill="#a855f7" stroke="#a855f7" strokeWidth="1.5"/>
-                  <text x="819" y="40" textAnchor="middle" fill="#d8b4fe" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">ERC-20 Mint</text>
-                  <text x="819" y="57" textAnchor="middle" fill="#6b21a8" fontSize="8.5" fontFamily="var(--font-mono)">JLC · Polygon</text>
-                  <text x="819" y="72" textAnchor="middle" fill="#3b0764" fontSize="8" fontFamily="var(--font-mono)">kWh × 10¹⁸ wei</text>
+                  <text x="832" y="40" textAnchor="middle" fill="#d8b4fe" fontSize="11" fontFamily="var(--font-mono)" fontWeight="700">{t.jlc.chain_step_evm}</text>
+                  <text x="832" y="57" textAnchor="middle" fill="#6b21a8" fontSize="8.5" fontFamily="var(--font-mono)">JLC · Polygon</text>
+                  <text x="832" y="72" textAnchor="middle" fill="#3b0764" fontSize="8" fontFamily="var(--font-mono)">kWh × 10¹⁸ wei</text>
                 </svg>
               </div>
 
