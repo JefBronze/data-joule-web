@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
   const event_name  = String(body.event_name ?? '')
   const start_ts    = Number(body.start_ts)
   const grid_signal = body.grid_signal ?? null
-  const source      = typeof body.source === 'string' && /^(grid|hilo|ons|nyiso|operator)$/.test(body.source)
+  const source      = typeof body.source === 'string' && /^(grid|hilo|ons|nyiso|operator|hq)$/.test(body.source)
     ? body.source : undefined
 
   if (!Number.isInteger(tier) || tier < 0 || tier > 4) {
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       ? preWindow.reduce((s, h) => s + h.wattage_w, 0) / preWindow.length
       : (latest?.wattage_w ?? 13.5)
     const nowSec = Math.floor(Date.now() / 1000)
-    const SOURCE_PRIORITY: Record<string, number> = { operator: 3, ons: 2, hilo: 1, grid: 0 }
+    const SOURCE_PRIORITY: Record<string, number> = { operator: 3, ons: 2, hilo: 1, hq: 0, grid: 0 }
     const incomingPrio = SOURCE_PRIORITY[source ?? ''] ?? -1
     const existingPrio = SOURCE_PRIORITY[existingEvent?.source ?? ''] ?? -1
     const existingExpired = !existingEvent || existingEvent.end_ts <= nowSec
