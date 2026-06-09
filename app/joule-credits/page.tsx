@@ -22,7 +22,13 @@ type EventReport = {
   source?: string
 }
 
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_JLC_CONTRACT_ADDRESS ?? null
+// Canonical deployment: v2 (PoR-gated) JouleCredit on Polygon Amoy. The Vercel
+// env var still points at the legacy v1-mainnet token (no PoR), so the true
+// canonical contract is hardcoded here. Mainnet promotion is a later stage.
+const CONTRACT_ADDRESS = '0x69cd3D5ebfeA30e77F7766406117d3633b1077C9'
+const EXPLORER = 'https://amoy.polygonscan.com'
+const NETWORK_LABEL = 'Polygon Amoy'
+const CHAIN_ID = '80002'
 
 const ETH_TX_HASH_RE = /^0x[0-9a-fA-F]{64}$/
 
@@ -143,7 +149,7 @@ export default function JouleCreditsPage() {
                     <div className="font-mono text-2xl font-bold text-amber-400">
                       {loading ? '—' : totalJlc === 0 ? '—' : totalJlc.toFixed(6)}
                     </div>
-                    <div className="text-xs font-mono text-purple-600 mt-1">JLC</div>
+                    <div className="text-xs font-mono text-purple-600 mt-1">{t.jlc.stat_pending_sub}</div>
                   </div>
 
                   <div className="rounded-lg border border-purple-900/60 bg-purple-950/15 p-6 text-left">
@@ -154,7 +160,7 @@ export default function JouleCreditsPage() {
                       {loading ? '—' : events.length}
                     </div>
                     <div className="text-xs font-mono text-neutral-600 mt-1">
-                      {CONTRACT_ADDRESS ? 'on Polygon Mainnet' : 'pending deploy'}
+                      {NETWORK_LABEL}
                     </div>
                   </div>
 
@@ -164,7 +170,7 @@ export default function JouleCreditsPage() {
                     </div>
                     {CONTRACT_ADDRESS ? (
                       <a
-                        href={`https://polygonscan.com/token/${CONTRACT_ADDRESS}`}
+                        href={`${EXPLORER}/token/${CONTRACT_ADDRESS}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-sm font-bold text-purple-300 hover:text-purple-100 transition-colors"
@@ -175,8 +181,14 @@ export default function JouleCreditsPage() {
                     ) : (
                       <div className="font-mono text-sm text-neutral-600">Deploying…</div>
                     )}
-                    <div className="text-xs font-mono text-neutral-600 mt-1">Polygon Mainnet</div>
+                    <div className="text-xs font-mono text-neutral-600 mt-1">{NETWORK_LABEL}</div>
                   </div>
+                </div>
+
+                <div className="max-w-3xl mx-auto mt-4">
+                  <p className="text-xs font-mono text-neutral-400 leading-relaxed border border-amber-900/40 bg-amber-950/10 rounded-lg px-4 py-3 text-left">
+                    {t.jlc.mint_status}
+                  </p>
                 </div>
               </div>
             </ScrollReveal>
@@ -284,6 +296,10 @@ export default function JouleCreditsPage() {
                   </div>
                 ))}
               </div>
+
+              <p className="text-xs font-mono text-neutral-500 leading-relaxed mt-4 max-w-3xl">
+                {t.jlc.chain_por_note}
+              </p>
             </ScrollReveal>
           </div>
         </section>
@@ -375,7 +391,7 @@ export default function JouleCreditsPage() {
                           <td className="px-4 py-3 text-center">
                             {ev.tx_hash && ETH_TX_HASH_RE.test(ev.tx_hash) ? (
                               <a
-                                href={`https://polygonscan.com/tx/${ev.tx_hash}`}
+                                href={`${EXPLORER}/tx/${ev.tx_hash}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-purple-400 hover:text-purple-200 transition-colors"
@@ -480,7 +496,7 @@ export default function JouleCreditsPage() {
 
                 {CONTRACT_ADDRESS ? (
                   <a
-                    href={`https://polygonscan.com/token/${CONTRACT_ADDRESS}`}
+                    href={`${EXPLORER}/token/${CONTRACT_ADDRESS}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rounded-lg border border-neutral-800 bg-neutral-900 p-5 hover:border-purple-900/60 hover:bg-purple-950/10 transition-colors group"
@@ -491,7 +507,7 @@ export default function JouleCreditsPage() {
                     <div className="text-sm text-purple-300 group-hover:text-purple-100 font-mono transition-colors">
                       {CONTRACT_ADDRESS.slice(0, 10)}… ↗
                     </div>
-                    <div className="text-xs text-neutral-600 mt-1 font-mono">Polygon Mainnet</div>
+                    <div className="text-xs text-neutral-600 mt-1 font-mono">{NETWORK_LABEL}</div>
                   </a>
                 ) : (
                   <div className="rounded-lg border border-neutral-800 bg-neutral-900/40 p-5">
@@ -499,14 +515,14 @@ export default function JouleCreditsPage() {
                       {t.jlc.polygonscan}
                     </div>
                     <div className="text-sm text-neutral-600 font-mono">Deploying…</div>
-                    <div className="text-xs text-neutral-700 mt-1 font-mono">Polygon Mainnet</div>
+                    <div className="text-xs text-neutral-700 mt-1 font-mono">{NETWORK_LABEL}</div>
                   </div>
                 )}
 
                 <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5">
                   <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-2">Network</div>
-                  <div className="text-sm text-neutral-300 font-mono">Polygon Mainnet</div>
-                  <div className="text-xs text-neutral-600 mt-1 font-mono">chainId 137</div>
+                  <div className="text-sm text-neutral-300 font-mono">{NETWORK_LABEL}</div>
+                  <div className="text-xs text-neutral-600 mt-1 font-mono">chainId {CHAIN_ID}</div>
                 </div>
 
                 <div className="rounded-lg border border-neutral-800 bg-neutral-900 p-5">
