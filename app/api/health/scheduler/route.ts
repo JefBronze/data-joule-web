@@ -18,21 +18,20 @@ const COOLDOWN_KEY = 'alert:bridges:cooldown'
 const COOLDOWN_SECONDS = 3600 // don't re-page more than once an hour while down
 
 export async function GET(request: NextRequest) {
-  // Optional shared-secret guard so randoms can't trigger alert spam.
-  // Accepts either HEARTBEAT_SECRET (?key= or Bearer, for external monitors) or
-  // CRON_SECRET (Bearer, the token Vercel Cron auto-sends). If neither env var is
-  // configured, the route is open (read-only status).
+  // Shared-secret guard so randoms can't trigger alert spam. Accepts either
+  // HEARTBEAT_SECRET (?key= or Bearer, for external monitors) or CRON_SECRET
+  // (Bearer, the token Vercel Cron auto-sends). Fails closed: this route claims
+  // cooldown keys and dispatches alerts, so a missing env config must not leave
+  // it publicly callable.
   const heartbeatSecret = process.env.HEARTBEAT_SECRET
   const cronSecret = process.env.CRON_SECRET
-  if (heartbeatSecret || cronSecret) {
-    const bearer = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? ''
-    const queryKey = request.nextUrl.searchParams.get('key') ?? ''
-    const authorized =
-      (!!heartbeatSecret && (bearer === heartbeatSecret || queryKey === heartbeatSecret)) ||
-      (!!cronSecret && bearer === cronSecret)
-    if (!authorized) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-    }
+  const bearer = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? ''
+  const queryKey = request.nextUrl.searchParams.get('key') ?? ''
+  const authorized =
+    (!!heartbeatSecret && (bearer === heartbeatSecret || queryKey === heartbeatSecret)) ||
+    (!!cronSecret && bearer === cronSecret)
+  if (!authorized) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
   const [hq, ons, nyiso] = await Promise.all([

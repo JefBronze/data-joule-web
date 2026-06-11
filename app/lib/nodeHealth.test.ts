@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'vitest'
-import { evaluateNodeHealth, TELEMETRY_STALE_SECONDS, VEN_GRACE_SECONDS } from './nodeHealth'
+import {
+  evaluateNodeHealth,
+  MAX_FUTURE_SKEW_SECONDS,
+  TELEMETRY_STALE_SECONDS,
+  VEN_GRACE_SECONDS,
+} from './nodeHealth'
 import type { TelemetryEntry } from './telemetry'
 
 const NOW = 1_781_115_000
@@ -88,6 +93,18 @@ describe('evaluateNodeHealth', () => {
     const r = evaluateNodeHealth(entry(), NOW - VEN_GRACE_SECONDS - 5000, NOW)
     expect(r.venOffline).toBe(false)
     expect(r.pageVen).toBe(false)
+  })
+
+  test('slightly-future timestamp (within ingest skew allowance) is fresh', () => {
+    const r = evaluateNodeHealth(entry({ timestamp: NOW + MAX_FUTURE_SKEW_SECONDS - 1 }), null, NOW)
+    expect(r.telemetryStale).toBe(false)
+    expect(r.pageTelemetry).toBe(false)
+  })
+
+  test('far-future timestamp is treated as stale, not eternally fresh', () => {
+    const r = evaluateNodeHealth(entry({ timestamp: NOW + MAX_FUTURE_SKEW_SECONDS + 1 }), null, NOW)
+    expect(r.telemetryStale).toBe(true)
+    expect(r.pageTelemetry).toBe(true)
   })
 
   test('transient "pending" VEN status is not treated as offline', () => {

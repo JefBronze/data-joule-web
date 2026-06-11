@@ -22,17 +22,17 @@ const COOLDOWN_SECONDS = 3600 // don't re-page more than once an hour while down
 export async function GET(request: NextRequest) {
   // Same shared-secret guard as /api/health/scheduler: HEARTBEAT_SECRET (?key= or
   // Bearer) for external monitors, CRON_SECRET (Bearer) for Vercel Cron.
+  // Fails closed: this route mutates Redis state and dispatches alerts, so a
+  // missing env config must not leave it publicly callable.
   const heartbeatSecret = process.env.HEARTBEAT_SECRET
   const cronSecret = process.env.CRON_SECRET
-  if (heartbeatSecret || cronSecret) {
-    const bearer = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? ''
-    const queryKey = request.nextUrl.searchParams.get('key') ?? ''
-    const authorized =
-      (!!heartbeatSecret && (bearer === heartbeatSecret || queryKey === heartbeatSecret)) ||
-      (!!cronSecret && bearer === cronSecret)
-    if (!authorized) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-    }
+  const bearer = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? ''
+  const queryKey = request.nextUrl.searchParams.get('key') ?? ''
+  const authorized =
+    (!!heartbeatSecret && (bearer === heartbeatSecret || queryKey === heartbeatSecret)) ||
+    (!!cronSecret && bearer === cronSecret)
+  if (!authorized) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
   const [latest, offlineSince] = await Promise.all([
