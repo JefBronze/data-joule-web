@@ -9,6 +9,11 @@ export const TELEMETRY_STALE_SECONDS = 600
 // reboot without paging, while still catching real outages within ~2 cron runs.
 export const VEN_GRACE_SECONDS = 900
 
+// Ingest rejects timestamps >300s from server time, so anything further in the
+// future can only mean clock skew or a bad write — treat it as stale rather
+// than letting a negative age suppress paging indefinitely.
+export const MAX_FUTURE_SKEW_SECONDS = 300
+
 const VEN_DOWN_STATUSES = new Set(['offline', 'error'])
 
 export type NodeHealthResult = {
@@ -36,7 +41,10 @@ export function evaluateNodeHealth(
   nowSec: number
 ): NodeHealthResult {
   const telemetryAgeSec = latest ? nowSec - latest.timestamp : null
-  const telemetryStale = telemetryAgeSec === null || telemetryAgeSec > TELEMETRY_STALE_SECONDS
+  const telemetryStale =
+    telemetryAgeSec === null ||
+    telemetryAgeSec > TELEMETRY_STALE_SECONDS ||
+    telemetryAgeSec < -MAX_FUTURE_SKEW_SECONDS
 
   // When telemetry itself is stale, the embedded VEN status is stale data —
   // suppress the VEN verdict and page only for the dead feed.
