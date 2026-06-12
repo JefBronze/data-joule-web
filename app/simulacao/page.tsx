@@ -107,7 +107,7 @@ export default function SimulacaoPage() {
       />
 
       <main className={`mx-auto px-4 ${started ? 'max-w-6xl' : 'max-w-3xl'}`}>
-        <DisclaimerRibbon />
+        <DisclaimerRibbon compact={started} />
 
         {!started && (
           <IntroCard onStart={start} guided={guided} onToggleGuided={() => setGuided((g) => !g)} />
@@ -172,51 +172,60 @@ function Header({ t, started, done, playing, speed, onPlayPause, onSpeed, onRest
 
   return (
     <header className="sticky top-0 z-20 border-b border-(--border) bg-[#0b0b13e6] backdrop-blur">
-      <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
+      {/* Mobile: two rows (brand+title+clock / controls). sm+: single row. */}
+      <div className="mx-auto max-w-6xl px-4 py-2.5 sm:py-3 flex flex-wrap sm:flex-nowrap items-center gap-x-3 gap-y-2">
+        <div className="order-1 flex min-w-0 flex-1 items-center gap-3">
           <div className="shrink-0 rounded border border-dashed border-neutral-600 px-2.5 py-1.5 text-center leading-none">
             <div className="text-[11px] font-semibold tracking-[0.18em] text-neutral-300">SUA MARCA</div>
             <div className="mt-1 text-[8px] uppercase tracking-wider text-neutral-600">white-label</div>
           </div>
           <div className="min-w-0">
             <div className="truncate text-[13px] font-semibold font-[family-name:var(--font-display)]">
-              Sala de Operação · Flexibilidade
+              Sala de Operação<span className="hidden sm:inline"> · Flexibilidade</span>
             </div>
-            <div className="text-[10px] uppercase tracking-widest" style={{ color: phaseColor }}>
+            <div className="truncate text-[10px] uppercase tracking-widest" style={{ color: phaseColor }}>
               ● {phase}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          {started && (
-            <>
-              <button onClick={onSpeed} aria-label="Velocidade da simulação"
-                className="rounded border border-(--border) px-2 py-1 text-[11px] font-[family-name:var(--font-mono)] text-neutral-400 hover:text-neutral-200">
-                {speed}×
-              </button>
-              {!done && (
-                <button onClick={onPlayPause} aria-label={playing ? 'Pausar' : 'Continuar'}
-                  className="rounded border border-(--border) px-2 py-1 text-[11px] font-[family-name:var(--font-mono)] text-neutral-400 hover:text-neutral-200">
-                  {playing ? '⏸' : '▶'}
-                </button>
-              )}
-              <button onClick={onRestart} aria-label="Reiniciar simulação"
-                className="rounded border border-(--border) px-2 py-1 text-[11px] font-[family-name:var(--font-mono)] text-neutral-400 hover:text-neutral-200">
-                ↺
-              </button>
-            </>
-          )}
-          <div className="rounded bg-(--surface) border border-(--border) px-2.5 py-1.5 font-[family-name:var(--font-mono)] text-lg tabular-nums tracking-wider">
-            {started ? fmtClock(t) : '--:--'}
-          </div>
+        <div className="order-2 sm:order-3 shrink-0 rounded bg-(--surface) border border-(--border) px-2.5 py-1.5 font-[family-name:var(--font-mono)] text-base sm:text-lg tabular-nums tracking-wider">
+          {started ? fmtClock(t) : '--:--'}
         </div>
+
+        {started && (
+          <div className="order-3 sm:order-2 flex w-full sm:w-auto shrink-0 items-center justify-end gap-2">
+            <button onClick={onSpeed} aria-label="Velocidade da simulação"
+              className="rounded border border-(--border) px-3 py-1.5 sm:px-2 sm:py-1 text-[12px] sm:text-[11px] font-[family-name:var(--font-mono)] text-neutral-400 hover:text-neutral-200">
+              {speed}×
+            </button>
+            {!done && (
+              <button onClick={onPlayPause} aria-label={playing ? 'Pausar' : 'Continuar'}
+                className="rounded border border-(--border) px-3 py-1.5 sm:px-2 sm:py-1 text-[12px] sm:text-[11px] font-[family-name:var(--font-mono)] text-neutral-400 hover:text-neutral-200">
+                {playing ? '⏸' : '▶'}
+              </button>
+            )}
+            <button onClick={onRestart} aria-label="Reiniciar simulação"
+              className="rounded border border-(--border) px-3 py-1.5 sm:px-2 sm:py-1 text-[12px] sm:text-[11px] font-[family-name:var(--font-mono)] text-neutral-400 hover:text-neutral-200">
+              ↺
+            </button>
+          </div>
+        )}
       </div>
     </header>
   )
 }
 
-function DisclaimerRibbon() {
+function DisclaimerRibbon({ compact }: { compact?: boolean }) {
+  if (compact) {
+    // During the replay: one quiet line — the full rules live in the intro, the
+    // explainers and the footer.
+    return (
+      <div className="mt-3 rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-1.5 text-[10.5px] sm:text-[11px] text-amber-200/70 truncate">
+        ⚠ Demonstração <strong>simulada</strong> — sites, cargas e valores fictícios.
+      </div>
+    )
+  }
   return (
     <div className="mt-4 rounded-md border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-[11px] text-amber-200/80">
       ⚠ Demonstração <strong>simulada</strong> — sites, cargas e valores fictícios. O fluxo operacional e as regras
