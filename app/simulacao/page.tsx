@@ -6,7 +6,8 @@ import {
   simMinuteAt, fmtClock, currentKw, reductionKw, preBumpKw,
   siteCompliance, siteStatus, portfolioReductionKw,
   LOG_SCRIPT, REPORT, REPORT_TOTAL_KWH, REPORT_TOTAL_BRL,
-  type Site, type SiteStatus, type LogKind,
+  sinLoadGw, SIN_CAPACITY_GW, SIN_REGIONS, EXPLAINERS,
+  type Site, type SiteStatus, type LogKind, type Explainer,
 } from './sim'
 
 const nf = (n: number) => Math.round(n).toLocaleString('pt-BR')
@@ -40,6 +41,9 @@ export default function SimulacaoPage() {
   const [playing, setPlaying] = useState(false)
   const [speed, setSpeed] = useState(1)
   const [elapsed, setElapsed] = useState(0)
+  const [guided, setGuided] = useState(true)
+  const [activeExplainer, setActiveExplainer] = useState<Explainer | null>(null)
+  const seenExplainersRef = useRef<Set<string>>(new Set())
 
   const playingRef = useRef(playing)
   const speedRef = useRef(speed)
@@ -69,8 +73,21 @@ export default function SimulacaoPage() {
     if (done) setPlaying(false)
   }, [done])
 
-  const start = () => { setElapsed(0); setStarted(true); setPlaying(true) }
-  const restart = () => { setElapsed(0); setPlaying(true) }
+  // Guided mode: pause the replay at each business-flow milestone.
+  useEffect(() => {
+    if (!started || !guided || activeExplainer) return
+    const next = EXPLAINERS.find((ex) => t >= ex.at && !seenExplainersRef.current.has(ex.id))
+    if (next) {
+      seenExplainersRef.current.add(next.id)
+      setActiveExplainer(next)
+      setPlaying(false)
+    }
+  }, [t, started, guided, activeExplainer])
+
+  const start = () => { seenExplainersRef.current.clear(); setElapsed(0); setStarted(true); setPlaying(true) }
+  const restart = () => { seenExplainersRef.current.clear(); setActiveExplainer(null); setElapsed(0); setPlaying(true) }
+  const closeExplainer = () => { setActiveExplainer(null); setPlaying(true) }
+  const skipExplainers = () => { setGuided(false); setActiveExplainer(null); setPlaying(true) }
 
   return (
     <div
@@ -88,22 +105,28 @@ export default function SimulacaoPage() {
         onRestart={restart}
       />
 
-      <main className="mx-auto max-w-3xl px-4">
+      <main className={`mx-auto px-4 ${started ? 'max-w-6xl' : 'max-w-3xl'}`}>
         <DisclaimerRibbon />
 
-        {!started && <IntroCard onStart={start} />}
-
-        {started && done && <ReportCard onRestart={restart} />}
+        {!started && (
+          <IntroCard onStart={start} guided={guided} onToggleGuided={() => setGuided((g) => !g)} />
+        )}
 
         {started && (
-          <>
-            <HeroBand t={t} />
-            <Stepper t={t} />
-            <section className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {SITES.map((s) => <SiteCard key={s.id} site={s} t={t} />)}
-            </section>
-            <Feed t={t} />
-          </>
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-5 lg:items-start">
+            <div>
+              {done && <ReportCard onRestart={restart} />}
+              <HeroBand t={t} />
+              <Stepper t={t} />
+              <section className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {SITES.map((s) => <SiteCard key={s.id} site={s} t={t} />)}
+              </section>
+            </div>
+            <div className="lg:sticky lg:top-[76px]">
+              <GridCard t={t} />
+              <Feed t={t} />
+            </div>
+          </div>
         )}
 
         <footer className="mt-10 border-t border-(--border) pt-4 text-[11px] leading-relaxed text-neutral-500">
@@ -115,6 +138,16 @@ export default function SimulacaoPage() {
           </div>
         </footer>
       </main>
+
+      {activeExplainer && (
+        <ExplainerOverlay
+          ex={activeExplainer}
+          step={EXPLAINERS.findIndex((e) => e.id === activeExplainer.id) + 1}
+          total={EXPLAINERS.length}
+          onContinue={closeExplainer}
+          onSkipAll={skipExplainers}
+        />
+      )}
     </div>
   )
 }
@@ -138,7 +171,7 @@ function Header({ t, started, done, playing, speed, onPlayPause, onSpeed, onRest
 
   return (
     <header className="sticky top-0 z-20 border-b border-(--border) bg-[#0b0b13e6] backdrop-blur">
-      <div className="mx-auto max-w-3xl px-4 py-3 flex items-center justify-between gap-3">
+      <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <div className="shrink-0 rounded border border-dashed border-neutral-600 px-2.5 py-1.5 text-center leading-none">
             <div className="text-[11px] font-semibold tracking-[0.18em] text-neutral-300">SUA MARCA</div>
@@ -193,7 +226,9 @@ function DisclaimerRibbon() {
 
 // ── Intro ──────────────────────────────────────────────────────────────────────
 
-function IntroCard({ onStart }: { onStart: () => void }) {
+function IntroCard({ onStart, guided, onToggleGuided }: {
+  onStart: () => void; guided: boolean; onToggleGuided: () => void
+}) {
   return (
     <section className="mt-8 rounded-xl border border-(--border) bg-(--surface) p-6 animate-fade-up">
       <h1 className="text-2xl font-bold leading-tight">
@@ -212,6 +247,19 @@ function IntroCard({ onStart }: { onStart: () => void }) {
         <li>· Nenhum dado real: simulação determinística, roda no seu navegador</li>
         <li>· A marca no topo é do parceiro — o motor é Data Joule</li>
       </ul>
+      <label className="mt-5 flex items-start gap-2.5 cursor-pointer select-none rounded-lg border border-(--border) bg-black/20 px-3 py-2.5">
+        <input
+          type="checkbox"
+          checked={guided}
+          onChange={onToggleGuided}
+          className="mt-0.5 accent-sky-400"
+        />
+        <span className="text-[12px] leading-snug text-neutral-400">
+          <strong className="text-neutral-200">Modo guiado</strong> — a simulação pausa nas etapas-chave
+          com uma explicação curta do mecanismo (ideal para apresentar).
+          Desmarque para o replay contínuo de ~2,5 min.
+        </span>
+      </label>
       <button onClick={onStart}
         className="mt-6 w-full rounded-lg bg-emerald-500/15 border border-emerald-500/40 px-4 py-3.5 text-sm font-semibold tracking-wide text-emerald-300 hover:bg-emerald-500/25 transition-colors">
         ▶ INICIAR SIMULAÇÃO
@@ -234,13 +282,13 @@ function HeroBand({ t }: { t: number }) {
         <div>
           <div className="text-[10px] uppercase tracking-widest text-neutral-500">Entrega do portfólio</div>
           <div className="font-[family-name:var(--font-mono)] tabular-nums leading-none mt-1">
-            <span className="text-4xl font-medium" style={{ color }}>{nf(red)}</span>
-            <span className="text-sm text-neutral-500"> / {nf(PORTFOLIO_KW)} kW</span>
+            <span className="text-4xl lg:text-6xl font-medium" style={{ color }}>{nf(red)}</span>
+            <span className="text-sm lg:text-base text-neutral-500"> / {nf(PORTFOLIO_KW)} kW</span>
           </div>
         </div>
         <div className="text-right">
           <div className="text-[10px] uppercase tracking-widest text-neutral-500">Conformidade</div>
-          <div className="font-[family-name:var(--font-mono)] tabular-nums text-4xl font-medium leading-none mt-1" style={{ color }}>
+          <div className="font-[family-name:var(--font-mono)] tabular-nums text-4xl lg:text-6xl font-medium leading-none mt-1" style={{ color }}>
             {inEvent || t >= T.end ? `${Math.min(999, compliance).toFixed(0)}%` : '—'}
           </div>
         </div>
@@ -259,7 +307,7 @@ function Sparkline({ t }: { t: number }) {
   const from = T.start
   const to = Math.min(t, T.end)
   if (to <= from) {
-    return <div className="mt-4 h-14 rounded border border-(--border) bg-black/20" />
+    return <div className="mt-4 h-14 lg:h-24 rounded border border-(--border) bg-black/20" />
   }
   const pts: string[] = []
   for (let m = from; m <= to; m += 2) {
@@ -270,7 +318,7 @@ function Sparkline({ t }: { t: number }) {
   const targetY = 52 - (PORTFOLIO_KW / (PORTFOLIO_KW * 1.12)) * 48
   const minY = 52 - ((PORTFOLIO_KW * 0.8) / (PORTFOLIO_KW * 1.12)) * 48
   return (
-    <svg viewBox="0 0 100 56" preserveAspectRatio="none" className="mt-4 h-14 w-full rounded border border-(--border) bg-black/20">
+    <svg viewBox="0 0 100 56" preserveAspectRatio="none" className="mt-4 h-14 lg:h-24 w-full rounded border border-(--border) bg-black/20">
       <line x1="0" y1={targetY} x2="100" y2={targetY} stroke="#3fb95040" strokeWidth="0.6" />
       <line x1="0" y1={minY} x2="100" y2={minY} stroke="#f8514950" strokeWidth="0.6" strokeDasharray="2 1.5" />
       <polyline points={pts.join(' ')} fill="none" stroke="#3fb950" strokeWidth="1.1"
@@ -298,10 +346,10 @@ function Stepper({ t }: { t: number }) {
         return (
           <li key={s.label} className="text-center">
             <div className={`h-1 rounded-full ${passed ? 'bg-emerald-500' : 'bg-neutral-800'}`} />
-            <div className={`mt-1.5 text-[9px] uppercase tracking-wide leading-tight ${passed ? 'text-emerald-400' : 'text-neutral-600'}`}>
+            <div className={`mt-1.5 text-[9px] lg:text-[11px] uppercase tracking-wide leading-tight ${passed ? 'text-emerald-400' : 'text-neutral-600'}`}>
               {s.label}
             </div>
-            <div className="text-[9px] font-[family-name:var(--font-mono)] text-neutral-600">{s.time}</div>
+            <div className="text-[9px] lg:text-[10px] font-[family-name:var(--font-mono)] text-neutral-600">{s.time}</div>
           </li>
         )
       })}
@@ -362,7 +410,7 @@ function Feed({ t }: { t: number }) {
   return (
     <section className="mt-5 rounded-xl border border-(--border) bg-(--surface) p-4">
       <div className="text-[10px] uppercase tracking-widest text-neutral-500">Diário de operação</div>
-      <ul aria-live="polite" className="mt-2 space-y-1.5 font-[family-name:var(--font-mono)] text-[11.5px] leading-snug">
+      <ul aria-live="polite" className="mt-2 space-y-1.5 font-[family-name:var(--font-mono)] text-[11.5px] leading-snug lg:max-h-[340px] lg:overflow-y-auto">
         {visible.length === 0 && <li className="text-neutral-600">— aguardando registros —</li>}
         {visible.map((e) => {
           const c = LOG_CFG[e.kind]
@@ -376,6 +424,105 @@ function Feed({ t }: { t: number }) {
         })}
       </ul>
     </section>
+  )
+}
+
+// ── ONS grid monitor (deterministic sibling of /demo's GridMonitorCard) ────────
+
+function GridCard({ t }: { t: number }) {
+  const gw = sinLoadGw(t)
+  const pct = (gw / SIN_CAPACITY_GW) * 100
+  const color = pct >= 95 ? '#f85149' : pct >= 90 ? '#d29922' : '#3fb950'
+  const peakWatch = t >= T.dispatch && t < T.end
+
+  return (
+    <div
+      className="mt-4 rounded-xl border p-4"
+      style={{ borderColor: 'rgba(30,58,138,0.6)', background: 'rgba(30,58,138,0.06)' }}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[10px] uppercase tracking-widest text-blue-400/90 font-[family-name:var(--font-mono)]">
+          Monitor do sistema
+        </span>
+        <span className="text-[9px] uppercase tracking-wider text-neutral-600">simulado</span>
+      </div>
+
+      <div className="mt-2.5 flex items-center gap-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logos/ons-logo.png"
+          alt="ONS — Operador Nacional do Sistema Elétrico"
+          style={{ height: 20, width: 'auto', filter: 'brightness(0) invert(1)' }}
+        />
+      </div>
+      <div className="mt-1 text-[10px] font-[family-name:var(--font-mono)] text-neutral-600">
+        Sistema Interligado Nacional
+      </div>
+
+      <div className="mt-2 flex items-baseline gap-1.5 font-[family-name:var(--font-mono)] tabular-nums">
+        <span className="text-3xl font-medium" style={{ color }}>{gw.toFixed(1)}</span>
+        <span className="text-sm" style={{ color: color + 'aa' }}>GW</span>
+      </div>
+      <div className="mt-1 text-[11px] font-[family-name:var(--font-mono)]">
+        <span style={{ color }}>{pct.toFixed(1)}% da capacidade</span>
+        <span className="text-neutral-700"> · </span>
+        {peakWatch
+          ? <span className="text-red-400">⚡ PICO 18h–22h</span>
+          : <span style={{ color }}>✓ OK</span>}
+      </div>
+
+      <div className="mt-3 border-t border-blue-900/40 pt-2.5 grid grid-cols-2 gap-x-4 gap-y-1.5">
+        {SIN_REGIONS.map((r) => (
+          <div key={r.code} className="flex items-baseline justify-between font-[family-name:var(--font-mono)] text-[10.5px]">
+            <span className="text-neutral-500">{r.code}</span>
+            <span style={{ color }}>{(gw * r.share).toFixed(1)} GW</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-2.5 text-[9.5px] leading-relaxed text-neutral-600">
+        No piloto, este card mostra dados ao vivo da API pública do ONS — como na página /demo.
+      </div>
+    </div>
+  )
+}
+
+// ── Guided-mode explainer overlay ──────────────────────────────────────────────
+
+function ExplainerOverlay({ ex, step, total, onContinue, onSkipAll }: {
+  ex: Explainer; step: number; total: number
+  onContinue: () => void; onSkipAll: () => void
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-30 flex items-center justify-center bg-black/60 backdrop-blur-[2px] px-4"
+      role="dialog" aria-modal="true" aria-label={ex.title}
+    >
+      <div className="w-full max-w-md rounded-xl border border-sky-500/40 bg-[#0d1117] p-5 shadow-2xl animate-fade-up">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[10px] uppercase tracking-widest text-sky-400 font-[family-name:var(--font-mono)]">
+            Como funciona · {step}/{total}
+          </span>
+          <span className="font-[family-name:var(--font-mono)] text-[11px] tabular-nums text-neutral-500">
+            {fmtClock(ex.at)}
+          </span>
+        </div>
+        <h3 className="mt-2 text-base font-bold leading-snug">{ex.title}</h3>
+        <p className="mt-2 text-[13px] leading-relaxed text-neutral-300">{ex.body}</p>
+        <button
+          onClick={onContinue}
+          className="mt-4 w-full rounded-lg bg-sky-500/15 border border-sky-500/40 px-4 py-2.5 text-sm font-semibold tracking-wide text-sky-300 hover:bg-sky-500/25 transition-colors"
+        >
+          Continuar ▶
+        </button>
+        <button
+          onClick={onSkipAll}
+          className="mt-2 w-full text-center text-[11px] text-neutral-500 hover:text-neutral-300 transition-colors"
+        >
+          pular explicações e rodar direto
+        </button>
+      </div>
+    </div>
   )
 }
 

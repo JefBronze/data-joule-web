@@ -144,6 +144,97 @@ export function siteStatus(site: Site, t: number): SiteStatus {
   return 'concluido'
 }
 
+// ── SIN load model (deterministic, mirrors the ONS card on /demo) ─────────────
+
+export const SIN_CAPACITY_GW = 105
+
+// Anchor points [sim-minute, GW] tracing the SIN evening ramp on the event day.
+const SIN_CURVE: Array<[number, number]> = [
+  [800, 83.5], [880, 84.8], [960, 86.2], [1020, 88.4], [1060, 90.8],
+  [1080, 93.6], [1120, 98.2], [1148, 100.9], [1170, 102.6], [1210, 101.8],
+  [1260, 99.0], [1320, 94.2], [1365, 89.8],
+]
+
+export function sinLoadGw(t: number): number {
+  const c = SIN_CURVE
+  if (t <= c[0][0]) return c[0][1]
+  if (t >= c[c.length - 1][0]) return c[c.length - 1][1]
+  for (let i = 1; i < c.length; i++) {
+    if (t <= c[i][0]) {
+      const [t0, v0] = c[i - 1]
+      const [t1, v1] = c[i]
+      const f = (t - t0) / (t1 - t0)
+      return v0 + (v1 - v0) * f + Math.sin(t * 0.7) * 0.18
+    }
+  }
+  return c[c.length - 1][1]
+}
+
+// Regional split of the SIN load (fixed shares — illustrative).
+export const SIN_REGIONS: Array<{ code: string; share: number }> = [
+  { code: 'SE/CO', share: 0.55 },
+  { code: 'S',     share: 0.18 },
+  { code: 'NE',    share: 0.17 },
+  { code: 'N',     share: 0.10 },
+]
+
+// ── Guided-mode explainers (business flow, shown as pausing popups) ────────────
+
+export interface Explainer {
+  id: string
+  at: number      // sim minute at which the popup fires (replay pauses)
+  title: string
+  body: string
+}
+
+export const EXPLAINERS: Explainer[] = [
+  {
+    id: 'acionamento',
+    at: T.dispatch + 1,
+    title: 'O acionamento — quem manda é o ONS',
+    body:
+      'O operador do sistema aciona a redução pelos canais oficiais, com horas de antecedência. ' +
+      'O agregador é pago pela disponibilidade — o "plantão" rende por dia útil, acionado ou não. ' +
+      'O dia de acionamento é o dia de provar a entrega.',
+  },
+  {
+    id: 'preparo',
+    at: T.precool + 1,
+    title: 'Preparo automático — o cliente não faz nada',
+    body:
+      'A plataforma já distribuiu o evento aos 8 sites e os equipamentos se preparam sozinhos: ' +
+      'as câmaras frias resfriam 1 °C extra antes das 18h para atravessar as 4 horas sem risco ao produto. ' +
+      'Nenhuma ligação, nenhuma planilha — automação.',
+  },
+  {
+    id: 'regua',
+    at: T.start + 3,
+    title: 'A régua do edital: ≥ 80% por hora',
+    body:
+      'Cada hora do evento é avaliada separadamente: entregar menos de 80% do compromisso anula a hora — ' +
+      'e quem falha de forma recorrente é desabilitado do leilão seguinte. ' +
+      'Por isso a verificação precisa ser em tempo real, não semanas depois.',
+  },
+  {
+    id: 'seguro',
+    at: T.recovered + 1,
+    title: 'O seguro de entrega',
+    body:
+      'Um cliente falhou — um lote urgente ligou máquinas fora do previsto. ' +
+      'No fluxo oficial, isso só apareceria na apuração da CCEE, semanas depois, como receita perdida. ' +
+      'Aqui o sistema detectou em segundos e redespachou a reserva: a hora foi preservada.',
+  },
+  {
+    id: 'prova',
+    at: T.verified + 1,
+    title: 'Prova e pagamento',
+    body:
+      'O relatório por site replica a metodologia oficial da CCEE (linha de base) e é ancorado on-chain ' +
+      'como recibo auditável do rateio. Com a entrega verificada, o agregador pode adiantar a parcela ' +
+      'dos clientes ainda hoje — o pagamento D+0 que você verá a seguir.',
+  },
+]
+
 // ── Operations feed ────────────────────────────────────────────────────────────
 
 export type LogKind = 'info' | 'alert' | 'warn' | 'action' | 'ok' | 'pay'
