@@ -45,10 +45,14 @@ export default function SimulacaoPage() {
   const [activeExplainer, setActiveExplainer] = useState<Explainer | null>(null)
   const seenExplainersRef = useRef<Set<string>>(new Set())
 
+  // Loop state mirrored into refs so the rAF callback never reads stale values.
   const playingRef = useRef(playing)
   const speedRef = useRef(speed)
-  playingRef.current = playing
-  speedRef.current = speed
+  const guidedRef = useRef(guided)
+  const elapsedRef = useRef(0)
+  useEffect(() => { playingRef.current = playing }, [playing])
+  useEffect(() => { speedRef.current = speed }, [speed])
+  useEffect(() => { guidedRef.current = guided }, [guided])
 
   useEffect(() => {
     if (!started) return
@@ -58,7 +62,19 @@ export default function SimulacaoPage() {
       const dt = (now - last) / 1000
       last = now
       if (playingRef.current) {
-        setElapsed((e) => Math.min(TOTAL_REAL_SECONDS, e + dt * speedRef.current))
+        const e = Math.min(TOTAL_REAL_SECONDS, elapsedRef.current + dt * speedRef.current)
+        elapsedRef.current = e
+        setElapsed(e)
+        // Guided mode: pause the replay at each business-flow milestone.
+        if (guidedRef.current) {
+          const m = simMinuteAt(e)
+          const next = EXPLAINERS.find((ex) => m >= ex.at && !seenExplainersRef.current.has(ex.id))
+          if (next) {
+            seenExplainersRef.current.add(next.id)
+            setActiveExplainer(next)
+            setPlaying(false)
+          }
+        }
       }
       raf = requestAnimationFrame(tick)
     }
@@ -69,23 +85,8 @@ export default function SimulacaoPage() {
   const t = simMinuteAt(elapsed)
   const done = elapsed >= TOTAL_REAL_SECONDS
 
-  useEffect(() => {
-    if (done) setPlaying(false)
-  }, [done])
-
-  // Guided mode: pause the replay at each business-flow milestone.
-  useEffect(() => {
-    if (!started || !guided || activeExplainer) return
-    const next = EXPLAINERS.find((ex) => t >= ex.at && !seenExplainersRef.current.has(ex.id))
-    if (next) {
-      seenExplainersRef.current.add(next.id)
-      setActiveExplainer(next)
-      setPlaying(false)
-    }
-  }, [t, started, guided, activeExplainer])
-
-  const start = () => { seenExplainersRef.current.clear(); setElapsed(0); setStarted(true); setPlaying(true) }
-  const restart = () => { seenExplainersRef.current.clear(); setActiveExplainer(null); setElapsed(0); setPlaying(true) }
+  const start = () => { seenExplainersRef.current.clear(); elapsedRef.current = 0; setElapsed(0); setStarted(true); setPlaying(true) }
+  const restart = () => { seenExplainersRef.current.clear(); setActiveExplainer(null); elapsedRef.current = 0; setElapsed(0); setPlaying(true) }
   const closeExplainer = () => { setActiveExplainer(null); setPlaying(true) }
   const skipExplainers = () => { setGuided(false); setActiveExplainer(null); setPlaying(true) }
 
