@@ -3,11 +3,19 @@
 
 const UA = 'data-joule-observatorio/0.1 (+https://data-joule.com)'
 
+/**
+ * Floor for every source's cache, in seconds. Next rebuilds the page as often as its shortest fetch revalidate, and
+ * each rebuild writes ~1.7 MB to Vercel's ISR cache (billed per 8 KB; Hobby allows 200k writes a month). Keep this
+ * equal to `revalidate` in app/page.tsx. The per-source values below only matter if they are longer than this.
+ */
+export const MIN_REVALIDATE = 86_400
+const cacheFor = (revalidate: number) => ({ revalidate: Math.max(revalidate, MIN_REVALIDATE) })
+
 export async function getText(url: string, revalidate: number, init: { headers?: Record<string, string>; timeoutMs?: number } = {}): Promise<string> {
   const res = await fetch(url, {
     headers: { 'User-Agent': UA, ...init.headers },
     signal: AbortSignal.timeout(init.timeoutMs ?? 12_000),
-    next: { revalidate },
+    next: cacheFor(revalidate),
   })
   if (!res.ok && res.status !== 206) throw new Error(`${res.status} ${url}`)
   return res.text()
@@ -39,7 +47,7 @@ export async function getTail(url: string, bytes: number, revalidate: number, ti
   while (got < bytes) {
     const size = Math.min(CHUNK, bytes - got)
     const range: string = end === null ? `bytes=-${size}` : `bytes=${Math.max(0, end - size + 1)}-${end}`
-    const res: Response = await fetch(url, { headers: { 'User-Agent': UA, Range: range }, signal: AbortSignal.timeout(timeoutMs), next: { revalidate } })
+    const res: Response = await fetch(url, { headers: { 'User-Agent': UA, Range: range }, signal: AbortSignal.timeout(timeoutMs), next: cacheFor(revalidate) })
     if (res.status !== 206) throw new Error(`${res.status} ${url} (${range})`)
     const buf = new Uint8Array(await res.arrayBuffer())
     parts.unshift(buf)
