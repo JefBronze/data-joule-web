@@ -19,8 +19,9 @@ import { BBL_LITERS, cmoSlotNow, curtailStats, termicaStats, FLAG_NAME, flagNow 
 import { dec, ddmm, fmt, hhmm, monthLabel, pct } from '@/lib/format'
 import { getObservatory } from '@/lib/observatory'
 
-// The page is rebuilt in the background at most every 5 minutes; each source also keeps its own cache (lib/sources).
-export const revalidate = 300
+// The page is rebuilt in the background at most once a day (Vercel Hobby ISR-write budget); the source caches use the
+// same floor (MIN_REVALIDATE in lib/sources/http.ts), otherwise the shortest fetch would set the pace.
+export const revalidate = 86400
 
 const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '14389796085').replace(/\D/g, '')
 const SECTIONS = ['pulso', 'preco', 'pato', 'quem', 'mercado', 'minigeracao', 'petroleo', 'bomba', 'parana', 'fora', 'tendencias', 'bastidores']
@@ -121,7 +122,7 @@ export default async function Page() {
     {
       label: 'lido',
       value: `${ddmm(o.renderedAt)} · ${hhmm(o.renderedAt)} BRT`,
-      tip: 'Hora em que esta página foi montada com as leituras mais recentes. Ela se atualiza sozinha a cada poucos minutos; cada instrumento mostra a hora da própria fonte.',
+      tip: 'Hora em que esta página foi montada com as leituras mais recentes. Ela é remontada uma vez por dia; cada instrumento mostra a hora da própria fonte.',
     },
   ]
 

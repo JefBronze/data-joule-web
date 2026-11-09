@@ -25,7 +25,7 @@ export default function Pulso({ o }: { o: Observatory }) {
           <Kicker n={1}>Pulso · ao vivo</Kicker>
           <h1 className="h1" id="pulso-h">A energia do Brasil, em tempo real.</h1>
           <p className="lede">
-            Quanto o país consome, quanto custa o MWh, quem gera e quanto sai o litro na bomba, com dados públicos do ONS, da ANEEL, da CCEE, da ANP e do Banco Central, atualizados assim que as fontes publicam. Ao lado de cada número estão a fonte e a hora da leitura.
+            Quanto o país consome, quanto custa o MWh, quem gera e quanto sai o litro na bomba, com dados públicos do ONS, da ANEEL, da CCEE, da ANP e do Banco Central, lidos uma vez por dia. Ao lado de cada número estão a fonte e a hora da leitura.
           </p>
           <Lido>
             Às {hhmmText(c.asOf)} em Brasília, o país pedia {fmt(c.sinNow)} MW: {share('SECO')} % no Sudeste/Centro-Oeste, {share('NE')} % no Nordeste, {share('S')} % no Sul e {share('N')} % no Norte. O pico das últimas 24 horas foi às {hhmmText(peakAt)}, com {fmt(peak)} MW.

@@ -32,6 +32,7 @@ node scripts/shoot.mjs http://127.0.0.1:3000/ <out-dir> [light|dark] [width]   #
 
 ## Data rules
 
+- Refresh is once a day: `revalidate = 86400` in `app/page.tsx` and the `MIN_REVALIDATE` floor in `lib/sources/http.ts` (Next rebuilds at the shortest fetch revalidate, so both must move together). Every rebuild costs ~200 ISR writes (1.7 MB at 8 KB a unit) against Vercel Hobby's 200k a month; it was 5 minutes until Nov 2026 and hit 75 % of the budget.
 - Unverified constants carry a red `<Todo>` tag on the page ("a confirmar"). Remove the tag only when the value is checked against its primary source.
 - Build-time datasets (ANP fuel, BDGD, CCEE/ABGD numbers, Copel tariffs) live in `data/snapshot.json`, produced by `scripts/build_design_data.py`. Edit the script, not the JSON.
 - CMO and balanço: request only the tail of the yearly CSV (`Range: bytes=-40000`); the whole file passes Next's 2 MB fetch-cache limit late in the year.
