@@ -83,7 +83,7 @@ export default function Petroleo({ o }: { o: Observatory }) {
               <span><Swatch color="var(--c1)" />P(fechar acima)</span>
               <span><Swatch color="var(--mute)" dashed />WTI spot (FRED)</span>
             </div>
-            <Stamp status={o.status.kalshi} source="Kalshi KXWTI" when={o.status.kalshi.live ? `${hhmm(o.renderedAt)} BRT` : ddmm(o.status.kalshi.asOf)} cadence="2 min">
+            <Stamp status={o.status.kalshi} source="Kalshi KXWTI" when={o.status.kalshi.live ? `${hhmm(o.renderedAt)} BRT` : ddmm(o.status.kalshi.asOf)} cadence="fonte: 2 min · página: 1×/dia">
               <span>ponto médio bid/ask</span>
             </Stamp>
           </div>
@@ -113,7 +113,7 @@ export default function Petroleo({ o }: { o: Observatory }) {
               <span><Swatch color="var(--c2)" />sobe até X (HIGH)</span>
               <span><Swatch color="var(--c2)" dashed />cai até X (LOW)</span>
             </div>
-            <Stamp status={o.status.poly} source="Polymarket Gamma" when={o.status.poly.live ? `${hhmm(o.renderedAt)} BRT` : ddmm(o.status.poly.asOf)} cadence="2 min">
+            <Stamp status={o.status.poly} source="Polymarket Gamma" when={o.status.poly.live ? `${hhmm(o.renderedAt)} BRT` : ddmm(o.status.poly.asOf)} cadence="fonte: 2 min · página: 1×/dia">
               <span>evento &quot;{o.poly.title}&quot;</span>
             </Stamp>
           </div>

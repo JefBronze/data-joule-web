@@ -37,7 +37,7 @@ export default function Bastidores({ o }: { o: Observatory }) {
         <h2 className="h2" id="bastidores-h">De onde vêm os números.</h2>
         <div className="colo">
           <div>
-            <p className="ct">Ao vivo · lidos pelo servidor</p>
+            <p className="ct">Atualizados 1×/dia · lidos pelo servidor</p>
             <div className="li"><span>ONS · dados abertos (CSV)</span><span>carga, CMO, balanço, usinas, térmicas</span></div>
             <div className="li"><span>ONS · Energia Agora</span><span>minuto a minuto, hoje</span></div>
             <div className="li"><span>Arquivos mensais grandes</span><span>só o fim do arquivo é baixado</span></div>

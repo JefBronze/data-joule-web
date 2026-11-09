@@ -76,7 +76,7 @@ export default function Fora({ o }: { o: Observatory }) {
                 </text>
               ))}
             </svg>
-            <Stamp status={o.status.hq} source="Hydro-Québec demande" when={`${hhmm(hq.asOf, MTL)} Montréal`} cadence="15 min">
+            <Stamp status={o.status.hq} source="Hydro-Québec demande" when={`${hhmm(hq.asOf, MTL)} Montréal`} cadence="fonte: 15 min · página: 1×/dia">
               <span className="badge">{hq.lastPeak ? `sem evento de ponta · último em ${brDate(hq.lastPeak)}` : 'sem evento de ponta'}</span>
             </Stamp>
             <Metodo>Demanda total (donnees.hydroquebec.com), de 15 em 15 minutos. Os eventos de ponta (dezembro a março) são publicados no mesmo portal e são o sinal dos programas de resposta da demanda da Hydro-Québec, como os desafios da Hilo (seção 11).</Metodo>
@@ -106,7 +106,7 @@ export default function Fora({ o }: { o: Observatory }) {
                 </span>
               ))}
             </div>
-            <Stamp status={o.status.caiso} source="CAISO Today's Outlook" when={`${c.time[last]} hora local`} cadence="5 min" />
+            <Stamp status={o.status.caiso} source="CAISO Today's Outlook" when={`${c.time[last]} hora local`} cadence="fonte: 5 min · página: 1×/dia" />
             <Metodo>
               caiso.com/outlook, CSV de 5 em 5 minutos, hora da Califórnia. As bandas empilham só valores positivos; baterias carregando aparecem como consumo e ficam fora da pilha. Renováveis agora {renShare(c, last)} %{noon >= 0 ? `, ao meio-dia ${renShare(c, noon)} %` : ''} (eólica, solar, geotérmica, biomassa, biogás, PCH).
             </Metodo>
