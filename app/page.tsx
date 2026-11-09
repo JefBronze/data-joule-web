@@ -27,7 +27,7 @@ const WHATSAPP = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '14389796085').repl
 const SECTIONS = ['pulso', 'preco', 'pato', 'quem', 'mercado', 'minigeracao', 'petroleo', 'bomba', 'parana', 'fora', 'tendencias', 'bastidores']
 // Titles for the menu, in page order (same words as each section's kicker).
 const TITLES = [
-  'Pulso · ao vivo',
+  'Pulso · hoje',
   'O preço da energia no Brasil',
   'A curva do pato',
   'Quem gera',
