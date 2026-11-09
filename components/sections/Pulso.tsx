@@ -23,7 +23,7 @@ export default function Pulso({ o }: { o: Observatory }) {
       <div className="wrap g2">
         <div>
           <Kicker n={1}>Pulso · hoje</Kicker>
-          <h1 className="h1" id="pulso-h">A energia do Brasil, em tempo real.</h1>
+          <h1 className="h1" id="pulso-h">A energia do Brasil, atualizada todo dia.</h1>
           <p className="lede">
             Quanto o país consome, quanto custa o MWh, quem gera e quanto sai o litro na bomba, com dados públicos do ONS, da ANEEL, da CCEE, da ANP e do Banco Central, lidos uma vez por dia. Ao lado de cada número estão a fonte e a hora da leitura.
           </p>
@@ -72,7 +72,7 @@ export default function Pulso({ o }: { o: Observatory }) {
             ))}
             <span>MW · {hhmm(c.asOf)}</span>
           </div>
-          <Stamp status={o.status.ons} source="ONS carga verificada" when={`${hhmm(c.asOf)} BRT`} cadence="30 min">
+          <Stamp status={o.status.ons} source="ONS carga verificada" when={`${hhmm(c.asOf)} BRT`} cadence="fonte: 30 min · página: 1×/dia">
             <span>apicarga.ons.org.br · 4 áreas de carga</span>
           </Stamp>
           <Metodo>

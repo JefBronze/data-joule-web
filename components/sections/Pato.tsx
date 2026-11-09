@@ -141,7 +141,7 @@ export default function Pato({ o }: { o: Observatory }) {
           {d.itaipuMin ? `: no trecho mais rápido, as outras usinas tiveram de somar uma Itaipu inteira a cada ${d.itaipuMin} minutos` : ''}. As hidrelétricas cobriram {pct(Math.min(1, Math.max(0, d.hydroShare)))} dessa subida.{' '}
           {live && (
             <>
-              Agora, às {live.now.t.replace(':', 'h')}, {agoraRen(live.now)}{' '}
+              Às {live.now.t.replace(':', 'h')}, {agoraRen(live.now)}{' '}
             </>
           )}
           Em {monthLabel(c.m)}, o ONS mandou eólicas e solares deixarem de gerar {dec(c.total / 1e6, 1)} TWh, {pct(c.lostShare)} do que poderiam ter produzido; {pct(c.ne)} desses cortes foram no Nordeste.
@@ -149,7 +149,7 @@ export default function Pato({ o }: { o: Observatory }) {
 
         <div className="inst">
           <div className="instl">
-            <span>3a · o pato de hoje, {live ? 'ao vivo' : 'sem sinal agora'} · SIN</span>
+            <span>3a · o pato de hoje, {live ? `até ${live.now.t.replace(':', 'h')}` : 'sem sinal agora'} · SIN</span>
             <span>GW</span>
           </div>
           {live && (
@@ -210,7 +210,7 @@ export default function Pato({ o }: { o: Observatory }) {
             <span><Swatch color={COLOR.old} dashed />{`dia completo, ${ddmm(`${b.day}T15:00:00Z`)}`}</span>
             {live && <span className="badge">telhados estimados</span>}
           </div>
-          <Stamp status={o.status.agora} source="ONS Energia Agora · tr.ons.org.br" when={a ? a.t.at(-1)! : '—'} cadence="1 min, página a cada 5 min" />
+          <Stamp status={o.status.agora} source="ONS Energia Agora · tr.ons.org.br" when={a ? a.t.at(-1)! : '—'} cadence="fonte: 1 min · página: 1×/dia" />
         </div>
 
         <div className="g2e" style={{ marginTop: 40 }}>
@@ -319,7 +319,7 @@ export default function Pato({ o }: { o: Observatory }) {
               <b>Carga líquida</b> é a carga menos a geração eólica e solar: o que hidrelétricas, térmicas e nucleares precisam atender. Ao meio-dia o sol derruba essa curva (a barriga do pato); quando ele se põe, ela sobe de uma vez (o pescoço). Na Califórnia, onde o nome nasceu, a rampa é coberta por gás e baterias; no Brasil, quase toda por hidrelétricas.
             </p>
             <p>
-              3a usa o painel Energia Agora do ONS, minuto a minuto, desenhado a cada 5 minutos. A série solar desse painel cobre só as usinas; a geração em telhados (MMGD) aparece apenas como valor do instante. A curva de telhados de hoje é <b>estimada</b>: o perfil das usinas multiplicado pela razão telhado ÷ usina medida no último instante ({dec(a?.mmgdRatio ?? 0, 2)} agora; {fmt(a?.snap.mmgd ?? 0)} MW medidos). Por isso a linha tracejada do dia completo, do arquivo de balanço do ONS, que já soma os telhados ao solar, serve de referência.
+              3a usa o painel Energia Agora do ONS, minuto a minuto, desenhado uma vez por dia: a curva de hoje vai até a hora em que a página foi montada. A série solar desse painel cobre só as usinas; a geração em telhados (MMGD) aparece apenas como valor do instante. A curva de telhados de hoje é <b>estimada</b>: o perfil das usinas multiplicado pela razão telhado ÷ usina medida no último instante ({dec(a?.mmgdRatio ?? 0, 2)} agora; {fmt(a?.snap.mmgd ?? 0)} MW medidos). Por isso a linha tracejada do dia completo, do arquivo de balanço do ONS, que já soma os telhados ao solar, serve de referência.
             </p>
             <p>
               3b e 3c usam o balanço de energia por subsistema (horário, MW médios); térmica inclui nuclear. Fundo = menor carga líquida entre 9h e 15h; rampa = maior valor entre 16h e 22h menos o fundo; média dos dias do mês. A comparação com Itaipu usa {fmt(ITAIPU_MW)} MW de capacidade instalada.
