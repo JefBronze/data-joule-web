@@ -12,6 +12,7 @@ const ALLOWED = new Set([
   '/apple-touch-icon.png',
   '/email/logo-lockup.png',
   '/email/logo-mark.png',
+  '/api/rebuild', // daily Vercel Cron (vercel.json); answers 401 without the CRON_SECRET bearer
 ])
 
 export function proxy(req: NextRequest) {
