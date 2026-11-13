@@ -6,7 +6,7 @@ import { MOTIVOS } from '@/lib/sources/geracao'
 import type { Sub } from '@/lib/sources/ons'
 import MapaHover, { type PlantCard } from '../MapaHover'
 import FuelIcon, { FUEL_NAME, fuelOf, type Fuel } from '../FuelIcon'
-import { BRONZE_URL, Kicker, Lido, Metodo, ParaVoce, Stamp, Swatch } from '../ui'
+import { BRONZE_URL, Group, Head, Lido, Metodo, ParaVoce, Section, Stamp, Swatch } from '../ui'
 
 const TIPO_FILL: Record<string, string> = { hid: 'var(--c1)', eol: 'var(--c3)', sol: 'var(--sol)', ter: 'var(--c5)', nuc: 'var(--c5)', out: 'var(--c5)' }
 const TIPO_NAME: Record<string, string> = { hid: 'hidrelétrica', ter: 'térmica', nuc: 'nuclear', eol: 'eólica', sol: 'solar' }
@@ -158,7 +158,11 @@ function Mapa({ o, plants }: { o: Observatory; plants: Usina[] }) {
   )
 }
 
-export default function Quem({ o }: { o: Observatory }) {
+export function Termicas({ o }: { o: Observatory }) {
+  return <Quem o={o} part="termicas" />
+}
+
+export default function Quem({ o, part = 'usinas' }: { o: Observatory; part?: 'usinas' | 'termicas' }) {
   const plants = usinasDia(o)
   const ts = termicaStats(o)
   const g = o.gatilho.meses.at(-1)!
@@ -213,69 +217,23 @@ export default function Quem({ o }: { o: Observatory }) {
   const meses = o.gatilho.meses
   const fuelsTop = ts ? [...new Set(ts.top.map((p) => fuelOf(p.comb)).filter((f): f is Fuel => f !== null))] : []
 
-  return (
-    <section className="sec" id="quem" aria-labelledby="quem-h">
-      <div className="wrap">
-        <Kicker n={4}>Quem gera</Kicker>
-        <h2 className="h2" id="quem-h">De onde veio a energia ontem, por que as térmicas ligaram e o que decide a cor da bandeira.</h2>
+  if (part === 'termicas')
+    return (
+      <Section id="termicas" g2>
+        <Group>
+          <Head id="termicas" title="Térmicas e bandeira tarifária">
+            Por que as térmicas ligaram ontem e a conta que decide a cor da bandeira no mês seguinte.
+          </Head>
+        <div className="g3">
         <Lido>
-          {ontem && big.med !== null && idle ? (
-            <>
-              Em {day(ontem)}, {big.nome} gerou em média {gw(big.med)} GW, {pct(big.med / big.mw)} do que pode; {idle.nome} usou só {gw(idle.med!)} dos seus {gw(idle.mw)} GW.{' '}
-            </>
-          ) : null}
           {ts && (
             <>
               As térmicas geraram {fmt(ts.total / 1000)} GWh. Desse total, {pct(ts.byMotivo.inflex / ts.total)} veio de usinas inflexíveis, que o dono declarou que precisam rodar por contrato de combustível ou limite técnico, seja qual for o preço; só {pct(ts.byMotivo.merito / ts.total)} veio de usinas ligadas por serem baratas o bastante
               {ts.caras.length > 0 ? `. ${ts.caras.length} térmicas geraram custando mais que o custo marginal da sua região` : ''}.{' '}
             </>
           )}
-          A bandeira de {monthLabel(g.m)} é {FLAG_NAME[flag]}. Ela sai de uma conta: com as hidrelétricas entregando {pct(g.gsf)} da sua garantia física (GSF) e o PLD a R$ {fmt(g.pld)},{' '}
-          {gVu > 0 ? `o custo do risco hidrológico ficou em R$ ${dec(gVu)}/MWh` : 'o custo do risco hidrológico ficou em zero'},{' '}
-          {flag === 'verde' ? `abaixo dos R$ ${dec(lim.verde)} que acionariam a amarela` : `acima dos R$ ${dec(lim.verde)} que encerram a verde`}.
         </Lido>
 
-        <div className="g3">
-          <div className="inst span2">
-            <div className="instl">
-              <span>4a · as maiores usinas · {ontem ? `geração de ${day(ontem)}` : 'capacidade'}</span>
-              <span>círculo = capacidade</span>
-            </div>
-            <Mapa o={o} plants={plants} />
-            <div className="legend">
-              <span><Swatch color="var(--c1)" />hidrelétrica</span>
-              <span><Swatch color="var(--c4)" />térmica por inflexibilidade</span>
-              <span><Swatch color="var(--c2)" />térmica por custo</span>
-              <span><Swatch color="var(--dj)" />partida e parada</span>
-              <span><Swatch color="var(--c5)" dashed />térmica parada</span>
-              <span className="badge">miolo cheio = geração de ontem · passe o mouse ou toque numa usina</span>
-            </div>
-            <Stamp status={o.status.usinas} source="ONS · capacidade de geração + GERACAO_USINA-2" when={ontem ? day(ontem) : '—'} cadence="diário, D-1" />
-          </div>
-          <div className="inst">
-            <div className="instl">
-              <span>as 12 maiores</span>
-              <span>GW · ontem / capacidade</span>
-            </div>
-            <ol className="ranking">
-              {list.map((p) => (
-                <li key={p.ceg || p.nome} title={plantTitle(p)}>
-                  <span className="rk-n">
-                    {p.nome} <i>{p.uf}</i>
-                  </span>
-                  <span className="rk-v">{p.med === null ? gw(p.mw) : `${gw(p.med)} / ${gw(p.mw)}`}</span>
-                  <span className="rk-bar">
-                    <span style={{ width: `${(p.mw / listMax) * 100}%`, borderColor: TIPO_FILL[p.tipo] }}>
-                      {p.med !== null && <span style={{ width: `${Math.min(100, (p.med / p.mw) * 100)}%`, background: p.tipo === 'ter' || p.tipo === 'nuc' ? (p.motivo ? MOTIVO_FILL[p.motivo] : 'transparent') : TIPO_FILL[p.tipo] }} />}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-
-        <div className="g2e" style={{ marginTop: 40 }}>
           <div className="inst">
             <div className="instl">
               <span>4b · as térmicas de ontem, por motivo{ts ? ` · ${day(ts.day)}` : ''}</span>
@@ -311,12 +269,12 @@ export default function Quem({ o }: { o: Observatory }) {
           </div>
           <div className="inst">
             <div className="instl">
-              <span>as 10 térmicas que mais geraram</span>
+              <span>as 8 térmicas que mais geraram</span>
               <span>MWh · CVU R$/MWh</span>
             </div>
             {ts && (
               <ol className="ranking">
-                {ts.top.map((p) => (
+                {ts.top.slice(0, 8).map((p) => (
                   <li key={p.ceg || p.nome}>
                     <span className="rk-n">
                       {fuelOf(p.comb) && <FuelIcon fuel={fuelOf(p.comb)!} />}
@@ -352,7 +310,33 @@ export default function Quem({ o }: { o: Observatory }) {
           </div>
         </div>
 
-        <div className="inst" style={{ marginTop: 40 }}>
+        </Group>
+        <Group>
+        <div className="split">
+          <div className="split__text">
+            <Lido label="Lido na CCEE">
+          A bandeira de {monthLabel(g.m)} é {FLAG_NAME[flag]}. Ela sai de uma conta: com as hidrelétricas entregando {pct(g.gsf)} da sua garantia física (GSF) e o PLD a R$ {fmt(g.pld)},{' '}
+          {gVu > 0 ? `o custo do risco hidrológico ficou em R$ ${dec(gVu)}/MWh` : 'o custo do risco hidrológico ficou em zero'},{' '}
+          {flag === 'verde' ? `abaixo dos R$ ${dec(lim.verde)} que acionariam a amarela` : `acima dos R$ ${dec(lim.verde)} que encerram a verde`}.
+            </Lido>
+          <Metodo>
+            <p>
+              <b>4a.</b> Capacidade efetiva por unidade geradora, do cadastro do ONS, somada por usina (código CEG); as duas metades de Itaipu (50 e 60 Hz) contam como uma usina. Ficam no mapa as {o.usinas.plants.length} maiores usinas e toda térmica ou nuclear de 300 MW ou mais. A área do círculo é proporcional à capacidade; o miolo cheio, à geração média de ontem (arquivo horário de geração por usina do ONS). Posições: Wikidata; usinas no mesmo terreno de outra (GNA II, Angra 1 e 2, Maranhão III a V) usam o ponto do complexo; usinas no mesmo ponto, ou tão perto que uma cobriria a outra, aparecem lado a lado em volta dele; as poucas sem registro usam o centro do município e dizem isso ao passar o mouse. Contornos dos estados: malha do IBGE.
+            </p>
+            <p>
+              <b>4b.</b> Geração verificada das térmicas despachadas centralizadamente pelo ONS (inclui Angra), dividida pelo motivo do despacho: <b>inflexibilidade</b>, a geração mínima declarada pelo dono da usina (contratos de combustível com consumo obrigatório, exigências técnicas); <b>ordem de custo</b>, a parte despachada porque o custo variável (CVU) estava abaixo do custo marginal; <b>partida e parada</b> (unit commitment), geração para manter a usina pronta; <b>restrição elétrica</b>, necessidade local da rede; <b>segurança energética</b>, despacho fora da ordem de custo decidido pelo CMSE para poupar água. Os motivos somam a geração verificada. CVU da semana operativa do PMO que contém o dia; custo marginal médio do mesmo dia, por subsistema.
+            </p>
+            <p>
+              <b>4c.</b> A cor da bandeira de cada mês sai de um gatilho calculado pela CCEE e anunciado pela ANEEL na última sexta-feira do mês anterior: o GSF previsto (geração das hidrelétricas do MRE ÷ garantia física) e o PLD previsto para o mês, ambos do DECOMP. O custo de risco hidrológico é PLD × (1 − GSF); a bandeira é verde até R$ {dec(lim.verde)}/MWh, amarela até R$ {dec(lim.amarela)}, vermelha 1 até R$ {dec(lim.vermelha1)} e vermelha 2 acima disso (NT 009/2023-SGM-STR, REH ANEEL 3.306/2024, Submódulo 6.8 do PRORET aprovado pela REN 1.084/2024). As térmicas entram por dois caminhos: as despachadas por custo puxam o custo marginal e o PLD para cima; as despachadas por segurança energética podem subir a cor por uma tabela de acionamento composto, aplicada só uma vez desde 2025 (jun/2025, sem mudar a cor). O custo desse despacho fora da ordem de custo é pago pelo Encargo de Serviços do Sistema (ESS), rateado entre todos os consumidores, e não pela bandeira. Os números de cada mês vêm dos boletins InfoBandeira da CCEE, que bloqueia leitura automática; são copiados à mão depois de cada anúncio.
+            </p>
+          </Metodo>
+          <ParaVoce>
+            A térmica cara chega à sua conta por dois caminhos: a bandeira, no mês, e o que a bandeira não cobre, no reajuste anual da distribuidora. Para saber quanto
+            a bandeira pesou nas suas últimas faturas, fale com a <a className="bz" href={BRONZE_URL}>Bronze Engenharia</a>: <a href="mailto:contato@data-joule.com">escreva para nós</a>.
+          </ParaVoce>
+          </div>
+          <div className="split__inst">
+        <div className="inst">
           <div className="instl">
             <span>4c · como isso vira bandeira · GSF × PLD, mês a mês desde {monthLabel(meses[0].m)}</span>
             <span>PLD R$/MWh</span>
@@ -395,26 +379,90 @@ export default function Quem({ o }: { o: Observatory }) {
                 {FLAG_NAME[f]}
               </span>
             ))}
-            <span className="badge">próximo anúncio: {day(o.gatilho.proximo)}</span>
+            <span className="obadge">próximo anúncio: {day(o.gatilho.proximo)}</span>
           </div>
           <Stamp status={{ live: true, asOf: g.m }} source={`CCEE · InfoBandeira nº ${meses[0].n}–${g.n}`} when={monthLabel(g.m)} cadence="mensal, atualizado à mão" />
-          <Metodo>
-            <p>
-              <b>4a.</b> Capacidade efetiva por unidade geradora, do cadastro do ONS, somada por usina (código CEG); as duas metades de Itaipu (50 e 60 Hz) contam como uma usina. Ficam no mapa as {o.usinas.plants.length} maiores usinas e toda térmica ou nuclear de 300 MW ou mais. A área do círculo é proporcional à capacidade; o miolo cheio, à geração média de ontem (arquivo horário de geração por usina do ONS). Posições: Wikidata; usinas no mesmo terreno de outra (GNA II, Angra 1 e 2, Maranhão III a V) usam o ponto do complexo; usinas no mesmo ponto, ou tão perto que uma cobriria a outra, aparecem lado a lado em volta dele; as poucas sem registro usam o centro do município e dizem isso ao passar o mouse. Contornos dos estados: malha do IBGE.
-            </p>
-            <p>
-              <b>4b.</b> Geração verificada das térmicas despachadas centralizadamente pelo ONS (inclui Angra), dividida pelo motivo do despacho: <b>inflexibilidade</b>, a geração mínima declarada pelo dono da usina (contratos de combustível com consumo obrigatório, exigências técnicas); <b>ordem de custo</b>, a parte despachada porque o custo variável (CVU) estava abaixo do custo marginal; <b>partida e parada</b> (unit commitment), geração para manter a usina pronta; <b>restrição elétrica</b>, necessidade local da rede; <b>segurança energética</b>, despacho fora da ordem de custo decidido pelo CMSE para poupar água. Os motivos somam a geração verificada. CVU da semana operativa do PMO que contém o dia; custo marginal médio do mesmo dia, por subsistema.
-            </p>
-            <p>
-              <b>4c.</b> A cor da bandeira de cada mês sai de um gatilho calculado pela CCEE e anunciado pela ANEEL na última sexta-feira do mês anterior: o GSF previsto (geração das hidrelétricas do MRE ÷ garantia física) e o PLD previsto para o mês, ambos do DECOMP. O custo de risco hidrológico é PLD × (1 − GSF); a bandeira é verde até R$ {dec(lim.verde)}/MWh, amarela até R$ {dec(lim.amarela)}, vermelha 1 até R$ {dec(lim.vermelha1)} e vermelha 2 acima disso (NT 009/2023-SGM-STR, REH ANEEL 3.306/2024, Submódulo 6.8 do PRORET aprovado pela REN 1.084/2024). As térmicas entram por dois caminhos: as despachadas por custo puxam o custo marginal e o PLD para cima; as despachadas por segurança energética podem subir a cor por uma tabela de acionamento composto, aplicada só uma vez desde 2025 (jun/2025, sem mudar a cor). O custo desse despacho fora da ordem de custo é pago pelo Encargo de Serviços do Sistema (ESS), rateado entre todos os consumidores, e não pela bandeira. Os números de cada mês vêm dos boletins InfoBandeira da CCEE, que bloqueia leitura automática; são copiados à mão depois de cada anúncio.
-            </p>
-          </Metodo>
-          <ParaVoce>
-            A térmica cara chega à sua conta por dois caminhos: a bandeira, no mês, e o que a bandeira não cobre, no reajuste anual da distribuidora. Para saber quanto
-            a bandeira pesou nas suas últimas faturas, fale com a <a className="bz" href={BRONZE_URL}>Bronze Engenharia</a>: <a href="mailto:contato@data-joule.com">contato@data-joule.com</a>.
-          </ParaVoce>
         </div>
-      </div>
-    </section>
+          </div>
+        </div>
+        </Group>
+      </Section>
+    )
+
+  return (
+    <Section id="quem" g2>
+      <Group>
+        <Head id="quem" title="Quem gera a energia do Brasil">
+          As maiores usinas do país e quanto cada uma gerou ontem, da capacidade instalada à geração verificada pelo ONS.
+        </Head>
+        <div className="split">
+          <div className="split__text">
+        <Lido>
+          {ontem && big.med !== null && idle ? (
+            <>
+              Em {day(ontem)}, {big.nome} gerou em média {gw(big.med)} GW, {pct(big.med / big.mw)} do que pode; {idle.nome} usou só {gw(idle.med!)} dos seus {gw(idle.mw)} GW.{' '}
+            </>
+          ) : null}
+        </Lido>
+          </div>
+          <figure className="frame frame--photo split__photo" data-moment="liquid-hover" data-moment-opts='{"strength": 0.6}'>
+            <img
+              src="/assets/img/photo-f76038827-960.jpg"
+              srcSet="/assets/img/photo-f76038827-500.jpg 500w, /assets/img/photo-f76038827-960.jpg 960w"
+              sizes="(max-width: 1023px) 100vw, 50vw"
+              width={960}
+              height={611}
+              alt="Vista aérea da usina de Itaipu, com a barragem, o reservatório e o vertedouro aberto"
+              loading="lazy"
+              decoding="async"
+              data-source="stand-in"
+              data-subject="usina hidrelétrica de Itaipu"
+            />
+          </figure>
+        </div>
+      </Group>
+      <Group>
+        <div className="g3">
+          <div className="inst span2">
+            <div className="instl">
+              <span>4a · as maiores usinas · {ontem ? `geração de ${day(ontem)}` : 'capacidade'}</span>
+              <span>círculo = capacidade</span>
+            </div>
+            <Mapa o={o} plants={plants} />
+            <div className="legend">
+              <span><Swatch color="var(--c1)" />hidrelétrica</span>
+              <span><Swatch color="var(--c4)" />térmica por inflexibilidade</span>
+              <span><Swatch color="var(--c2)" />térmica por custo</span>
+              <span><Swatch color="var(--dj)" />partida e parada</span>
+              <span><Swatch color="var(--c5)" dashed />térmica parada</span>
+              <span className="obadge">miolo cheio = geração de ontem · passe o mouse ou toque numa usina</span>
+            </div>
+            <Stamp status={o.status.usinas} source="ONS · capacidade de geração + GERACAO_USINA-2" when={ontem ? day(ontem) : '—'} cadence="diário, D-1" />
+          </div>
+          <div className="inst">
+            <div className="instl">
+              <span>as 12 maiores</span>
+              <span>GW · ontem / capacidade</span>
+            </div>
+            <ol className="ranking">
+              {list.map((p) => (
+                <li key={p.ceg || p.nome} title={plantTitle(p)}>
+                  <span className="rk-n">
+                    {p.nome} <i>{p.uf}</i>
+                  </span>
+                  <span className="rk-v">{p.med === null ? gw(p.mw) : `${gw(p.med)} / ${gw(p.mw)}`}</span>
+                  <span className="rk-bar">
+                    <span style={{ width: `${(p.mw / listMax) * 100}%`, borderColor: TIPO_FILL[p.tipo] }}>
+                      {p.med !== null && <span style={{ width: `${Math.min(100, (p.med / p.mw) * 100)}%`, background: p.tipo === 'ter' || p.tipo === 'nuc' ? (p.motivo ? MOTIVO_FILL[p.motivo] : 'transparent') : TIPO_FILL[p.tipo] }} />}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+      </Group>
+    </Section>
   )
 }

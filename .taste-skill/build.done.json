@@ -1,0 +1,11 @@
+{
+ "page": null,
+ "url": "http://localhost:3078/",
+ "root": null,
+ "kind": "software",
+ "category": "observatório de energia do Brasil: dados públicos do setor elétrico e de combustíveis",
+ "primary": "Falar com um engenheiro",
+ "rounds": 3,
+ "start": "2026-11-13T03:05:28.836Z",
+ "by": "gate.mjs --start"
+}

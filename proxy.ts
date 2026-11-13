@@ -18,6 +18,8 @@ const ALLOWED = new Set([
 export function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname.replace(/\/+$/, '') || '/'
   if (ALLOWED.has(path)) return NextResponse.next()
+  // The design kit (public/assets: system.css/js, motion, moments) and the page's photographs.
+  if (path.startsWith('/assets/') && !path.includes('..')) return NextResponse.next()
   // Rewrite to a path that has no route, so Next renders app/not-found.tsx with status 404.
   return NextResponse.rewrite(new URL('/__404', req.url))
 }

@@ -54,17 +54,17 @@ export default function MiniCalc({ regioes, credito, nEmerg }: { regioes: CalcRe
         </label>
       </div>
       <div className="tiles" aria-live="polite">
-        <div className="tile">
+        <div className="otile">
           <div className="tl">energia perdida</div>
           <div className="tv">{nf(mwh, mwh < 10 ? 1 : 0)} MWh</div>
           <div className="tu">por ano · {nf(share * 100, 1)} % da geração</div>
         </div>
-        <div className="tile">
+        <div className="otile">
           <div className="tl">crédito perdido</div>
           <div className="tv">R$ {nf(reais / 1000, reais < 10000 ? 1 : 0)} mil</div>
           <div className="tu">por ano · a R$ {nf(Number.isFinite(cred) ? cred : 0, 3)}/kWh</div>
         </div>
-        <div className="tile">
+        <div className="otile">
           <div className="tl">geração do ano</div>
           <div className="tv">{nf((r.anual * kwp) / 1000)} MWh</div>
           <div className="tu">

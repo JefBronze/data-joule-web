@@ -2,7 +2,7 @@ import { scale } from '@/lib/chart'
 import { CUT_REASON, curtailStats, duckStats, ITAIPU_MW, netLoad, slotText } from '@/lib/derive'
 import { dec, ddmm, fmt, monthLabel, pct } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
-import { BRONZE_URL, Kicker, Lido, Metodo, ParaVoce, Stamp, Swatch } from '../ui'
+import { BRONZE_URL, Group, Head, Lido, Metodo, ParaVoce, Section, Stamp, Swatch } from '../ui'
 
 const W = 680
 /** Width of the half-column charts (3b, 3c): narrower viewBox, same 11 px labels. */
@@ -46,7 +46,11 @@ function Axis({ y0, w = W, labels = true }: { y0: number; w?: number; labels?: b
   )
 }
 
-export default function Pato({ o }: { o: Observatory }) {
+export function PatoCortes({ o }: { o: Observatory }) {
+  return <Pato o={o} part="cortes" />
+}
+
+export default function Pato({ o, part = 'duck' }: { o: Observatory; part?: 'duck' | 'cortes' }) {
   const b = o.balanco
   const d = duckStats(b)
   const c = curtailStats(o)
@@ -130,11 +134,93 @@ export default function Pato({ o }: { o: Observatory }) {
   const bw = W / c.months.length
   const reasons = Object.entries(c.reasons).sort((p, q) => q[1] - p[1])
 
+  if (part === 'cortes')
+    return (
+      <Section id="cortes-mes">
+        <Head id="cortes-mes" title="Cortes de eólica e solar por mês">
+          Energia que as usinas poderiam ter gerado e o ONS mandou não gerar, nos últimos 12 meses fechados, com o motivo de cada corte.
+        </Head>
+        <div className="split">
+          <div className="split__text">
+          <div className="bignums">
+            <div className="bn">
+              <span className="bnl">{monthLabel(c.m)} · eólica + solar</span>
+              <span className="bnv">{dec(c.total / 1e6, 2)}<span className="bnu">TWh</span></span>
+            </div>
+            <div className="bn">
+              <span className="bnl">do que poderiam gerar</span>
+              <span className="bnv">{pct(c.lostShare)}</span>
+            </div>
+            <div className="bn">
+              <span className="bnl">no Nordeste</span>
+              <span className="bnv">{pct(c.ne)}</span>
+            </div>
+          </div>
+          <div className="reasons" aria-label={`Motivos do corte em ${monthLabel(c.m)}`}>
+            {reasons.map(([k, v]) => (
+              <span key={k} style={{ flexGrow: v }}>
+                <i style={{ background: REASON_FILL[k] ?? 'var(--c5)' }} />
+                {k} · {CUT_REASON[k] ?? k} · {pct(v / c.total)}
+              </span>
+            ))}
+          </div>
+          <Stamp status={{ live: true, asOf: c.m }} source="ONS · RESTRICAO_COFF_EOLICA / _FOTOVOLTAICA" when={monthLabel(c.m)} cadence="mensal, meses fechados" />
+          <Metodo>
+            <p>
+              <b>Carga líquida</b> é a carga menos a geração eólica e solar: o que hidrelétricas, térmicas e nucleares precisam atender. Ao meio-dia o sol derruba essa curva (a barriga do pato); quando ele se põe, ela sobe de uma vez (o pescoço). Na Califórnia, onde o nome nasceu, a rampa é coberta por gás e baterias; no Brasil, quase toda por hidrelétricas.
+            </p>
+            <p>
+              3a usa o painel Energia Agora do ONS, minuto a minuto, desenhado uma vez por dia: a curva de hoje vai até a hora em que a página foi montada. A série solar desse painel cobre só as usinas; a geração em telhados (MMGD) aparece apenas como valor do instante. A curva de telhados de hoje é <b>estimada</b>: o perfil das usinas multiplicado pela razão telhado ÷ usina medida no último instante ({dec(a?.mmgdRatio ?? 0, 2)} agora; {fmt(a?.snap.mmgd ?? 0)} MW medidos). Por isso a linha tracejada do dia completo, do arquivo de balanço do ONS, que já soma os telhados ao solar, serve de referência.
+            </p>
+            <p>
+              3b e 3c usam o balanço de energia por subsistema (horário, MW médios); térmica inclui nuclear. Fundo = menor carga líquida entre 9h e 15h; rampa = maior valor entre 16h e 22h menos o fundo; média dos dias do mês. A comparação com Itaipu usa {fmt(ITAIPU_MW)} MW de capacidade instalada.
+            </p>
+            <p>
+              3d soma, para cada meia-hora com restrição, a geração não realizada apurada pelo ONS (referência menos verificada) em todas as usinas eólicas e solares despachadas pelo ONS; MWh = MW médios × 0,5 h. Motivos: <b>ENE</b>, sobra de energia no sistema; <b>CNF</b>, confiabilidade elétrica; <b>REL</b>, limite de rede (indisponibilidade externa). Pela Lei 15.269/2025 e a Portaria MME 140/2026, só cortes de REL e CNF entram no ressarcimento; o corte por sobra de energia fica com o gerador. Fora desta conta, desde 07/06/2026 o ONS também pede às distribuidoras que cortem usinas Tipo III, as pequenas usinas fora da Rede Básica que o ONS não despacha, pelo Plano Emergencial de Gestão de Excedentes de Energia na Rede de Distribuição, aprovado pela diretoria da ANEEL em 18/11/2025. No primeiro acionamento foi cerca de 1 GW, das 10h às 14h. A micro e minigeração distribuída (telhados e pequenas usinas de compensação) ainda não é cortada: regras para isso estão na Consulta Pública ANEEL 9/2026, aberta em abril de 2026 e ainda sem decisão.
+            </p>
+          </Metodo>
+          <ParaVoce>
+            Tem usina eólica ou solar despachada pelo ONS? Ele publica os cortes usina por usina, e a mesma conta de 3d separa o que foi por rede
+            ou confiabilidade (ressarcível) do que foi por sobra de energia. Tem geração distribuída? Ela ainda não é cortada, mas a Consulta
+            Pública ANEEL 9/2026 pode mudar isso. Para ver os números da sua usina, fale com a{' '}
+            <a className="bz" href={BRONZE_URL}>Bronze Engenharia</a>: <a href="mailto:contato@data-joule.com">escreva para nós</a>.
+          </ParaVoce>
+          </div>
+          <div className="inst split__inst">
+          <div className="instl">
+            <span>3d · energia jogada fora · cortes de eólica e solar ordenados pelo ONS</span>
+            <span>GWh por mês</span>
+          </div>
+          <svg className="svg" viewBox={`0 0 ${W} 190`} role="img" aria-label={`Corte mensal de eólica e solar, ${c.months[0].m} a ${c.m}, em GWh: ${c.months.map((m) => `${m.m} ${fmt((m.eol + m.sol) / 1000)}`).join(', ')}.`}>
+            {c.months.map((m, i) => (
+              <g key={m.m}>
+                <rect x={i * bw + 4} y={cy(m.eol)} width={bw - 8} height={cBot - cy(m.eol)} fill={COLOR.eol} opacity={0.85} />
+                <rect x={i * bw + 4} y={cy(m.eol + m.sol)} width={bw - 8} height={cy(m.eol) - cy(m.eol + m.sol)} fill={COLOR.sol} opacity={0.85} />
+                {(i === 0 || i === c.months.length - 1 || m.m.endsWith('-01')) && (
+                  <text className="ax" x={i * bw + bw / 2} y={cBot + 16} textAnchor="middle">{monthLabel(m.m)}</text>
+                )}
+              </g>
+            ))}
+            <text className="axa" x={W - bw / 2} y={cy(c.eol + c.sol) - 6} textAnchor="middle">{fmt(c.total / 1000)}</text>
+            <line x1={0} y1={cBot} x2={W} y2={cBot} stroke="var(--line)" />
+          </svg>
+          <div className="legend">
+            <span><Swatch color={COLOR.eol} />eólica</span>
+            <span><Swatch color={COLOR.sol} />solar</span>
+          </div>
+          </div>
+        </div>
+      </Section>
+    )
+
   return (
-    <section className="sec" id="pato" aria-labelledby="pato-h">
-      <div className="wrap">
-        <Kicker n={3}>A curva do pato</Kicker>
-        <h2 className="h2" id="pato-h">Ao meio-dia sobra energia; ao pôr do sol, falta. Quem cobre a rampa?</h2>
+    <Section id="pato" g2>
+      <Group>
+        <Head id="pato" title="A curva do pato">
+          Ao meio-dia sobra energia; quando o sol se põe, a carga volta de uma vez e outras usinas precisam cobrir a rampa.
+        </Head>
+        <div className="split">
+          <div className="split__text">
         <Lido>
           {dayWord(o, b.day)}, sol e vento derrubaram a carga líquida (o que sobra para as outras usinas atenderem) a {gw(d.trough)} GW{' '}
           {hourText(d.troughH) === 'meio-dia' ? 'ao meio-dia' : `às ${hourText(d.troughH)}`}. Quando o sol foi embora, ela subiu {gw(d.ramp)} GW até as {hourText(d.peakH)}
@@ -144,8 +230,9 @@ export default function Pato({ o }: { o: Observatory }) {
               Às {live.now.t.replace(':', 'h')}, {agoraRen(live.now)}{' '}
             </>
           )}
-          Em {monthLabel(c.m)}, o ONS mandou eólicas e solares deixarem de gerar {dec(c.total / 1e6, 1)} TWh, {pct(c.lostShare)} do que poderiam ter produzido; {pct(c.ne)} desses cortes foram no Nordeste.
         </Lido>
+          </div>
+          <div className="split__inst">
 
         <div className="inst">
           <div className="instl">
@@ -208,12 +295,16 @@ export default function Pato({ o }: { o: Observatory }) {
             <span><Swatch color={COLOR.sol} />solar</span>
             <span><Swatch color={COLOR.eol} />eólica</span>
             <span><Swatch color={COLOR.old} dashed />{`dia completo, ${ddmm(`${b.day}T15:00:00Z`)}`}</span>
-            {live && <span className="badge">telhados estimados</span>}
+            {live && <span className="obadge">telhados estimados</span>}
           </div>
           <Stamp status={o.status.agora} source="ONS Energia Agora · tr.ons.org.br" when={a ? a.t.at(-1)! : '—'} cadence="fonte: 1 min · página: 1×/dia" />
         </div>
 
-        <div className="g2e" style={{ marginTop: 40 }}>
+          </div>
+        </div>
+      </Group>
+      <Group>
+        <div className="g2e">
           <div className="inst">
             <div className="instl">
               <span>3b · quem cobre a rampa · {ddmm(`${b.day}T15:00:00Z`)}</span>
@@ -269,73 +360,7 @@ export default function Pato({ o }: { o: Observatory }) {
           </div>
         </div>
 
-        <div className="inst" style={{ marginTop: 40 }}>
-          <div className="instl">
-            <span>3d · energia jogada fora · cortes de eólica e solar ordenados pelo ONS</span>
-            <span>GWh por mês</span>
-          </div>
-          <div className="bignums">
-            <div className="bn">
-              <span className="bnl">{monthLabel(c.m)} · eólica + solar</span>
-              <span className="bnv">{dec(c.total / 1e6, 2)}<span className="bnu">TWh</span></span>
-            </div>
-            <div className="bn">
-              <span className="bnl">do que poderiam gerar</span>
-              <span className="bnv">{pct(c.lostShare)}</span>
-            </div>
-            <div className="bn">
-              <span className="bnl">no Nordeste</span>
-              <span className="bnv">{pct(c.ne)}</span>
-            </div>
-          </div>
-          <svg className="svg" viewBox={`0 0 ${W} 190`} role="img" aria-label={`Corte mensal de eólica e solar, ${c.months[0].m} a ${c.m}, em GWh: ${c.months.map((m) => `${m.m} ${fmt((m.eol + m.sol) / 1000)}`).join(', ')}.`}>
-            {c.months.map((m, i) => (
-              <g key={m.m}>
-                <rect x={i * bw + 4} y={cy(m.eol)} width={bw - 8} height={cBot - cy(m.eol)} fill={COLOR.eol} opacity={0.85} />
-                <rect x={i * bw + 4} y={cy(m.eol + m.sol)} width={bw - 8} height={cy(m.eol) - cy(m.eol + m.sol)} fill={COLOR.sol} opacity={0.85} />
-                {(i === 0 || i === c.months.length - 1 || m.m.endsWith('-01')) && (
-                  <text className="ax" x={i * bw + bw / 2} y={cBot + 16} textAnchor="middle">{monthLabel(m.m)}</text>
-                )}
-              </g>
-            ))}
-            <text className="axa" x={W - bw / 2} y={cy(c.eol + c.sol) - 6} textAnchor="middle">{fmt(c.total / 1000)}</text>
-            <line x1={0} y1={cBot} x2={W} y2={cBot} stroke="var(--line)" />
-          </svg>
-          <div className="legend">
-            <span><Swatch color={COLOR.eol} />eólica</span>
-            <span><Swatch color={COLOR.sol} />solar</span>
-          </div>
-          <div className="reasons" aria-label={`Motivos do corte em ${monthLabel(c.m)}`}>
-            {reasons.map(([k, v]) => (
-              <span key={k} style={{ flexGrow: v }}>
-                <i style={{ background: REASON_FILL[k] ?? 'var(--c5)' }} />
-                {k} · {CUT_REASON[k] ?? k} · {pct(v / c.total)}
-              </span>
-            ))}
-          </div>
-          <Stamp status={{ live: true, asOf: c.m }} source="ONS · RESTRICAO_COFF_EOLICA / _FOTOVOLTAICA" when={monthLabel(c.m)} cadence="mensal, meses fechados" />
-          <Metodo>
-            <p>
-              <b>Carga líquida</b> é a carga menos a geração eólica e solar: o que hidrelétricas, térmicas e nucleares precisam atender. Ao meio-dia o sol derruba essa curva (a barriga do pato); quando ele se põe, ela sobe de uma vez (o pescoço). Na Califórnia, onde o nome nasceu, a rampa é coberta por gás e baterias; no Brasil, quase toda por hidrelétricas.
-            </p>
-            <p>
-              3a usa o painel Energia Agora do ONS, minuto a minuto, desenhado uma vez por dia: a curva de hoje vai até a hora em que a página foi montada. A série solar desse painel cobre só as usinas; a geração em telhados (MMGD) aparece apenas como valor do instante. A curva de telhados de hoje é <b>estimada</b>: o perfil das usinas multiplicado pela razão telhado ÷ usina medida no último instante ({dec(a?.mmgdRatio ?? 0, 2)} agora; {fmt(a?.snap.mmgd ?? 0)} MW medidos). Por isso a linha tracejada do dia completo, do arquivo de balanço do ONS, que já soma os telhados ao solar, serve de referência.
-            </p>
-            <p>
-              3b e 3c usam o balanço de energia por subsistema (horário, MW médios); térmica inclui nuclear. Fundo = menor carga líquida entre 9h e 15h; rampa = maior valor entre 16h e 22h menos o fundo; média dos dias do mês. A comparação com Itaipu usa {fmt(ITAIPU_MW)} MW de capacidade instalada.
-            </p>
-            <p>
-              3d soma, para cada meia-hora com restrição, a geração não realizada apurada pelo ONS (referência menos verificada) em todas as usinas eólicas e solares despachadas pelo ONS; MWh = MW médios × 0,5 h. Motivos: <b>ENE</b>, sobra de energia no sistema; <b>CNF</b>, confiabilidade elétrica; <b>REL</b>, limite de rede (indisponibilidade externa). Pela Lei 15.269/2025 e a Portaria MME 140/2026, só cortes de REL e CNF entram no ressarcimento; o corte por sobra de energia fica com o gerador. Fora desta conta, desde 07/06/2026 o ONS também pede às distribuidoras que cortem usinas Tipo III, as pequenas usinas fora da Rede Básica que o ONS não despacha, pelo Plano Emergencial de Gestão de Excedentes de Energia na Rede de Distribuição, aprovado pela diretoria da ANEEL em 18/11/2025. No primeiro acionamento foi cerca de 1 GW, das 10h às 14h. A micro e minigeração distribuída (telhados e pequenas usinas de compensação) ainda não é cortada: regras para isso estão na Consulta Pública ANEEL 9/2026, aberta em abril de 2026 e ainda sem decisão.
-            </p>
-          </Metodo>
-          <ParaVoce>
-            Tem usina eólica ou solar despachada pelo ONS? Ele publica os cortes usina por usina, e a mesma conta de 3d separa o que foi por rede
-            ou confiabilidade (ressarcível) do que foi por sobra de energia. Tem geração distribuída? Ela ainda não é cortada, mas a Consulta
-            Pública ANEEL 9/2026 pode mudar isso. Para ver os números da sua usina, fale com a{' '}
-            <a className="bz" href={BRONZE_URL}>Bronze Engenharia</a>: <a href="mailto:contato@data-joule.com">contato@data-joule.com</a>.
-          </ParaVoce>
-        </div>
-      </div>
-    </section>
+      </Group>
+    </Section>
   )
 }

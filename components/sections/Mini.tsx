@@ -2,7 +2,7 @@ import { copelCredit, mmgdStats } from "@/lib/derive";
 import { brDate, dayMonth, dec, fmt, pct } from "@/lib/format";
 import type { Observatory } from "@/lib/observatory";
 import MiniCalc, { type CalcRegiao } from "../MiniCalc";
-import { BRONZE_URL, Kicker, Lido, Metodo, ParaVoce } from "../ui";
+import { BRONZE_URL, Group, Head, Lido, Metodo, ParaVoce, Section } from "../ui";
 
 const MES = [
   "jan",
@@ -70,12 +70,9 @@ export default function Mini({ o }: { o: Observatory }) {
   const emergList = s.emergencias.map((e) => dayMonth(e.d)).join(" e ");
 
   return (
-    <section className="sec" id="minigeracao" aria-labelledby="mini-h">
-      <div className="wrap">
-        <Kicker n={6}>Minigeração sob controle</Kicker>
-        <h2 className="h2" id="mini-h">
-          A minigeração ainda não é cortada. Se fosse, quanto perderia?
-        </h2>
+    <Section id="minigeracao" g2 ground="bg-dots">
+        <Group>
+        <Head id="minigeracao" title="Minigeração sob controle" />
         <p className="lede">
           A ANEEL quer que as distribuidoras possam ver e comandar à distância
           cerca de 68 mil usinas de minigeração (de 75 kW a 5 MW, mais de 13
@@ -84,20 +81,8 @@ export default function Mini({ o }: { o: Observatory }) {
           distribuída em situações críticas, e ainda não tem decisão. Hoje o
           corte na rede de distribuição só alcança as usinas Tipo III.
         </p>
-        <Lido label="Lido no ONS">
-          De {brDate(periodo[0])} a {brDate(periodo[1])}, o ONS cortou eólica e
-          solar por sobra de energia em {s.cutDays} dos {s.nDays} dias,{" "}
-          {dec(s.totalGWh / 1000, 1)} TWh no total. Num domingo, o corte médio é{" "}
-          {dec(s.sundayX, 1)} vezes o de um dia útil. O maior foi em{" "}
-          {dayMonth(s.worst.d)}: {fmt(Math.round(s.worst.mwh / 1000))} GWh. O
-          plano emergencial na distribuição foi acionado em {emergList}, dois
-          domingos. Se uma usina de 1 MWp perto de {s.se.cidade} fosse cortada
-          na mesma proporção que as usinas solares, hora a hora, perderia{" "}
-          {fmt(Math.round(s.se.prorata))} MWh no ano, {pct(s.shareSE)} da
-          geração.
-        </Lido>
 
-        <div className="inst" style={{ marginTop: 28 }}>
+        <div className="inst">
           <div className="instl">
             <span>
               6a · os dias em que sobrou energia · eólica + solar cortadas por
@@ -169,7 +154,21 @@ export default function Mini({ o }: { o: Observatory }) {
           </div>
         </div>
 
-        <div className="inst" style={{ marginTop: 36 }}>
+        </Group>
+        <Group>
+        <Lido label="Lido no ONS">
+          De {brDate(periodo[0])} a {brDate(periodo[1])}, o ONS cortou eólica e
+          solar por sobra de energia em {s.cutDays} dos {s.nDays} dias,{" "}
+          {dec(s.totalGWh / 1000, 1)} TWh no total. Num domingo, o corte médio é{" "}
+          {dec(s.sundayX, 1)} vezes o de um dia útil. O maior foi em{" "}
+          {dayMonth(s.worst.d)}: {fmt(Math.round(s.worst.mwh / 1000))} GWh. O
+          plano emergencial na distribuição foi acionado em {emergList}, dois
+          domingos. Se uma usina de 1 MWp perto de {s.se.cidade} fosse cortada
+          na mesma proporção que as usinas solares, hora a hora, perderia{" "}
+          {fmt(Math.round(s.se.prorata))} MWh no ano, {pct(s.shareSE)} da
+          geração.
+        </Lido>
+        <div className="inst">
           <div className="instl">
             <span>
               6b · se a sua minigeração fosse cortada · cenários, não previsão
@@ -218,10 +217,10 @@ export default function Mini({ o }: { o: Observatory }) {
             </a>{" "}
             calcula a exposição de cada usina da sua frota com os dados do ONS,
             e a primeira sai de graça. Fale com{" "}
-            <a href="mailto:contato@data-joule.com">contato@data-joule.com</a>.
+            <a href="mailto:contato@data-joule.com">escreva para nós</a>.
           </ParaVoce>
         </div>
-      </div>
-    </section>
+        </Group>
+    </Section>
   );
 }

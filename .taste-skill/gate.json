@@ -1,0 +1,1595 @@
+{
+ "start": "2026-11-13T03:05:28.836Z",
+ "round": 3,
+ "idle": 0,
+ "errors": 0,
+ "status": "open",
+ "history": [
+  {
+   "at": "2026-11-13T03:31:09.448Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 69,
+   "round": 1,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-13T03:46:47.615Z",
+   "mode": "manual",
+   "status": "fail",
+   "fails": 34,
+   "round": 2,
+   "reused": false,
+   "stopHookActive": false
+  },
+  {
+   "at": "2026-11-13T03:57:45.428Z",
+   "mode": "manual",
+   "status": "open",
+   "fails": 26,
+   "round": 3,
+   "reused": false,
+   "stopHookActive": false
+  }
+ ],
+ "max": 3,
+ "marker": {
+  "page": null,
+  "url": "http://localhost:3078/",
+  "root": null,
+  "kind": "software",
+  "category": "observatório de energia do Brasil: dados públicos do setor elétrico e de combustíveis",
+  "primary": "Falar com um engenheiro",
+  "rounds": 3,
+  "start": "2026-11-13T03:05:28.836Z",
+  "by": "gate.mjs --start"
+ },
+ "manual": true,
+ "roundKey": "3706261568ffc821:ccb9a03e",
+ "roundFree": false,
+ "idleFree": false,
+ "blockKey": null,
+ "fp": "3706261568ffc821",
+ "page": "http://localhost:3078/",
+ "found": {
+  "fails": [
+   {
+    "check": "no-visual",
+    "where": "section#cortes-mes \"Cortes de eólica e solar por mês\"",
+    "msg": "pictures, effects and mocks cover 14% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#cortes-mes \"Cortes de eólica e solar por mês\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#minigeracao \"Minigeração sob controle\"",
+    "msg": "pictures, effects and mocks cover 14% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#minigeracao \"Minigeração sob controle\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#bomba \"Preços na bomba por estado\"",
+    "msg": "pictures, effects and mocks cover 8% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#bomba \"Preços na bomba por estado\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#parana \"Demanda ociosa no Paraná\"",
+    "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#parana \"Demanda ociosa no Paraná\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#tendencias \"Tendências do setor elétrico\"",
+    "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#tendencias \"Tendências do setor elétrico\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#bastidores \"Fontes e horários dos dados\"",
+    "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#bastidores \"Fontes e horários dos dados\""
+    ]
+   },
+   {
+    "check": "copy-headings",
+    "where": "h2#pato-h \"A curva do pato\"",
+    "msg": "\"A curva do pato\" names no product, part, place or section (13 headings like it; at most one brand line per page) (and 12 more like it: \"Cortes de eólica e solar\", \"Térmicas e bandeira tari\", \"Mercado livre e geração \", \"Minigeração sob controle\", ...)",
+    "fix": "name the thing in every heading: the product, a part, the place or a section noun",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "copy-headings"
+    ],
+    "wheres": [
+     "h2#pato-h \"A curva do pato\""
+    ]
+   },
+   {
+    "check": "off-grid",
+    "where": "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v \"7,0 / 14,0\"",
+    "msg": "left edge at 1301px, 8px off a common edge of its section at 1309px (10 elements, like span.rk-v); 1 more in this section off the grid too (span.rk-v at 1301px)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "off-grid"
+    ],
+    "wheres": [
+     "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v \"7,0 / 14,0\""
+    ]
+   },
+   {
+    "check": "off-grid",
+    "where": "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v.hot \"32 572 · 20\"",
+    "msg": "left edge at 1288.5px, 7.5px off a common edge of its section at 1281px (5 elements, like span.rk-v.hot); 2 more in this section off the grid too (span.rk-v.hot at 1269px, span.rk-v.hot at 1288.5px)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "off-grid"
+    ],
+    "wheres": [
+     "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v.hot \"32 572 · 20\""
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#termicas / section#mercado",
+    "msg": "527px between these sections, +79% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#termicas / section#mercado"
+    ]
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#bomba / section#parana",
+    "msg": "472px between these sections, +61% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "section-gaps"
+    ],
+    "wheres": [
+     "section#bomba / section#parana"
+    ]
+   },
+   {
+    "check": "phone-number",
+    "where": "div.group:nth-of-type(2) > div.inst > details.met > div.met__body \"002211/2026-10\"",
+    "msg": "a phone number in international format: \"002211/2026-10\"; a visitor can dial it and reach a stranger (not shown at this width: a closed part, a tab, a slide or a hidden link)",
+    "fix": "drop the number and its tel: link (a \"Request a call\" form may stand in), unless the brief gives the number",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "phone-number"
+    ],
+    "wheres": [
+     "div.group:nth-of-type(2) > div.inst > details.met > div.met__body \"002211/2026-10\""
+    ]
+   },
+   {
+    "check": "phone-number",
+    "where": "div.span-2.footer__col:nth-of-type(5) > ul > li:nth-of-type(1) > a \"https://wa.me/14389796085\"",
+    "msg": "a WhatsApp link calls a number in a real dialable format: \"https://wa.me/14389796085\"; a visitor can dial it and reach a stranger",
+    "fix": "drop the number and its tel: link (a \"Request a call\" form may stand in), unless the brief gives the number",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "phone-number"
+    ],
+    "wheres": [
+     "div.span-2.footer__col:nth-of-type(5) > ul > li:nth-of-type(1) > a \"https://wa.me/14389796085\""
+    ]
+   },
+   {
+    "check": "focus-visible",
+    "where": "div.wrap > div.hero-text.grid > div.hero__art.span-6:nth-of-type(2) > button.ui-pause.loop-pause \"Pause animation\"",
+    "msg": "Tab stop 11, button \"Pause animation\": its focus change is faint: 1.74:1 against the ground, 3:1 needed",
+    "fix": "keep the kit's ring (system.css :focus-visible, 2px in --action, there at once); a control that hides itself shows on focus",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "focus-visible"
+    ],
+    "wheres": [
+     "div.wrap > div.hero-text.grid > div.hero__art.span-6:nth-of-type(2) > button.ui-pause.loop-pause \"Pause animation\""
+    ]
+   },
+   {
+    "check": "container-edges",
+    "where": "div.bills > div.bill:nth-of-type(2) > div.seg:nth-of-type(5) > span:nth-of-type(1) \"tributos\"",
+    "msg": "1 text block starts on a left line at x 297, 217px from the container's left: text starts on the container's left, or on one split line (x 623, 732, 841) (SR-6)",
+    "fix": "start the text on the container's left, or on the one split line every split shares",
+    "widths": [
+     1440
+    ],
+    "from": "consistency",
+    "ids": [
+     "container-edges"
+    ],
+    "wheres": [
+     "div.bills > div.bill:nth-of-type(2) > div.seg:nth-of-type(5) > span:nth-of-type(1) \"tributos\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#pulso \"Carga do Brasil hoje\"",
+    "msg": "pictures, effects and mocks cover 13% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#pulso \"Carga do Brasil hoje\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#petroleo \"Petróleo em reais\"",
+    "msg": "pictures, effects and mocks cover 14% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#petroleo \"Petróleo em reais\""
+    ]
+   },
+   {
+    "check": "no-visual",
+    "where": "section#fora \"Redes de fora: Québec e Califórnia\"",
+    "msg": "pictures, effects and mocks cover 10% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "no-visual"
+    ],
+    "wheres": [
+     "section#fora \"Redes de fora: Québec e Califórnia\""
+    ]
+   },
+   {
+    "check": "off-grid",
+    "where": "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-n \"Angra II SE\"",
+    "msg": "left edge at 42px, 18px off the page margin at 24px (416 elements, like span:nth-of-type(1)); 10 more in this section off the grid too (span.rk-v.hot at 294.5px, span.rk-n at 42px, span.rk-n at 42px, span.rk-v.hot at 275px, ...)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     390
+    ],
+    "from": "consistency",
+    "ids": [
+     "off-grid"
+    ],
+    "wheres": [
+     "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-n \"Angra II SE\""
+    ]
+   },
+   {
+    "check": "tap-size",
+    "where": "div.mcalc > div.mctl > label.emrange > input",
+    "msg": "a 272x16px tap target: 0px from the next one (\"Falar com um engenheiro\"), so a thumb lands on the wrong one",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+    "widths": [
+     320
+    ],
+    "from": "consistency",
+    "ids": [
+     "tap-size"
+    ],
+    "wheres": [
+     "div.mcalc > div.mctl > label.emrange > input"
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#preco section.section.g2 \"O preço do MWh no BrasilDo custo\"",
+    "msg": "2613px, 3.10 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#preco section.section.g2 \"O preço do MWh no BrasilDo custo\""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#quem section.section.g2 \"Quem gera a energia do BrasilAs \"",
+    "msg": "1882px, 2.23 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#quem section.section.g2 \"Quem gera a energia do BrasilAs \""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#termicas section.section.g2 \"Térmicas e bandeira tarifáriaPor\"",
+    "msg": "2226px, 2.64 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#termicas section.section.g2 \"Térmicas e bandeira tarifáriaPor\""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#mercado section.section.g2 \"Mercado livre e geração distribu\"",
+    "msg": "3320px, 3.93 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#mercado section.section.g2 \"Mercado livre e geração distribu\""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#minigeracao section.section.g2 \"Minigeração sob controleA ANEEL \"",
+    "msg": "2149px, 2.55 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#minigeracao section.section.g2 \"Minigeração sob controleA ANEEL \""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#petroleo section.section.g2 \"Petróleo em reaisO preço do comb\"",
+    "msg": "2170px, 2.57 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#petroleo section.section.g2 \"Petróleo em reaisO preço do comb\""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#bomba section.section.g2 \"Preços na bomba por estadoGasoli\"",
+    "msg": "2054px, 2.43 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#bomba section.section.g2 \"Preços na bomba por estadoGasoli\""
+    ]
+   },
+   {
+    "check": "neighbour",
+    "where": "#fora section.section \"Redes de fora: Québec e Califórn\"",
+    "msg": "framed, 108px of #tendencias section.section.g2 \"Tendências do setor elétricoSeis\" shows",
+    "fix": "keep the next section's heading and picture out of this screen",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "neighbour"
+    ],
+    "wheres": [
+     "#fora section.section \"Redes de fora: Québec e Califórn\""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#tendencias section.section.g2 \"Tendências do setor elétricoSeis\"",
+    "msg": "2868px, 3.40 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#tendencias section.section.g2 \"Tendências do setor elétricoSeis\""
+    ]
+   },
+   {
+    "check": "screen-height",
+    "where": "#bastidores section.section.ground-surface \"Fontes e horários dos dadosCada \"",
+    "msg": "1900px, 2.25 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+    "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+    "widths": [
+     390
+    ],
+    "from": "layout",
+    "ids": [
+     "screen-height"
+    ],
+    "wheres": [
+     "#bastidores section.section.ground-surface \"Fontes e horários dos dadosCada \""
+    ]
+   }
+  ],
+  "warns": [
+   {
+    "check": "scroll-reveal",
+    "where": "section#cortes > div.wrap > div.split > p.mo-wh__text.statement__text \"Em set/2026, o ONS mandou eólicas e sola\"",
+    "msg": "starts \"color\" (0.2 s) the moment it is scrolled into view (an IntersectionObserver) on span.mo-w:nth-of-type(1) (inside a dealt moment's section, [data-moment]: an enter moment is expected on every kind; its still is judged under reduced motion)",
+    "fix": "show it at rest: no fade, rise or unmask when it is scrolled into view",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#pulso \"Carga do Brasil hoje\"",
+    "msg": "pictures, effects and mocks cover 16% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#preco \"O preço do MWh no Brasil\"",
+    "msg": "pictures, effects and mocks cover 20% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#termicas \"Térmicas e bandeira tarifária\"",
+    "msg": "pictures, effects and mocks cover 16% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#petroleo \"Petróleo em reais\"",
+    "msg": "pictures, effects and mocks cover 17% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "no-visual",
+    "where": "section#fora \"Redes de fora: Québec e Califórnia\"",
+    "msg": "pictures, effects and mocks cover 25% of this section; a feature section needs a visual (about 25% or more)",
+    "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#pato \"A curva do pato\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#quem \"Quem gera a energia do Brasil\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#petroleo \"Petróleo em reais\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#bomba \"Preços na bomba por estado\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-buttons",
+    "where": "header.nav > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"Falar com um engenheiro\"",
+    "msg": "\"Falar com um engenheiro\" does not start with a verb (book, buy, try, start, get, see...) (and 1 more like it: \"Ver a carga de hoje\")",
+    "fix": "label buttons with a verb and what the visitor gets (\"Book a room\", \"Start free trial\")",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "heading-scale",
+    "where": "div.inst.split__inst > div.bignums > div.bn:nth-of-type(1) > span.bnv \"99 340MW\"",
+    "msg": "figures in 3 sizes, 24, 28, 38px (\"99 340 MW\" at 24px, \"99 340MW\" at 38px)",
+    "fix": "set the page's figures (stats, measures, prices) in one or two sizes",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "off-grid",
+    "where": "div.g3 > div.inst:nth-of-type(2) > div.instl > span:nth-of-type(1) \"as 8 térmicas que mais geraram\"",
+    "msg": "two common left edges of one section 18px apart: 950px (4 elements, like this one) and 968px (8)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "off-grid",
+    "where": "div:nth-of-type(1) > div.tiles > div.otile:nth-of-type(2) > div.tl \"sistemas\"",
+    "msg": "two common left edges of one section 3px apart: 295px (3 elements, like this one) and 298px (6)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "off-grid",
+    "where": "div:nth-of-type(1) > div.tiles > div.otile:nth-of-type(3) > div.tl \"Paraná\"",
+    "msg": "two common left edges of one section 5px apart: 510px (3 elements, like this one) and 515px (6)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "off-grid",
+    "where": "div.group:nth-of-type(2) > div.og2 > div.inst:nth-of-type(2) > svg.svg \"0R$ 6,89\"",
+    "msg": "two common left edges of one section 12px apart: 732px (8 elements, like this one) and 744px (13)",
+    "fix": "move it onto the page margin, or the column edge its section uses",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "main#top > section.hero.hero--collage / section#pulso",
+    "msg": "182px between these sections, -38% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#quem / section#termicas",
+    "msg": "218px between these sections, -26% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#mercado / section#minigeracao",
+    "msg": "411px between these sections, +40% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#fora / section#tendencias",
+    "msg": "197px between these sections, -33% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-gaps",
+    "where": "section#tendencias / section#bastidores",
+    "msg": "411px between these sections, +40% against the median 294px",
+    "fix": "use one gap between sections (all within 25% of each other)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "photo-credit",
+    "where": "(the page text)",
+    "msg": "1 library source (wikimedia): the page credits wikimedia; confirm each shows the client's own product, place or people",
+    "fix": "confirm the library photograph shows the client's own product, place or people; otherwise replace it",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "header.nav > div.wrap.nav__bar > a.skip-link \"Pular para o conteúdo\"",
+    "msg": "\"Pular para o conteúdo\" opens a section headed \"Carga do Brasil hoje\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.wrap.nav__bar > nav.nav__links > div.nav__item:nth-of-type(1) > a.nav__link \"Eletricidade\"",
+    "msg": "\"Eletricidade\" opens a section headed \"Carga do Brasil hoje\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-labels",
+    "where": "div.wrap.nav__bar > nav.nav__links > div.nav__item:nth-of-type(2) > a.nav__link \"Combustíveis\"",
+    "msg": "\"Combustíveis\" opens a section headed \"Petróleo em reais\"",
+    "fix": "name each nav link after the heading of the section it opens",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "label-centre",
+    "where": "header.nav > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"Falar com um engenheiro\"",
+    "msg": "its label sits 18px off-centre (25px of room at the left, 43px at the right)",
+    "fix": "centre the label in its button, or fill the empty side with an icon",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-length",
+    "where": "section#bastidores \"Fontes e horários dos dados\"",
+    "msg": "12 sections over 90 words a screen outside the UI mocks (\"Fontes e horários dos da\" 314, \"Tendências do setor elét\" 268, \"Mercado livre e geração \" 217); 150 words a screen across the page (3761 words in 25 screens): a tech page says it in about 80 or fewer",
+    "fix": "cut every section to its heading, one line and the product UI: the UI says the rest; no second paragraph, no list of feature sentences",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav-current",
+    "where": "header.nav",
+    "msg": "the nav stays on screen with 5 links to the page's sections, but never marks the one you are in (no link changes as the page scrolls)",
+    "fix": "mark the link of the section on screen (a colour, a weight or a line under it) as the visitor scrolls",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "button-contrast",
+    "where": "div.hero-text.grid > div.hero__text.span-5 > div.btn-row > a.btn.btn--secondary \"Ver a carga de hoje\"",
+    "msg": "the button \"Ver a carga de hoje\" (#202122) stands only 1.15:1 off the ground around it: it reads as part of the ground, or as switched off",
+    "fix": "give the button a fill that stands at least 1.5:1 off what is around it, or an outline in the ink",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.split > div.inst.split__inst > div.legend > span:nth-of-type(1) \"SE/CO 52 679\"",
+    "msg": "a muted 13px line of 1 row sits 12px under the drawing (svg): it reads as a caption: \"SE/CO 52 679\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.g3 > div.inst.span2 > div.legend > span:nth-of-type(1) \"SE/CO 24,0\"",
+    "msg": "a muted 13px line of 1 row sits 12px under the drawing (svg): it reads as a caption: \"SE/CO 24,0\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.g3 > div.inst:nth-of-type(2) > div.stamp > span \"out/2026: bandeira verde · últimos 25 me\"",
+    "msg": "a muted 13px line of 1 row sits 12px under the drawing (svg): it reads as a caption: \"out/2026: bandeira verde · últimos 25 me...\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.bills > div.bill:nth-of-type(1) > div.seg:nth-of-type(2) > span:nth-of-type(1) \"energia (TE)\"",
+    "msg": "a muted 13px line of 1 row sits 2px under the drawing (svg): it reads as a caption: \"energia (TE)\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.bills > div.bill:nth-of-type(2) > div.seg:nth-of-type(2) > span:nth-of-type(1) \"energia (TE)\"",
+    "msg": "a muted 13px line of 1 row sits 2px under the drawing (svg): it reads as a caption: \"energia (TE)\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.bills > div.bill:nth-of-type(3) > div.seg:nth-of-type(2) > span:nth-of-type(1) \"energia (TE)\"",
+    "msg": "a muted 13px line of 1 row sits 2px under the drawing (svg): it reads as a caption: \"energia (TE)\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.split__inst > div.inst > div.legend > span:nth-of-type(1) \"carga\"",
+    "msg": "a muted 13px line of 1 row sits 12px under the drawing (svg): it reads as a caption: \"carga\"; no caption or description under any image, render or visual (house rule)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.g2e > div.inst:nth-of-type(1) > div.legend > span:nth-of-type(1) \"térmica + nuclear\"",
+    "msg": "a muted 13px line of 1 row sits 12px under the drawing (svg): it reads as a caption: \"térmica + nuclear\"; no caption or description under any image, render or visual (house rule) (and 12 more like it: \"fundo da carga líqui...\", \"eólica\", \"hidrelétrica\", \"inflexibilidade 89 %\", ...)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     1440,
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "empty-area",
+    "where": "section#pato \"A curva do pato\"",
+    "msg": "38% of the section is empty: 336px of empty rows between its content, 288px under its last (span.live), in its 1620px of rows (WARN over 35%, FAIL over 50%)",
+    "fix": "fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "empty-area",
+    "where": "section#termicas \"Térmicas e bandeira tarifária\"",
+    "msg": "39% of the section is empty: 256px of empty rows between its content, 320px under its last (span.live), 3% beside content that covers under half the container, in its 1620px of rows (WARN over 35%, FAIL over 50%)",
+    "fix": "fill the section: a picture or a second column beside the words, or more of its own content; the section stays one or two screens tall (T-height)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "skip-link",
+    "where": "header.nav > div.wrap.nav__bar > a.skip-link:nth-of-type(1) \"Pular para o conteúdo\"",
+    "msg": "the first Tab stop is \"Pular para o conteúdo\", not a skip link: a keyboard user tabs through the whole nav on every visit",
+    "fix": "add the starter's skip link as the header's first child: <a class=\"skip-link\" href=\"#top\">Skip to content</a>",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "action-repeat",
+    "where": "header.nav > div.wrap.nav__bar > div.nav__actions > a.btn.btn--primary \"falar com um engenheiro\"",
+    "msg": "\"falar com um engenheiro\" shows 2 times on the first screen at 1440px (nav, hero): the nav's button and the hero's; nothing else on the screen may repeat it",
+    "fix": "show the action once a screen besides the nav's button: the hero's, the close's or the phone bar's, never all at once",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "section-air",
+    "where": "section#termicas / section#mercado",
+    "msg": "527px of air between the content of these two sections: 128-480px (64-600px WARN) (SR-3)",
+    "fix": "keep 128-480px of air between the content of neighbouring sections (112-420px on a phone): the sections' padding (--padt, --padb)",
+    "widths": [
+     1440
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "nav",
+    "where": "header.nav > div.wrap.nav__bar > button.nav__toggle",
+    "msg": "the nav is lopsided: its last item ends 13px inside the content's edge (366px), while its first starts on the other edge",
+    "fix": "start the nav's first item and end its last on the content's two edges",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "tap-size",
+    "where": "div.mcalc > div.mctl > label.emrange > input",
+    "msg": "a 342x16px tap target: under the 44px a phone needs",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "tap-size",
+    "where": "div.mcalc > div.mctl > span.eseg:nth-of-type(1) > button.ebtn:nth-of-type(1) \"SE/CO\"",
+    "msg": "a 65x32px tap target (and 5 more like it on this screen): under the 44px a phone needs",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "tap-size",
+    "where": "div.group:nth-of-type(1) > div.trends > article.trend:nth-of-type(1) > a.trend-l \"ver na seção 5 ↓\"",
+    "msg": "a 109x22px tap target: under the 44px a phone needs",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#fora \"Redes de fora: Québec e Califórnia\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "cta",
+    "where": "section#bastidores \"Fontes e horários dos dados\"",
+    "msg": "a section over 1.5 screens long with no link or button in it",
+    "fix": "add the action: a button in the hero, one on every priced item, one in the closing section",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "unit-break",
+    "where": "section#minigeracao > div.wrap > div.group:nth-of-type(1) > p.lede \"A ANEEL quer que as distribuidoras possa\"",
+    "msg": "\"75 kW\" breaks across two lines: the number ends one line and its unit starts the next (and 2 more like it: \"Hydro-Québec demande · 2\", \"CAISO Today's Outlook · \")",
+    "fix": "keep a number with its unit: a no-break space (&nbsp;) between them",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "visual-caption",
+    "where": "div.g2e > div.inst:nth-of-type(2) > div.legend > span:nth-of-type(1) \"fundo da carga líquida (9h–15h)\"",
+    "msg": "a muted 13px line of 1 row sits 12px under the drawing (svg): it reads as a caption: \"fundo da carga líquida (9h–15h)\"; no caption or description under any image, render or visual (house rule) (and 14 more like it: \"eólica\", \"4a · as maiores usin...\", \"hidrelétrica\", \"inflexibilidade 89 %\", ...)",
+    "fix": "take the line away: no caption or description under, over or on any image, render or visual; a licence credit goes in one footer line",
+    "widths": [
+     390
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "tap-size",
+    "where": "div.mcalc > div.mctl > span.eseg:nth-of-type(2) > button.ebtn:nth-of-type(1) \"cortada como as usinas\"",
+    "msg": "a 169x32px tap target (and 1 more like it on this screen): under the 44px a phone needs",
+    "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+    "widths": [
+     320
+    ],
+    "from": "consistency"
+   },
+   {
+    "check": "copy-em-dash",
+    "msg": "15 em dashes in the body (budget 2)",
+    "fix": "use a comma, a colon, parentheses or a full stop where each is natural (references/copy-tells.md)",
+    "widths": [],
+    "from": "copy",
+    "where": "(the copy)",
+    "exact": false
+   },
+   {
+    "check": "copy-stat-strip",
+    "msg": "stat strip x3",
+    "fix": "a strip only of figures the brief gives (a price, hours, a count); otherwise put each number in the sentence it proves, or leave it out (references/copy-tells.md)",
+    "widths": [],
+    "from": "copy",
+    "where": "copy x3: \"0 / 0,01885 / 0,04463...\", \"311 / 457 / 270 / 84 ...\", \"314 / 278 /...",
+    "exact": false
+   }
+  ],
+  "crashed": [],
+  "seconds": {
+   "consistency": 289,
+   "layout": 4
+  }
+ },
+ "open": [
+  {
+   "check": "no-visual",
+   "where": "section#cortes-mes \"Cortes de eólica e solar por mês\"",
+   "msg": "pictures, effects and mocks cover 14% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#cortes-mes \"Cortes de eólica e solar por mês\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#minigeracao \"Minigeração sob controle\"",
+   "msg": "pictures, effects and mocks cover 14% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#minigeracao \"Minigeração sob controle\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#bomba \"Preços na bomba por estado\"",
+   "msg": "pictures, effects and mocks cover 8% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#bomba \"Preços na bomba por estado\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#parana \"Demanda ociosa no Paraná\"",
+   "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#parana \"Demanda ociosa no Paraná\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#tendencias \"Tendências do setor elétrico\"",
+   "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#tendencias \"Tendências do setor elétrico\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#bastidores \"Fontes e horários dos dados\"",
+   "msg": "no picture, effect or mock in this section; a feature section needs a visual",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#bastidores \"Fontes e horários dos dados\""
+   ]
+  },
+  {
+   "check": "off-grid",
+   "where": "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v \"7,0 / 14,0\"",
+   "msg": "left edge at 1301px, 8px off a common edge of its section at 1309px (10 elements, like span.rk-v); 1 more in this section off the grid too (span.rk-v at 1301px)",
+   "fix": "move it onto the page margin, or the column edge its section uses",
+   "widths": [
+    1440,
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "off-grid"
+   ],
+   "wheres": [
+    "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v \"7,0 / 14,0\""
+   ]
+  },
+  {
+   "check": "off-grid",
+   "where": "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v.hot \"32 572 · 20\"",
+   "msg": "left edge at 1288.5px, 7.5px off a common edge of its section at 1281px (5 elements, like span.rk-v.hot); 2 more in this section off the grid too (span.rk-v.hot at 1269px, span.rk-v.hot at 1288.5px)",
+   "fix": "move it onto the page margin, or the column edge its section uses",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "off-grid"
+   ],
+   "wheres": [
+    "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-v.hot \"32 572 · 20\""
+   ]
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#termicas / section#mercado",
+   "msg": "527px between these sections, +79% against the median 294px",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#termicas / section#mercado"
+   ]
+  },
+  {
+   "check": "section-gaps",
+   "where": "section#bomba / section#parana",
+   "msg": "472px between these sections, +61% against the median 294px",
+   "fix": "use one gap between sections (all within 25% of each other)",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "section-gaps"
+   ],
+   "wheres": [
+    "section#bomba / section#parana"
+   ]
+  },
+  {
+   "check": "container-edges",
+   "where": "div.bills > div.bill:nth-of-type(2) > div.seg:nth-of-type(5) > span:nth-of-type(1) \"tributos\"",
+   "msg": "1 text block starts on a left line at x 297, 217px from the container's left: text starts on the container's left, or on one split line (x 623, 732, 841) (SR-6)",
+   "fix": "start the text on the container's left, or on the one split line every split shares",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "container-edges"
+   ],
+   "wheres": [
+    "div.bills > div.bill:nth-of-type(2) > div.seg:nth-of-type(5) > span:nth-of-type(1) \"tributos\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#pulso \"Carga do Brasil hoje\"",
+   "msg": "pictures, effects and mocks cover 13% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#pulso \"Carga do Brasil hoje\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#petroleo \"Petróleo em reais\"",
+   "msg": "pictures, effects and mocks cover 14% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#petroleo \"Petróleo em reais\""
+   ]
+  },
+  {
+   "check": "no-visual",
+   "where": "section#fora \"Redes de fora: Québec e Califórnia\"",
+   "msg": "pictures, effects and mocks cover 10% of this section; a feature section needs a visual (about 25% or more)",
+   "fix": "give the section a visual: a UI fragment on a ground, real icons, or a photograph that fits",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "no-visual"
+   ],
+   "wheres": [
+    "section#fora \"Redes de fora: Québec e Califórnia\""
+   ]
+  },
+  {
+   "check": "off-grid",
+   "where": "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-n \"Angra II SE\"",
+   "msg": "left edge at 42px, 18px off the page margin at 24px (416 elements, like span:nth-of-type(1)); 10 more in this section off the grid too (span.rk-v.hot at 294.5px, span.rk-n at 42px, span.rk-n at 42px, span.rk-v.hot at 275px, ...)",
+   "fix": "move it onto the page margin, or the column edge its section uses",
+   "widths": [
+    390
+   ],
+   "from": "consistency",
+   "ids": [
+    "off-grid"
+   ],
+   "wheres": [
+    "div.inst:nth-of-type(2) > ol.ranking > li:nth-of-type(1) > span.rk-n \"Angra II SE\""
+   ]
+  },
+  {
+   "check": "tap-size",
+   "where": "div.mcalc > div.mctl > label.emrange > input",
+   "msg": "a 272x16px tap target: 0px from the next one (\"Falar com um engenheiro\"), so a thumb lands on the wrong one",
+   "fix": "make every link and control outside running text 44px tall on a phone: display: inline-flex; align-items: center; min-height: 44px (a footer list then needs no gap), a 44px small button, or a transparent ::before laid past the box",
+   "widths": [
+    320
+   ],
+   "from": "consistency",
+   "ids": [
+    "tap-size"
+   ],
+   "wheres": [
+    "div.mcalc > div.mctl > label.emrange > input"
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#preco section.section.g2 \"O preço do MWh no BrasilDo custo\"",
+   "msg": "2613px, 3.10 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#preco section.section.g2 \"O preço do MWh no BrasilDo custo\""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#quem section.section.g2 \"Quem gera a energia do BrasilAs \"",
+   "msg": "1882px, 2.23 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#quem section.section.g2 \"Quem gera a energia do BrasilAs \""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#termicas section.section.g2 \"Térmicas e bandeira tarifáriaPor\"",
+   "msg": "2226px, 2.64 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#termicas section.section.g2 \"Térmicas e bandeira tarifáriaPor\""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#mercado section.section.g2 \"Mercado livre e geração distribu\"",
+   "msg": "3320px, 3.93 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#mercado section.section.g2 \"Mercado livre e geração distribu\""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#minigeracao section.section.g2 \"Minigeração sob controleA ANEEL \"",
+   "msg": "2149px, 2.55 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#minigeracao section.section.g2 \"Minigeração sob controleA ANEEL \""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#petroleo section.section.g2 \"Petróleo em reaisO preço do comb\"",
+   "msg": "2170px, 2.57 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#petroleo section.section.g2 \"Petróleo em reaisO preço do comb\""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#bomba section.section.g2 \"Preços na bomba por estadoGasoli\"",
+   "msg": "2054px, 2.43 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#bomba section.section.g2 \"Preços na bomba por estadoGasoli\""
+   ]
+  },
+  {
+   "check": "neighbour",
+   "where": "#fora section.section \"Redes de fora: Québec e Califórn\"",
+   "msg": "framed, 108px of #tendencias section.section.g2 \"Tendências do setor elétricoSeis\" shows",
+   "fix": "keep the next section's heading and picture out of this screen",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "neighbour"
+   ],
+   "wheres": [
+    "#fora section.section \"Redes de fora: Québec e Califórn\""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#tendencias section.section.g2 \"Tendências do setor elétricoSeis\"",
+   "msg": "2868px, 3.40 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#tendencias section.section.g2 \"Tendências do setor elétricoSeis\""
+   ]
+  },
+  {
+   "check": "screen-height",
+   "where": "#bastidores section.section.ground-surface \"Fontes e horários dos dadosCada \"",
+   "msg": "1900px, 2.25 screens; a section is exactly one or two (--h), or on a phone at least one that its content fills",
+   "fix": "make the section exactly one or two screens (--h: 1 or 2)",
+   "widths": [
+    390
+   ],
+   "from": "layout",
+   "ids": [
+    "screen-height"
+   ],
+   "wheres": [
+    "#bastidores section.section.ground-surface \"Fontes e horários dos dadosCada \""
+   ]
+  }
+ ],
+ "waived": [
+  {
+   "check": "copy-headings",
+   "where": "h2#pato-h \"A curva do pato\"",
+   "msg": "\"A curva do pato\" names no product, part, place or section (13 headings like it; at most one brand line per page) (and 12 more like it: \"Cortes de eólica e solar\", \"Térmicas e bandeira tari\", \"Mercado livre e geração \", \"Minigeração sob controle\", ...)",
+   "fix": "name the thing in every heading: the product, a part, the place or a section noun",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "copy-headings"
+   ],
+   "wheres": [
+    "h2#pato-h \"A curva do pato\""
+   ],
+   "reason": "Portuguese noun headings that name each instrument (A curva do pato, Quem gera a energia do Brasil); the check reads English nouns."
+  },
+  {
+   "check": "phone-number",
+   "where": "div.group:nth-of-type(2) > div.inst > details.met > div.met__body \"002211/2026-10\"",
+   "msg": "a phone number in international format: \"002211/2026-10\"; a visitor can dial it and reach a stranger (not shown at this width: a closed part, a tab, a slide or a hidden link)",
+   "fix": "drop the number and its tel: link (a \"Request a call\" form may stand in), unless the brief gives the number",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "phone-number"
+   ],
+   "wheres": [
+    "div.group:nth-of-type(2) > div.inst > details.met > div.met__body \"002211/2026-10\""
+   ],
+   "reason": "An ANEEL process number (48500.002211/2026-10) cited in the method notes, not a phone number."
+  },
+  {
+   "check": "phone-number",
+   "where": "div.span-2.footer__col:nth-of-type(5) > ul > li:nth-of-type(1) > a \"https://wa.me/14389796085\"",
+   "msg": "a WhatsApp link calls a number in a real dialable format: \"https://wa.me/14389796085\"; a visitor can dial it and reach a stranger",
+   "fix": "drop the number and its tel: link (a \"Request a call\" form may stand in), unless the brief gives the number",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "phone-number"
+   ],
+   "wheres": [
+    "div.span-2.footer__col:nth-of-type(5) > ul > li:nth-of-type(1) > a \"https://wa.me/14389796085\""
+   ],
+   "reason": "The client's own WhatsApp contact, already published on the live site; the client gave it."
+  },
+  {
+   "check": "focus-visible",
+   "where": "div.wrap > div.hero-text.grid > div.hero__art.span-6:nth-of-type(2) > button.ui-pause.loop-pause \"Pause animation\"",
+   "msg": "Tab stop 11, button \"Pause animation\": its focus change is faint: 1.74:1 against the ground, 3:1 needed",
+   "fix": "keep the kit's ring (system.css :focus-visible, 2px in --action, there at once); a control that hides itself shows on focus",
+   "widths": [
+    1440
+   ],
+   "from": "consistency",
+   "ids": [
+    "focus-visible"
+   ],
+   "wheres": [
+    "div.wrap > div.hero-text.grid > div.hero__art.span-6:nth-of-type(2) > button.ui-pause.loop-pause \"Pause animation\""
+   ],
+   "reason": "The kit's own pause button from layout.js (unedited kit file); its ring is drawn by the kit on the lit ground."
+  }
+ ],
+ "warnCount": 53,
+ "at": "2026-11-13T03:57:45.428Z",
+ "openTold": true
+}
