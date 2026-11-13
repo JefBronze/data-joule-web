@@ -10,3 +10,6 @@ next-env.d.ts
 .claude/
 .cache/
 __pycache__/
+# tasteskill finish gate: screenshots and per-run state stay local
+.taste-skill/gate/
+.taste-skill/chrome-*/

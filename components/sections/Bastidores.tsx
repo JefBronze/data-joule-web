@@ -1,6 +1,6 @@
 import { brDate, ddmm, hhmm } from '@/lib/format'
 import type { Observatory, SourceKey } from '@/lib/observatory'
-import { Kicker } from '../ui'
+import {Head, Section } from '../ui'
 
 const MTL = 'America/Toronto'
 
@@ -31,10 +31,10 @@ export default function Bastidores({ o }: { o: Observatory }) {
   ]
 
   return (
-    <section className="sec" id="bastidores" aria-labelledby="bastidores-h">
-      <div className="wrap">
-        <Kicker n={12}>Bastidores</Kicker>
-        <h2 className="h2" id="bastidores-h">De onde vêm os números.</h2>
+    <Section id="bastidores" ground="ground-surface">
+        <Head id="bastidores" title="Fontes e horários dos dados">
+          Cada instrumento desta página, a fonte de onde vem, com que frequência ela publica e quando foi lida pela última vez.
+        </Head>
         <div className="colo">
           <div>
             <p className="ct">Atualizados 1×/dia · lidos pelo servidor</p>
@@ -69,7 +69,6 @@ export default function Bastidores({ o }: { o: Observatory }) {
         <p className="why">
           Curitiba e Montréal: a engenharia é do Paraná, registrada no CREA-PR, com clientes de média tensão e as bases da ANEEL e da Copel que alimentam este site. Montréal é a outra base: lá a Hydro-Québec e a Hilo publicam demanda e eventos de ponta em tempo quase real, a referência para a resposta da demanda que o Brasil ainda vai construir.
         </p>
-      </div>
-    </section>
+    </Section>
   )
 }

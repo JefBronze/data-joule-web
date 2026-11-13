@@ -1,7 +1,7 @@
 import { curtailStats } from '@/lib/derive'
 import { dec, monthLabel, pct } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
-import { BRONZE_URL, Kicker, Lido, Metodo, ParaVoce, Todo } from '../ui'
+import {BRONZE_URL, Group, Head, Lido, Metodo, ParaVoce, Section, Todo } from '../ui'
 
 // Section 13: where the Brazilian power sector is heading. Market opening, Open Energy and a shorter settlement
 // calendar follow the themes the CCEE itself put on the table; curtailment, demand response (OpenADR) and storage /
@@ -88,10 +88,9 @@ export default function Tendencias({ o }: { o: Observatory }) {
   ]
 
   return (
-    <section className="sec" id="tendencias" aria-labelledby="tendencias-h">
-      <div className="wrap">
-        <Kicker n={11}>Tendências</Kicker>
-        <h2 className="h2" id="tendencias-h">Para onde vai o setor elétrico brasileiro.</h2>
+    <Section id="tendencias" g2 ground="ground-surface">
+        <Group>
+        <Head id="tendencias" title="Tendências do setor elétrico" />
         <p className="lede">Seis mudanças em andamento, do jeito que a CCEE, a ANEEL e o ONS estão tratando. Onde há número, ele vem dos dados desta página.</p>
         <Lido>
           {acl} % do consumo já é comprado no mercado livre, e a baixa tensão entra até 2028. Em {monthLabel(c.m)}, {dec(c.total / 1e6, 1)} TWh de
@@ -100,7 +99,23 @@ export default function Tendencias({ o }: { o: Observatory }) {
         </Lido>
 
         <div className="trends">
-          {trends.map((t) => (
+          {trends.slice(0, 3).map((t) => (
+            <article className="trend" key={t.title}>
+              <p className="trend-k">{t.tag}</p>
+              <h3>{t.title}</h3>
+              <p>{t.body}</p>
+              {t.href && (
+                <a className="trend-l" href={t.href}>
+                  ver na {t.ver} ↓
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+        </Group>
+        <Group>
+        <div className="trends">
+          {trends.slice(3).map((t) => (
             <article className="trend" key={t.title}>
               <p className="trend-k">{t.tag}</p>
               <h3>{t.title}</h3>
@@ -125,9 +140,9 @@ export default function Tendencias({ o }: { o: Observatory }) {
           <a className="bz" href={BRONZE_URL}>
             Bronze Engenharia
           </a>
-          : <a href="mailto:contato@data-joule.com">contato@data-joule.com</a>.
+          : <a href="mailto:contato@data-joule.com">escreva para nós</a>.
         </ParaVoce>
-      </div>
-    </section>
+        </Group>
+    </Section>
   )
 }

@@ -1,6 +1,6 @@
 import { dec, fmt } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
-import { Kicker, Lido, Metodo } from '../ui'
+import {Head, Lido, Metodo, Section } from '../ui'
 
 export default function Parana({ o }: { o: Observatory }) {
   const b = o.bdgd
@@ -10,12 +10,12 @@ export default function Parana({ o }: { o: Observatory }) {
   const hosp = sector('Hospitais')
 
   return (
-    <section className="sec" id="parana" aria-labelledby="parana-h">
-      <div className="wrap g2">
-        <div>
-          <Kicker n={9}>Demanda ociosa no Paraná</Kicker>
-          <h2 className="h2" id="parana-h">Quanta demanda contratada fica sem uso?</h2>
-          <p className="lede">Empresas de média tensão contratam uma potência e pagam por ela todo mês, usem ou não. A base pública da ANEEL permite medir o que sobra.</p>
+    <Section id="parana">
+      <Head id="parana" title="Demanda ociosa no Paraná">
+        Empresas de média tensão contratam uma potência e pagam por ela todo mês, usem ou não. A base pública da ANEEL permite medir o que sobra.
+      </Head>
+      <div className="split">
+        <div className="split__text">
           <Lido label="Lido na BDGD 2025">
             Nas {fmt(b.units)} unidades A4 da Copel, {Math.round(b.idleShare * 100)} % da demanda de pico fica sem uso num mês típico: R$ {dec(b.brlYear / 1e6, 1)} milhões por ano.
             {edu && hosp && ` Escolas deixam ${Math.round(edu.idle * 100)} %; hospitais, ${Math.round(hosp.idle * 100)} %.`}
@@ -24,7 +24,7 @@ export default function Parana({ o }: { o: Observatory }) {
             BDGD V11 (ano-base 2025), tabela UCMT: demanda medida mês a mês, unidades A4 ativas, sem geração distribuída, pico ≥ 30 kW; meses 1 a 11 (dezembro anômalo na base). Ociosa = 1 − (demanda média mensal ÷ pico anual). Valor = kW ociosos × R$ 20,78/kW (TUSD demanda Verde, REH 3.472/2025, antes de tributos) × 12.
           </Metodo>
         </div>
-        <div className="inst">
+        <div className="inst split__inst">
           <div className="instl">
             <span>parcela ociosa por setor · mediana</span>
             <span>R$/ano</span>
@@ -64,6 +64,6 @@ export default function Parana({ o }: { o: Observatory }) {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

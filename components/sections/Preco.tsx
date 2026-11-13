@@ -4,7 +4,7 @@ import { dec, ddmm, fmt, isoDay, monthLabel } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
 import { CMO_SUBS, type Sub } from '@/lib/sources/ons'
 import Bills from '../Bills'
-import { BRONZE_URL, Kicker, Lido, Metodo, ParaVoce, Stamp, Swatch } from '../ui'
+import {BRONZE_URL, Group, Head, Lido, Metodo, ParaVoce, Section, Stamp, Swatch } from '../ui'
 
 const SUB_STROKE: Record<Sub, string> = { SE: 'var(--c1)', S: 'var(--c2)', NE: 'var(--c3)', N: 'var(--c4)' }
 
@@ -30,10 +30,11 @@ export default function Preco({ o }: { o: Observatory }) {
   const hist = o.bandeira.hist as [string, string][]
 
   return (
-    <section className="sec" id="preco" aria-labelledby="preco-h">
-      <div className="wrap">
-        <Kicker n={2}>O preço da energia no Brasil</Kicker>
-        <h2 className="h2" id="preco-h">Quanto custa um MWh hoje — do modelo de despacho até três faturas diferentes.</h2>
+    <Section id="preco" g2>
+        <Group>
+        <Head id="preco" title="O preço do MWh no Brasil">
+          Do custo marginal do ONS, a cada meia hora, a três faturas da Copel.
+        </Head>
         <Lido>
           {dayWord(o)}, o custo marginal no Sudeste{' '}
           {st.zero
@@ -81,7 +82,7 @@ export default function Preco({ o }: { o: Observatory }) {
                   {SUB_SHORT[s]} {dec(st.now[s], 1)}
                 </span>
               ))}
-              <span className="badge">{now === null ? 'última meia-hora do dia' : 'meia-hora atual'}</span>
+              <span className="obadge">{now === null ? 'última meia-hora do dia' : 'meia-hora atual'}</span>
             </div>
             <Stamp status={o.status.cmo} source={`ONS · CMO_SEMIHORARIO_${o.cmo.day.slice(0, 4)}.csv`} when={ddmm(`${o.cmo.day}T12:00:00Z`)} cadence="diário">
               <span>PLD {o.pld.ano}: piso {dec(o.pld.piso)} · teto estrutural {dec(o.pld.tetoEstrutural)} · teto horário {dec(o.pld.tetoHorario)} R$/MWh ({o.pld.ato})</span>
@@ -124,6 +125,8 @@ export default function Preco({ o }: { o: Observatory }) {
             </Metodo>
           </div>
         </div>
+        </Group>
+        <Group>
         <div className="inst" style={{ marginTop: 40 }}>
           <div className="instl">
             <span>2c · três faturas, um MWh · Copel · {o.b1.reh}</span>
@@ -151,7 +154,7 @@ export default function Preco({ o }: { o: Observatory }) {
             lê 12 faturas e devolve o valor em 5 dias úteis.
           </ParaVoce>
         </div>
-      </div>
-    </section>
+        </Group>
+    </Section>
   )
 }

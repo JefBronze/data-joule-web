@@ -2,7 +2,7 @@ import { area, line, stack, x as sx } from '@/lib/chart'
 import { brDate, dec, fmt, hhmm, hhmmText } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
 import type { Caiso } from '@/lib/sources/abroad'
-import { Kicker, Lido, Metodo, ParaVoce, Stamp, Swatch } from '../ui'
+import {Head, Lido, Metodo, ParaVoce, Section, Stamp, Swatch } from '../ui'
 
 const MTL = 'America/Toronto'
 const minutes = (hm: string) => {
@@ -48,11 +48,8 @@ export default function Fora({ o }: { o: Observatory }) {
   const gw = (mw: number) => dec(mw / 1000, 1)
 
   return (
-    <section className="sec" id="fora" aria-labelledby="fora-h">
-      <div className="wrap">
-        <Kicker n={10}>Lá fora</Kicker>
-        <h2 className="h2" id="fora-h">O que outras redes fazem com o mesmo problema.</h2>
-        <p className="lede">Duas referências de fora: o Québec, que atravessa a ponta de inverno pagando o consumidor para reduzir carga, e a Califórnia, que atravessa o pôr do sol com baterias.</p>
+    <Section id="fora">
+        <Head id="fora" title="Redes de fora: Québec e Califórnia" />
         <Lido>
           A Hydro-Québec pedia {fmt(hq.now)} MW às {hhmmText(hq.asOf, MTL)} de Montréal — o Brasil pede {dec(o.carga.sinNow / hq.now, 1)} vezes isso, mas o Québec passa de 40 GW nos dias mais frios do inverno. Na Califórnia, às {c.time[last].replace(':', 'h')},{' '}
           {bat >= 0 ? `as baterias entregavam ${gw(bat)} GW${bat > hydroNuc ? ' — mais do que a hidrelétrica e a nuclear juntas' : ''}.` : `as baterias carregavam ${gw(-bat)} GW.`}
@@ -77,7 +74,7 @@ export default function Fora({ o }: { o: Observatory }) {
               ))}
             </svg>
             <Stamp status={o.status.hq} source="Hydro-Québec demande" when={`${hhmm(hq.asOf, MTL)} Montréal`} cadence="fonte: 15 min · página: 1×/dia">
-              <span className="badge">{hq.lastPeak ? `sem evento de ponta · último em ${brDate(hq.lastPeak)}` : 'sem evento de ponta'}</span>
+              <span className="obadge">{hq.lastPeak ? `sem evento de ponta · último em ${brDate(hq.lastPeak)}` : 'sem evento de ponta'}</span>
             </Stamp>
             <Metodo>Demanda total (donnees.hydroquebec.com), de 15 em 15 minutos. Os eventos de ponta (dezembro a março) são publicados no mesmo portal e são o sinal dos programas de resposta da demanda da Hydro-Québec, como os desafios da Hilo (seção 11).</Metodo>
           </div>
@@ -113,7 +110,6 @@ export default function Fora({ o }: { o: Observatory }) {
           </div>
         </div>
         <ParaVoce label={null}>Por que importa para o Brasil: resposta da demanda e baterias são o que o SIN vai precisar nas pontas de fim de tarde, quando o solar some e a carga fica — o mesmo horário em que o custo marginal sobe na seção 2.</ParaVoce>
-      </div>
-    </section>
+    </Section>
   )
 }

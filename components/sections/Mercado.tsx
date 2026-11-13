@@ -2,7 +2,7 @@ import { a4Parts, aclBill, bill, A4_CASE } from '@/lib/derive'
 import { dec, fmt } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
 import Bills from '../Bills'
-import { BRONZE_URL, Kicker, Lido, Metodo, ParaVoce, Todo } from '../ui'
+import {BRONZE_URL, Group, Head, Lido, Metodo, ParaVoce, Section, Todo } from '../ui'
 
 export default function Mercado({ o }: { o: Observatory }) {
   const { acl, gd } = o
@@ -27,10 +27,9 @@ export default function Mercado({ o }: { o: Observatory }) {
   ]
 
   return (
-    <section className="sec" id="mercado" aria-labelledby="mercado-h">
-      <div className="wrap">
-        <Kicker n={5}>Mercado livre e geração distribuída</Kicker>
-        <h2 className="h2" id="mercado-h">Livre, cativo ou no telhado: onde a sua energia é comprada?</h2>
+    <Section id="mercado" g2>
+        <Group>
+        <Head id="mercado" title="Mercado livre e geração distribuída" />
         <p className="lede">
           Desde 2024 qualquer consumidor de média tensão pode deixar a distribuidora e comprar energia no mercado livre (ACL), liquidado na CCEE. E {dec(gd.systems / 1e6, 1)} milhões de telhados já geram a própria. As três opções pagam o mesmo fio — o que muda é a energia.
         </p>
@@ -43,7 +42,7 @@ export default function Mercado({ o }: { o: Observatory }) {
               <span>5a · consumo no mercado livre · {acl.shareAsOf}</span>
               <span>% do consumo</span>
             </div>
-            <div className="rows" style={{ gap: 6 }}>
+            <div className="orows" style={{ gap: 6 }}>
               {rows.map(([n, v, cls]) => (
                 <div className="row" key={n} style={{ gridTemplateColumns: '7em minmax(0,1fr) 3.5em' }}>
                   <span>{n}</span>
@@ -54,13 +53,13 @@ export default function Mercado({ o }: { o: Observatory }) {
                 </div>
               ))}
             </div>
-            <div className="tiles two" style={{ marginTop: 18 }}>
-              <div className="tile">
+            <div className="tiles two">
+              <div className="otile">
                 <div className="tl">migrações · 2025</div>
                 <div className="tv">{fmt(acl.migr[0][1] as number)}</div>
                 <div className="tu">consumidores · CCEE</div>
               </div>
-              <div className="tile">
+              <div className="otile">
                 <div className="tl">1º tri 2026</div>
                 <div className="tv">{fmt(acl.migr[1][1] as number)}</div>
                 <div className="tu">{fmt(acl.apiSimplificada1T26)} pela adesão simplificada (API)</div>
@@ -87,33 +86,28 @@ export default function Mercado({ o }: { o: Observatory }) {
             <Metodo>
               Cativo = A4 Verde da seção 2c. Livre: a TE e a bandeira saem; entra a energia a preço de contrato (R$/MWh, antes de tributos), que o consumidor abaixo de 500 kW compra por meio de um comercializador varejista. O fio continua da Copel. ICMS, PIS e COFINS incidem igual. As diferenças entre contrato e consumo são liquidadas na CCEE ao PLD horário — o CMO da seção 2a é o seu precursor diário.
             </Metodo>
-            <ParaVoce>
-              Com {A4_CASE.mwh} MWh/mês, cada R$ 10/MWh de diferença no preço de contrato são R$ {fmt(perTenYear / 1000)} mil por ano. A{' '}
-              <a className="bz" href={BRONZE_URL}>
-                Bronze Engenharia
-              </a>{' '}
-              simula a migração com as suas 12 faturas antes de qualquer contrato.
-            </ParaVoce>
           </div>
         </div>
-        <div className="g2" style={{ marginTop: 40 }}>
+        </Group>
+        <Group>
+        <div className="og2">
           <div>
             <div className="instl">
               <span>5c · geração distribuída · ABGD / ANEEL · jan/2026</span>
               <span>Brasil</span>
             </div>
             <div className="tiles" style={{ marginTop: 12 }}>
-              <div className="tile">
+              <div className="otile">
                 <div className="tl">potência instalada</div>
                 <div className="tv">{dec(gd.gw, 1)} GW</div>
                 <div className="tu">{pc(gd.solarShare)} % solar · meta ABGD 2026: {gd.proj2026} GW</div>
               </div>
-              <div className="tile">
+              <div className="otile">
                 <div className="tl">sistemas</div>
                 <div className="tv">{dec(gd.systems / 1e6, 2)} mi</div>
                 <div className="tu">{fmt(gd.ucs / 1e6)} mi unidades com crédito · {fmt(gd.municipios)} municípios</div>
               </div>
-              <div className="tile">
+              <div className="otile">
                 <div className="tl">Paraná</div>
                 <div className="tv">{dec(gd.pr.gw, 1)} GW</div>
                 <div className="tu">{gd.pr.rank}º estado · {fmt(gd.pr.plants / 1000)} mil usinas</div>
@@ -152,7 +146,14 @@ export default function Mercado({ o }: { o: Observatory }) {
             <ParaVoce>Telhado comercial em Curitiba: a conta de quanto o sol compensa muda a cada ano até 2029 — e muda de novo se você migrar para o livre. As duas decisões se calculam juntas.</ParaVoce>
           </div>
         </div>
-      </div>
-    </section>
+        <ParaVoce>
+          Com {A4_CASE.mwh} MWh/mês, cada R$ 10/MWh de diferença no preço de contrato são R$ {fmt(perTenYear / 1000)} mil por ano. A{' '}
+          <a className="bz" href={BRONZE_URL}>
+            Bronze Engenharia
+          </a>{' '}
+          simula a migração com as suas 12 faturas antes de qualquer contrato.
+        </ParaVoce>
+        </Group>
+    </Section>
   )
 }

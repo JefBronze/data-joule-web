@@ -1,0 +1,37 @@
+{
+ "moments": [
+  {
+   "id": "word-highlight",
+   "at": "2026-11-13T03:05:34.957Z",
+   "seed": "8fee9424"
+  },
+  {
+   "id": "liquid-hover",
+   "at": "2026-11-13T03:05:34.957Z",
+   "seed": "8fee9424"
+  }
+ ],
+ "palettes": [
+  "white-link-blue"
+ ],
+ "types": [
+  "funnel"
+ ],
+ "dealt": [
+  "funnel",
+  "gabarito",
+  "geist"
+ ],
+ "grounds": [
+  {
+   "id": "field",
+   "at": "2026-11-13T03:10:41.119Z",
+   "seed": "1794539441119-jmk7jh"
+  },
+  {
+   "id": "dots",
+   "at": "2026-11-13T03:10:41.119Z",
+   "seed": "1794539441119-jmk7jh"
+  }
+ ]
+}

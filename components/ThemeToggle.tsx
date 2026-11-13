@@ -16,8 +16,8 @@ export default function ThemeToggle() {
   }
   return (
     <button type="button" className="tog" onClick={toggle}>
-      <span className="to-dark">Escuro</span>
-      <span className="to-light">Claro</span>
+      <span className="to-dark">Usar tema escuro</span>
+      <span className="to-light">Usar tema claro</span>
     </button>
   )
 }

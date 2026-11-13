@@ -2,7 +2,7 @@ import { curve, steps, x as sx } from '@/lib/chart'
 import { BBL_LITERS, kalshiStats, polyRange } from '@/lib/derive'
 import { brDate, dayMonth, dec, ddmm, fmt, hhmm, isoDay } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
-import { Kicker, Lido, Metodo, ParaVoce, Stamp, Swatch } from '../ui'
+import {Group, Head, Lido, Metodo, ParaVoce, Section, Stamp, Swatch } from '../ui'
 
 const MONTHS: Record<string, string> = {
   January: 'janeiro', February: 'fevereiro', March: 'março', April: 'abril', May: 'maio', June: 'junho',
@@ -29,10 +29,9 @@ export default function Petroleo({ o }: { o: Observatory }) {
   const clamp = (v: number) => Math.min(500, Math.max(0, v))
 
   return (
-    <section className="sec" id="petroleo" aria-labelledby="petroleo-h">
-      <div className="wrap">
-        <Kicker n={7}>Petróleo, em reais</Kicker>
-        <h2 className="h2" id="petroleo-h">O barril entra em dólar e sai na bomba em real — e o que o mercado aposta para o mês.</h2>
+    <Section id="petroleo" g2>
+        <Group>
+        <Head id="petroleo" title="Petróleo em reais" />
         <p className="lede">O preço do combustível no Brasil começa aqui: Brent vezes dólar. Dois mercados de previsão apostam dinheiro em patamares do petróleo; fazem perguntas diferentes — e é por isso que ficam em dois painéis.</p>
         <Lido>
           O Brent fechou a US$ {dec(brent.v)} em {dayMonth(brent.d)}; com o dólar PTAX a R$ {dec(o.ptax.venda, 4)}, o barril vale R$ {fmt(bbl)} — R$ {dec(perL)} por litro de petróleo cru, antes de refino, mistura e impostos.
@@ -40,22 +39,24 @@ export default function Petroleo({ o }: { o: Observatory }) {
           {pr.lo && pr.hi && ` No Polymarket, ${month} deve tocar algum valor entre $${pr.lo[0]} e $${pr.hi[0]}; $${pr.hi[0]} tem ${Math.round(pr.hi[1] * 100)} %.`}
         </Lido>
         <div className="tiles" style={{ margin: '0 0 26px 0' }}>
-          <div className="tile">
+          <div className="otile">
             <div className="tl">Brent · spot</div>
             <div className="tv">{dec(brent.v)}</div>
             <div className="tu">US$/bbl · {dayMonth(brent.d)} · FRED · WTI {dec(wti.v)}</div>
           </div>
-          <div className="tile">
+          <div className="otile">
             <div className="tl">dólar · PTAX venda</div>
             <div className="tv">{dec(o.ptax.venda, 4)}</div>
             <div className="tu">R$/US$ · {dayMonth(o.ptax.day)} · Banco Central</div>
           </div>
-          <div className="tile">
+          <div className="otile">
             <div className="tl">Brent em reais</div>
             <div className="tv">{dec(perL)}</div>
             <div className="tu">R$/litro · {fmt(bbl)} R$/bbl</div>
           </div>
         </div>
+        </Group>
+        <Group>
         <div className="g2e">
           <div className="inst">
             <div className="instl">
@@ -128,7 +129,7 @@ export default function Petroleo({ o }: { o: Observatory }) {
         <ParaVoce>
           Dono de posto ou gestor de frota: quando o Brent em reais sobe e o preço de refinaria da Petrobras fica parado, abre-se a defasagem — e cresce a chance de reajuste. Em {brDate(o.litro.paridade.data)}, a Abicom calculava a Petrobras R$ {dec(o.litro.paridade.gasolina.rl)}/L abaixo da paridade de importação na gasolina ({o.litro.paridade.gasolina.pct} %) e R$ {dec(o.litro.paridade.diesel.rl)}/L no diesel ({o.litro.paridade.diesel.pct} %). A seção 8 mostra onde isso cai no litro.
         </ParaVoce>
-      </div>
-    </section>
+        </Group>
+    </Section>
   )
 }

@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // the tasteskill design kit, vendored unedited (the finish gate compares it with the skill's copy)
+    "public/assets/**",
   ]),
 ]);
 

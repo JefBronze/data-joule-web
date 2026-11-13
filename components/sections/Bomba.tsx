@@ -1,7 +1,7 @@
 import { x as sx } from '@/lib/chart'
 import { dec } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
-import { Kicker, Lido, Metodo, ParaVoce, Swatch } from '../ui'
+import {Group, Head, Lido, Metodo, ParaVoce, Section, Swatch } from '../ui'
 
 const BRAND_FILL = ['var(--c2)', 'var(--c1)', 'var(--c4)', 'var(--c5)', 'var(--c5)'] // Vibra, Ipiranga, Raízen, branca, outras
 const PRODUCTS = [
@@ -44,21 +44,21 @@ export default function Bomba({ o }: { o: Observatory }) {
   let acc = 0
 
   return (
-    <section className="sec" id="bomba" aria-labelledby="bomba-h">
-      <div className="wrap">
-        <Kicker n={8}>Na bomba</Kicker>
-        <h2 className="h2" id="bomba-h">Quanto custam gasolina, etanol e diesel — e o etanol compensa no seu estado?</h2>
+    <Section id="bomba" g2>
+        <Group>
+        <Head id="bomba" title="Preços na bomba por estado">
+          Gasolina, etanol e diesel nos postos de cada estado, a anatomia do litro em Curitiba e onde o etanol compensa.
+        </Head>
         <Lido label={`Lido em ${mes}`}>
           O etanol compensou em {f.below070} estados.{pr && ` No Paraná, a razão etanol/gasolina foi ${dec(pr.ratio)}`}
           {whiteGap > 0 ? `; em Curitiba, a bandeira branca vendeu a gasolina R$ ${dec(whiteGap)} mais barata que as três grandes.` : '.'}
         </Lido>
-        <div className="g2e">
-          <div className="inst">
+          <div className="inst bomba__states">
             <div className="instl">
               <span>8a · etanol ÷ gasolina por estado · {mes}</span>
               <span>compensa abaixo de 0,70</span>
             </div>
-            <div className="rows">
+            <div className="orows">
               {f.ratio.map((r) => (
                 <div className="row" key={r.uf}>
                   <span>{r.uf}</span>
@@ -74,7 +74,9 @@ export default function Bomba({ o }: { o: Observatory }) {
               <span>{nCollections} coletas em Curitiba</span>
             </div>
           </div>
-          <div>
+        </Group>
+        <Group>
+          <div className="og2">
             <div className="inst">
               <div className="instl">
                 <span>8b · Curitiba · todos os postos pesquisados</span>
@@ -103,7 +105,7 @@ export default function Bomba({ o }: { o: Observatory }) {
                 <span>| mediana: gasolina {dec(cwb.GASOLINA)} · etanol {dec(cwb.ETANOL)} · diesel S10 {dec(cwb['DIESEL S10'])}</span>
               </div>
             </div>
-            <div className="inst" style={{ marginTop: 28 }}>
+            <div className="inst">
               <div className="instl">
                 <span>8c · anatomia do litro · gasolina C · Curitiba · {L.month}</span>
                 <span>R$/litro</span>
@@ -132,12 +134,11 @@ export default function Bomba({ o }: { o: Observatory }) {
               </div>
             </div>
           </div>
-        </div>
         <Metodo>
           ANP, arquivo mensal por posto (cerca de 75 mil coletas, com cerca de 30 dias de atraso). Razão por estado = mediana do etanol ÷ mediana da gasolina comum; 0,70 é a regra prática para motores flex. A coluna &quot;valor de compra&quot; vem vazia em 2026, por isso o último bloco de 8c é derivado: preço na bomba − componentes. Componentes de {L.month}, por litro de gasolina C (E{pctE}, Res. CNPE 9/2026): gasolina A da Petrobras a R$ {dec(L.refinariaA)}/L × {pctA} % (preço médio às distribuidoras, já com o desconto da MP 1.358/2026); etanol anidro a R$ {dec(L.anidro, 4)}/L × {pctE} % (indicador CEPEA/ESALQ, média de agosto, sem frete); PIS/COFINS de R$ {dec(L.pisCofinsA, 4)} e CIDE de R$ {dec(L.cideA)} por litro de gasolina A (Decretos 5.059 e 5.060/2004) × {pctA} %, mais PIS/COFINS de R$ {dec(L.pisCofinsAnidro, 4)}/L do anidro × {pctE} %; ICMS monofásico de R$ {dec(L.icms)} por litro de gasolina C (Convênio ICMS 112/2025). O resto inclui frete até o Paraná, margens de distribuição e revenda e a diferença entre o preço médio nacional da Petrobras e o praticado na região — por isso não é &quot;margem&quot;. Desde 10/09/2026 a gasolina A subiu para cerca de R$ 3,05/L e o PIS/COFINS caiu para R$ 0,16/L até 09/10 (Decreto 13.116/2026); a decomposição acompanha o mês do levantamento da ANP. Brent em reais: seção 7.
         </Metodo>
         <ParaVoce>Dono de posto: a anatomia do litro do seu estado, com a defasagem Petrobras–Brent, uma vez por mês, por e-mail. Sem custo.</ParaVoce>
-      </div>
-    </section>
+        </Group>
+    </Section>
   )
 }

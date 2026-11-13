@@ -2,7 +2,7 @@ import { line, stack, x as sx } from '@/lib/chart'
 import { ddmm, dec, fmt, hhmm, hhmmText, isoDay } from '@/lib/format'
 import type { Observatory } from '@/lib/observatory'
 import { AREAS, type Area } from '@/lib/sources/ons'
-import { Kicker, Lido, Metodo, Stamp, Swatch } from '../ui'
+import {Head, Lido, Metodo, Section, Stamp, Swatch } from '../ui'
 
 const AREA_FILL: Record<Area, string> = { SECO: 'var(--c1)', S: 'var(--c2)', NE: 'var(--c3)', N: 'var(--c4)' }
 const AREA_LABEL: Record<Area, string> = { SECO: 'SE/CO', S: 'S', NE: 'NE', N: 'N' }
@@ -19,20 +19,17 @@ export default function Pulso({ o }: { o: Observatory }) {
   const twoDays = isoDay(c.t[0]) !== isoDay(c.t[n - 1])
 
   return (
-    <section className="sec" id="pulso" aria-labelledby="pulso-h">
-      <div className="wrap g2">
-        <div>
-          <Kicker n={1}>Pulso · hoje</Kicker>
-          <h1 className="h1" id="pulso-h">A energia do Brasil, atualizada todo dia.</h1>
-          <p className="lede">
-            Quanto o país consome, quanto custa o MWh, quem gera e quanto sai o litro na bomba, com dados públicos do ONS, da ANEEL, da CCEE, da ANP e do Banco Central, lidos uma vez por dia. Ao lado de cada número estão a fonte e a hora da leitura.
-          </p>
+    <Section id="pulso">
+      <Head id="pulso" title="Carga do Brasil hoje">
+        Quanto o país inteiro pede agora, somando Sudeste e Centro-Oeste, Sul, Nordeste e Norte, de meia em meia hora.
+      </Head>
+      <div className="split">
+        <div className="split__text">
           <Lido>
             Às {hhmmText(c.asOf)} em Brasília, o país pedia {fmt(c.sinNow)} MW: {share('SECO')} % no Sudeste/Centro-Oeste, {share('NE')} % no Nordeste, {share('S')} % no Sul e {share('N')} % no Norte. O pico das últimas 24 horas foi às {hhmmText(peakAt)}, com {fmt(peak)} MW.
           </Lido>
-          <p className="sup">Um projeto da Bronze Engenharia de Energia · CREA-PR 194835/D · Curitiba · Montréal</p>
         </div>
-        <div className="inst">
+        <div className="inst split__inst">
           <div className="bignums">
             <div className="bn">
               <span className="bnl">SIN · carga agora</span>
@@ -80,6 +77,6 @@ export default function Pulso({ o }: { o: Observatory }) {
           </Metodo>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

@@ -1,0 +1,6 @@
+[
+  {"check": "phone-number", "target": "002211/2026-10", "reason": "An ANEEL process number (48500.002211/2026-10) cited in the method notes, not a phone number."},
+  {"check": "phone-number", "target": "wa.me/14389796", "reason": "The client's own WhatsApp contact, already published on the live site; the client gave it."},
+  {"check": "copy-headings", "target": "h2#pato-h", "reason": "Portuguese noun headings that name each instrument (A curva do pato, Quem gera a energia do Brasil); the check reads English nouns."},
+  {"check": "focus-visible", "target": "button.ui-pause.loop", "reason": "The kit's own pause button from layout.js (unedited kit file); its ring is drawn by the kit on the lit ground."}
+]

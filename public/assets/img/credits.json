@@ -1,0 +1,47 @@
+{
+ "note": "Credits for the photographs in this folder: photos.mjs credits prints the footer block for the ones the pages use.",
+ "photos": [
+  {
+   "file": "photo-f76038827-960.jpg",
+   "files": [
+    "photo-f76038827-500.jpg",
+    "photo-f76038827-960.jpg"
+   ],
+   "id": "f76038827",
+   "alt": "Itaipu geral",
+   "by": "Jonas de Carvalho",
+   "licence": "CC BY-SA 2.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Itaipu_geral.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f33022249-960.jpg",
+   "files": [
+    "photo-f33022249-500.jpg",
+    "photo-f33022249-960.jpg"
+   ],
+   "id": "f33022249",
+   "alt": "Parque Eólico de Rio do Fogo",
+   "by": "Fabiogurgelamaral",
+   "licence": "CC BY-SA 3.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Parque_E%C3%B3lico_de_Rio_do_Fogo.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f149704805-960.jpg",
+   "files": [
+    "photo-f149704805-500.jpg",
+    "photo-f149704805-960.jpg"
+   ],
+   "id": "f149704805",
+   "alt": "Inauguração da Usina Fotovoltaica Flutuante Araucária - 53470055329",
+   "by": "Governo do Estado de São Paulo",
+   "licence": "CC BY 2.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Inaugura%C3%A7%C3%A3o_da_Usina_Fotovoltaica_Flutuante_Arauc%C3%A1ria_-_53470055329.jpg",
+   "source": "Wikimedia Commons"
+  }
+ ]
+}
